@@ -1,0 +1,112 @@
+{
+  "header": {
+    "id": "Simple_DM",
+    "modelType": "document",
+    "modelVersion": "28.3.0",
+    "locales": [
+      {
+        "code": "en"
+      }
+    ],
+    "labels": [
+      {
+        "locale": "en",
+        "text": "Simple_DM"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "roles",
+        "value": "admin"
+      }
+    ],
+    "modelReferences": []
+  },
+  "content": {
+    "modelInfo": {
+      "name": "Simple_DM",
+      "immutable": false
+    },
+    "modelConfig": {
+      "decimalSeparator": ".",
+      "timeZone": "UTC",
+      "conditionLanguage": {
+        "code": "en_US"
+      }
+    },
+    "modelRoot": {
+      "rootGroups": [
+        {
+          "type": "Group",
+          "id": "group_673a5",
+          "name": "root",
+          "Group": {
+            "repeatability": 1,
+            "elements": [
+              {
+                "type": "Field",
+                "id": "field_6fa16",
+                "name": "stringA",
+                "annotations": [
+                  {
+                    "name": "availableInProcessAs",
+                    "value": "stringA"
+                  }
+                ],
+                "Field": {
+                  "fieldType": {
+                    "type": "StringType"
+                  },
+                  "label": [
+                    {
+                      "locale": "en",
+                      "text": "String A"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Field",
+                "id": "field_f4767",
+                "name": "stringB",
+                "Field": {
+                  "fieldType": {
+                    "type": "StringType"
+                  },
+                  "label": [
+                    {
+                      "locale": "en",
+                      "text": "String B"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Field",
+                "id": "field_ebe6b",
+                "name": "stringC",
+                "annotations": [
+                  {
+                    "name": "availableInProcessAs",
+                    "value": "stringC"
+                  }
+                ],
+                "Field": {
+                  "fieldType": {
+                    "type": "StringType"
+                  },
+                  "label": [
+                    {
+                      "locale": "en",
+                      "text": "String C"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

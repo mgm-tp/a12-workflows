@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SimplePersonWithResolvedMetadata_DM>
+    <A12WF>
+        <ProcessDefinition>
+            <Key>SomeProcessDefinition:530d14f2-107f-11ec-8308-803253632ada</Key>
+            <Name>SomeProcessDefinition</Name>
+        </ProcessDefinition>
+        <Process>
+            <ID>530d14f2-107f-11ec-8308-803253632ada</ID>
+            <BusinessKey>SomeBusinessKey</BusinessKey>
+            <Initiator>SomeInitiator</Initiator>
+        </Process>
+        <WorkflowsInternalDocumentStatus>NON_EMPTY</WorkflowsInternalDocumentStatus>
+    </A12WF>
+    <person>
+        <name>John</name>
+    </person>
+</SimplePersonWithResolvedMetadata_DM>

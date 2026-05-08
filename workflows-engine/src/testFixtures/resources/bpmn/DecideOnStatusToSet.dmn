@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" id="StatusCheckDRD" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.0.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
+  <decision id="StatusCheck" name="Decision 1">
+    <decisionTable id="DecisionTable_0i7ccf8" hitPolicy="FIRST">
+      <input id="Input_1" biodi:width="274">
+        <inputExpression id="InputExpression_1" typeRef="string">
+          <text>approval</text>
+        </inputExpression>
+        <inputValues id="UnaryTests_15ky3or">
+          <text>"true","false"</text>
+        </inputValues>
+      </input>
+      <input id="InputClause_057jjh7" biodi:width="192">
+        <inputExpression id="LiteralExpression_1y46m8d" typeRef="string">
+          <text>cost</text>
+        </inputExpression>
+        <inputValues id="UnaryTests_0u98u61">
+          <text>"200","300"</text>
+        </inputValues>
+      </input>
+      <output id="Output_1" name="statusnew" typeRef="string">
+        <outputValues id="UnaryTests_0nz3bg1">
+          <text>"successStatus","failStatus","initialStatus"</text>
+        </outputValues>
+      </output>
+      <rule id="DecisionRule_0vcn8rk">
+        <inputEntry id="UnaryTests_18e5jd4">
+          <text>"true"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0bp9zwj">
+          <text>"200"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1r7usc8">
+          <text>"successStatus"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ur319l">
+        <inputEntry id="UnaryTests_03fshkj">
+          <text>"false"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0i2p2ss">
+          <text>"300"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1kpj1yi">
+          <text>"failStatus"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1seprcc">
+        <description>If none of the upper conditions apply, set to initialStatus</description>
+        <inputEntry id="UnaryTests_1h8e3kk">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1tnq9hf">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1kgyi0w">
+          <text>"initialStatus"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="StatusCheck">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

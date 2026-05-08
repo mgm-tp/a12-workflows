@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_01ncvdn" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.13.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.20.0">
+  <bpmn:collaboration id="Collaboration_1gk060h">
+    <bpmn:participant id="Participant_0l5iwwf" name="Existing Document" processRef="TestTransactionFallback" />
+    <bpmn:participant id="Participant_1pwhgpa" name="New Document" processRef="TestTransactionFallbackNewDoc" />
+    <bpmn:participant id="Participant_0kf4qrb" name="On Delete Task" processRef="TestTransactionFallbackOnTaskDelete" />
+    <bpmn:participant id="Participant_1q48gl9" name="New Document" processRef="TestTransactionNoRollback" />
+  </bpmn:collaboration>
+  <bpmn:process id="TestTransactionFallback" isExecutable="true" camunda:historyTimeToLive="180">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1gpt8nq</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="TaskA" name="Task A" camunda:formKey="TestForCbr_FM">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="outputDoc">${newDocRef}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1gpt8nq</bpmn:incoming>
+      <bpmn:outgoing>Flow_1dlh7uz</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="TaskB" name="Task B" camunda:asyncBefore="true" camunda:formKey="TestForCbr_FM">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="documentReference">${outputDoc}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1dlh7uz</bpmn:incoming>
+      <bpmn:outgoing>Flow_0dos4a4</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:scriptTask id="FailingDelegate" name="Failing Delegate" scriptFormat="groovy">
+      <bpmn:incoming>Flow_0dos4a4</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ukoxhg</bpmn:outgoing>
+      <bpmn:script>throw new Exception("Failing")</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:endEvent id="Event_18hcxou">
+      <bpmn:incoming>Flow_0ukoxhg</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1gpt8nq" sourceRef="StartEvent_1" targetRef="TaskA" />
+    <bpmn:sequenceFlow id="Flow_1dlh7uz" sourceRef="TaskA" targetRef="TaskB" />
+    <bpmn:sequenceFlow id="Flow_0dos4a4" sourceRef="TaskB" targetRef="FailingDelegate" />
+    <bpmn:sequenceFlow id="Flow_0ukoxhg" sourceRef="FailingDelegate" targetRef="Event_18hcxou" />
+  </bpmn:process>
+  <bpmn:process id="TestTransactionFallbackNewDoc" isExecutable="true" camunda:historyTimeToLive="180">
+    <bpmn:startEvent id="Event_1a0zmok">
+      <bpmn:outgoing>Flow_102tohy</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="TaskC" name="Task C" camunda:asyncBefore="true" camunda:formKey="TestForCbr_FM">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="outputDoc">${newDocRef}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_102tohy</bpmn:incoming>
+      <bpmn:outgoing>Flow_121fgst</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:scriptTask id="Activity_0kfjdfs" name="Failing Delegate" scriptFormat="groovy">
+      <bpmn:incoming>Flow_121fgst</bpmn:incoming>
+      <bpmn:outgoing>Flow_0cwgoy4</bpmn:outgoing>
+      <bpmn:script>throw new Exception("Failing")</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:endEvent id="Event_1k8vx9v">
+      <bpmn:incoming>Flow_0cwgoy4</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_102tohy" sourceRef="Event_1a0zmok" targetRef="TaskC" />
+    <bpmn:sequenceFlow id="Flow_121fgst" sourceRef="TaskC" targetRef="Activity_0kfjdfs" />
+    <bpmn:sequenceFlow id="Flow_0cwgoy4" sourceRef="Activity_0kfjdfs" targetRef="Event_1k8vx9v" />
+  </bpmn:process>
+  <bpmn:process id="TestTransactionFallbackOnTaskDelete" isExecutable="true">
+    <bpmn:startEvent id="Event_112a3fq">
+      <bpmn:outgoing>Flow_085r60m</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="TaskD" name="Task D" camunda:formKey="TestForCbr_FM">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="outputDoc">${newDocRef}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_085r60m</bpmn:incoming>
+      <bpmn:outgoing>Flow_07b3tp2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="TaskE" name="Task E" camunda:asyncBefore="true" camunda:formKey="TestForCbr_FM">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="documentReference">${outputDoc}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_07b3tp2</bpmn:incoming>
+    </bpmn:userTask>
+    <bpmn:scriptTask id="Activity_1bamc3y" name="Failing Delegate" scriptFormat="groovy">
+      <bpmn:incoming>Flow_19c0bsg</bpmn:incoming>
+      <bpmn:outgoing>Flow_04v5ynb</bpmn:outgoing>
+      <bpmn:script>throw new Exception("Failing")</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:endEvent id="Event_1f3phzt">
+      <bpmn:incoming>Flow_04v5ynb</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:boundaryEvent id="testEvent" attachedToRef="TaskE">
+      <bpmn:outgoing>Flow_19c0bsg</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1uwraxi" messageRef="Message_05vkh34" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_085r60m" sourceRef="Event_112a3fq" targetRef="TaskD" />
+    <bpmn:sequenceFlow id="Flow_07b3tp2" sourceRef="TaskD" targetRef="TaskE" />
+    <bpmn:sequenceFlow id="Flow_19c0bsg" sourceRef="testEvent" targetRef="Activity_1bamc3y" />
+    <bpmn:sequenceFlow id="Flow_04v5ynb" sourceRef="Activity_1bamc3y" targetRef="Event_1f3phzt" />
+  </bpmn:process>
+  <bpmn:message id="Message_05vkh34" name="testMessage" />
+  <bpmn:process id="TestTransactionNoRollback" isExecutable="true" camunda:historyTimeToLive="180">
+    <bpmn:startEvent id="Event_0zy4jxa">
+      <bpmn:outgoing>Flow_07iqa36</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="TaskF" name="Task F" camunda:asyncBefore="true" camunda:formKey="TestForCbr_FM">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="outputDoc">${newDocRef}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_07iqa36</bpmn:incoming>
+      <bpmn:outgoing>Flow_0x9l6ql</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:scriptTask id="Activity_1n49doq" name="Succeeding Delegate" scriptFormat="groovy">
+      <bpmn:incoming>Flow_0x9l6ql</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ujri4e</bpmn:outgoing>
+      <bpmn:script>println("Success")</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:endEvent id="Event_1exosel">
+      <bpmn:incoming>Flow_1ujri4e</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_07iqa36" sourceRef="Event_0zy4jxa" targetRef="TaskF" />
+    <bpmn:sequenceFlow id="Flow_0x9l6ql" sourceRef="TaskF" targetRef="Activity_1n49doq" />
+    <bpmn:sequenceFlow id="Flow_1ujri4e" sourceRef="Activity_1n49doq" targetRef="Event_1exosel" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1gk060h">
+      <bpmndi:BPMNShape id="Participant_0l5iwwf_di" bpmnElement="Participant_0l5iwwf" isHorizontal="true">
+        <dc:Bounds x="160" y="40" width="640" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="212" y="143" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ofo99e_di" bpmnElement="TaskA">
+        <dc:Bounds x="290" y="121" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_18ylb51" bpmnElement="TaskB">
+        <dc:Bounds x="440" y="121" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1mqme3p_di" bpmnElement="FailingDelegate">
+        <dc:Bounds x="590" y="121" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_18hcxou_di" bpmnElement="Event_18hcxou">
+        <dc:Bounds x="742" y="143" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1gpt8nq_di" bpmnElement="Flow_1gpt8nq">
+        <di:waypoint x="248" y="161" />
+        <di:waypoint x="290" y="161" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1dlh7uz_di" bpmnElement="Flow_1dlh7uz">
+        <di:waypoint x="390" y="161" />
+        <di:waypoint x="440" y="161" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0dos4a4_di" bpmnElement="Flow_0dos4a4">
+        <di:waypoint x="540" y="161" />
+        <di:waypoint x="590" y="161" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ukoxhg_di" bpmnElement="Flow_0ukoxhg">
+        <di:waypoint x="690" y="161" />
+        <di:waypoint x="742" y="161" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Participant_1pwhgpa_di" bpmnElement="Participant_1pwhgpa" isHorizontal="true">
+        <dc:Bounds x="160" y="330" width="490" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1lfpzum" bpmnElement="Event_1a0zmok">
+        <dc:Bounds x="212" y="432" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1w1p1p9" bpmnElement="TaskC">
+        <dc:Bounds x="290" y="410" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1dlt1bi" bpmnElement="Activity_0kfjdfs">
+        <dc:Bounds x="440" y="410" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0dgdp4u" bpmnElement="Event_1k8vx9v">
+        <dc:Bounds x="592" y="432" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_102tohy_di" bpmnElement="Flow_102tohy">
+        <di:waypoint x="248" y="450" />
+        <di:waypoint x="290" y="450" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_03frbkx" bpmnElement="Flow_121fgst">
+        <di:waypoint x="390" y="450" />
+        <di:waypoint x="440" y="450" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_0rgztd6" bpmnElement="Flow_0cwgoy4">
+        <di:waypoint x="540" y="450" />
+        <di:waypoint x="592" y="450" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Participant_0kf4qrb_di" bpmnElement="Participant_0kf4qrb" isHorizontal="true">
+        <dc:Bounds x="160" y="610" width="718" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_132fghy" bpmnElement="Event_112a3fq">
+        <dc:Bounds x="212" y="722" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_180epg7" bpmnElement="TaskD">
+        <dc:Bounds x="290" y="700" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1blgcxt" bpmnElement="TaskE">
+        <dc:Bounds x="440" y="700" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0c20zuw" bpmnElement="Activity_1bamc3y">
+        <dc:Bounds x="590" y="700" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0z79ji0" bpmnElement="Event_1f3phzt">
+        <dc:Bounds x="742" y="722" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1g8b79a_di" bpmnElement="testEvent">
+        <dc:Bounds x="472" y="762" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_0zyu8vt" bpmnElement="Flow_085r60m">
+        <di:waypoint x="248" y="740" />
+        <di:waypoint x="290" y="740" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_0iitkh9" bpmnElement="Flow_07b3tp2">
+        <di:waypoint x="390" y="740" />
+        <di:waypoint x="440" y="740" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19c0bsg_di" bpmnElement="Flow_19c0bsg">
+        <di:waypoint x="490" y="798" />
+        <di:waypoint x="490" y="818" />
+        <di:waypoint x="640" y="818" />
+        <di:waypoint x="640" y="780" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_0weucot" bpmnElement="Flow_04v5ynb">
+        <di:waypoint x="690" y="740" />
+        <di:waypoint x="742" y="740" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_1lhzold" bpmnElement="Participant_1q48gl9" isHorizontal="true">
+        <dc:Bounds x="160" y="920" width="490" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0ig7ny0" bpmnElement="Event_0zy4jxa">
+        <dc:Bounds x="212" y="1022" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1jm95mh" bpmnElement="TaskF">
+        <dc:Bounds x="290" y="1000" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_02wlo72" bpmnElement="Activity_1n49doq">
+        <dc:Bounds x="440" y="1000" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0j9jcs8" bpmnElement="Event_1exosel">
+        <dc:Bounds x="592" y="1022" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_1g7c7px" bpmnElement="Flow_07iqa36">
+        <di:waypoint x="248" y="1040" />
+        <di:waypoint x="290" y="1040" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1itz6he" bpmnElement="Flow_0x9l6ql">
+        <di:waypoint x="390" y="1040" />
+        <di:waypoint x="440" y="1040" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_12fbbfx" bpmnElement="Flow_1ujri4e">
+        <di:waypoint x="540" y="1040" />
+        <di:waypoint x="592" y="1040" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,94 @@
+[
+  {
+    "$schema": "https://unpkg.com/@camunda/element-templates-json-schema/resources/schema.json",
+    "name": "Template for Message Throw Event",
+    "id": "messageThrowEventWithVariable",
+    "description": "Correlates a message to a message catch event with same business key, e.g. to initiate a status change. Passes all process variables per default.",
+    "version": 2,
+    "appliesTo": [
+      "bpmn:IntermediateThrowEvent"
+    ],
+    "properties": [
+      {
+        "label": "Message Name to correlate",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "messageName"
+        }
+      },
+      {
+        "label": "Business Key of Receiving Process",
+        "value": "${execution.businessKey}",
+        "type": "Hidden",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "businessKey"
+        }
+      },
+      {
+        "label": "All Process Variables to pass",
+        "value": "${execution.getVariables()}",
+        "type": "Hidden",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "allVariables"
+        }
+      },
+      {
+        "value": "execution.getProcessEngineServices().getRuntimeService().createMessageCorrelation(messageName).processInstanceBusinessKey(businessKey).setVariables(allVariables).correlate()",
+        "type": "Hidden",
+        "binding": {
+          "type": "camunda:executionListener",
+          "event": "start",
+          "scriptFormat": "groovy"
+        }
+      }
+    ]
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/element-templates-json-schema/resources/schema.json",
+    "name": "Template for Message Throw Event",
+    "id": "messageThrowEventWithVariable",
+    "description": "Correlates a message to a message catch event with same business key, e.g. to initiate a status change. Passes all process variables per default.",
+    "version": 1,
+    "appliesTo": [
+      "bpmn:IntermediateThrowEvent"
+    ],
+    "properties": [
+      {
+        "label": "Message Name to correlate",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "messageName"
+        }
+      },
+      {
+        "label": "Business Key of Receiving Process",
+        "value": "${execution.businessKey}",
+        "type": "Hidden",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "businessKey"
+        }
+      },
+      {
+        "label": "All Process Variables to pass",
+        "value": "${execution.getVariables()}",
+        "type": "Hidden",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "allVariables"
+        }
+      },
+      {
+        "value": "execution.getProcessEngineServices().getRuntimeService().createMessageCorrelation(messageName).processInstanceBusinessKey(businessKey).setVariables(allVariables).correlate()",
+        "type": "Hidden",
+        "binding": {
+          "type": "camunda:executionListener",
+          "event": "start",
+          "scriptFormat": "groovy"
+        }
+      }
+    ]
+  }
+]

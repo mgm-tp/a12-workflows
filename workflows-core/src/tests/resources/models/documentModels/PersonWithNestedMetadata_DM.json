@@ -1,0 +1,1113 @@
+{
+  "header": {
+    "id": "PersonWithNestedMetadata_DM",
+    "modelType": "document",
+    "modelVersion": "28.3.0",
+    "locales": [
+      {
+        "code": "en"
+      },
+      {
+        "code": "de"
+      }
+    ],
+    "labels": [],
+    "annotations": [
+      {
+        "name": "roles",
+        "value": "admin"
+      }
+    ],
+    "modelReferences": []
+  },
+  "content": {
+    "modelInfo": {
+      "name": "PersonWithNestedMetadata_DM",
+      "immutable": false,
+      "joinedModelsInfo": "PersonWithNestedMetadata_DM-document-meta-data+Add"
+    },
+    "modelConfig": {
+      "decimalSeparator": ".",
+      "timeZone": "UTC",
+      "conditionLanguage": {
+        "code": "en_US"
+      }
+    },
+    "modelRoot": {
+      "rootGroups": [
+        {
+          "type": "Group",
+          "id": "group_42b68",
+          "name": "Person",
+          "Group": {
+            "repeatability": 1,
+            "elements": [
+              {
+                "type": "Group",
+                "id": "group_914a8",
+                "name": "PersonalData",
+                "Group": {
+                  "repeatability": 1,
+                  "elements": [
+                    {
+                      "type": "Field",
+                      "id": "field_d7bb1",
+                      "name": "FirstName",
+                      "Field": {
+                        "fieldType": {
+                          "type": "StringType"
+                        },
+                        "label": [
+                          {
+                            "locale": "en",
+                            "text": "First Name"
+                          },
+                          {
+                            "locale": "de",
+                            "text": "Vorname"
+                          }
+                        ],
+                        "requirednessConfig": {
+                          "mode": "absoluteOrRelativeToNextRepAncestor"
+                        }
+                      }
+                    },
+                    {
+                      "type": "Field",
+                      "id": "field_f0e81",
+                      "name": "LastName",
+                      "Field": {
+                        "fieldType": {
+                          "type": "StringType"
+                        },
+                        "label": [
+                          {
+                            "locale": "de",
+                            "text": "Nachname"
+                          },
+                          {
+                            "locale": "en",
+                            "text": "Last Name"
+                          }
+                        ],
+                        "requirednessConfig": {
+                          "mode": "absoluteOrRelativeToNextRepAncestor"
+                        }
+                      }
+                    },
+                    {
+                      "type": "Field",
+                      "id": "field_27094",
+                      "name": "Gender",
+                      "Field": {
+                        "fieldType": {
+                          "type": "EnumerationType",
+                          "EnumerationType": {
+                            "values": [
+                              {
+                                "value": "MALE",
+                                "label": [
+                                  {
+                                    "locale": "en",
+                                    "text": "Male"
+                                  },
+                                  {
+                                    "locale": "de",
+                                    "text": "Männlich"
+                                  }
+                                ]
+                              },
+                              {
+                                "value": "FEMALE",
+                                "label": [
+                                  {
+                                    "locale": "en",
+                                    "text": "Female"
+                                  },
+                                  {
+                                    "locale": "de",
+                                    "text": "Weiblich"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "label": [
+                          {
+                            "locale": "de",
+                            "text": "Geschlecht"
+                          },
+                          {
+                            "locale": "en",
+                            "text": "Gender"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "Field",
+                      "id": "field_04d21",
+                      "name": "DateOfBirth",
+                      "Field": {
+                        "fieldType": {
+                          "type": "DateType",
+                          "DateType": {
+                            "format": "yyyy-MM-dd"
+                          }
+                        },
+                        "label": [
+                          {
+                            "locale": "de",
+                            "text": "Geburtstag"
+                          },
+                          {
+                            "locale": "en",
+                            "text": "Date of birth"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "Field",
+                      "id": "field_905c6",
+                      "name": "PlaceOfBirth",
+                      "Field": {
+                        "fieldType": {
+                          "type": "StringType"
+                        },
+                        "label": [
+                          {
+                            "locale": "en",
+                            "text": "Place of birth"
+                          },
+                          {
+                            "locale": "de",
+                            "text": "Geburtsort"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "Field",
+                      "id": "field_f6839",
+                      "name": "Nationality",
+                      "Field": {
+                        "fieldType": {
+                          "type": "StringType"
+                        },
+                        "label": [
+                          {
+                            "locale": "en",
+                            "text": "Nationality"
+                          },
+                          {
+                            "locale": "de",
+                            "text": "Nationalität"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "Field",
+                      "id": "field_9d5dc",
+                      "name": "Email",
+                      "Field": {
+                        "fieldType": {
+                          "type": "StringType",
+                          "StringType": {
+                            "errorMessage": [
+                              {
+                                "locale": "en",
+                                "text": "Email must be valid"
+                              },
+                              {
+                                "locale": "de",
+                                "text": "Email muss valide sein"
+                              }
+                            ],
+                            "pattern": "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$"
+                          }
+                        },
+                        "label": [
+                          {
+                            "locale": "en",
+                            "text": "Email"
+                          },
+                          {
+                            "locale": "de",
+                            "text": "Email"
+                          }
+                        ],
+                        "requirednessConfig": {
+                          "mode": "absoluteOrRelativeToNextRepAncestor"
+                        }
+                      }
+                    },
+                    {
+                      "type": "Group",
+                      "id": "attachment_d64c0",
+                      "name": "Photo",
+                      "Group": {
+                        "repeatability": 1,
+                        "usageType": "attachment",
+                        "elements": [
+                          {
+                            "type": "Field",
+                            "id": "attachmentField_4fcec",
+                            "name": "original_filename",
+                            "Field": {
+                              "fieldType": {
+                                "type": "StringType"
+                              }
+                            }
+                          },
+                          {
+                            "type": "Field",
+                            "id": "attachmentField_90c23",
+                            "name": "internal_filename",
+                            "Field": {
+                              "fieldType": {
+                                "type": "StringType"
+                              }
+                            }
+                          },
+                          {
+                            "type": "Field",
+                            "id": "attachmentField_4f006",
+                            "name": "content",
+                            "Field": {
+                              "fieldType": {
+                                "type": "StringType",
+                                "StringType": {
+                                  "lineBreaksPermitted": true,
+                                  "noValueValidation": true
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "type": "Field",
+                            "id": "attachmentField_50a40",
+                            "name": "attachment_id",
+                            "Field": {
+                              "fieldType": {
+                                "type": "StringType"
+                              }
+                            }
+                          },
+                          {
+                            "type": "Field",
+                            "id": "attachmentField_880b9",
+                            "name": "size",
+                            "Field": {
+                              "fieldType": {
+                                "type": "NumberType"
+                              }
+                            }
+                          },
+                          {
+                            "type": "Field",
+                            "id": "attachmentField_012ad",
+                            "name": "mime_type",
+                            "Field": {
+                              "fieldType": {
+                                "type": "StringType"
+                              }
+                            }
+                          },
+                          {
+                            "type": "Field",
+                            "id": "attachmentField_97654",
+                            "name": "category",
+                            "Field": {
+                              "fieldType": {
+                                "type": "StringType"
+                              }
+                            }
+                          },
+                          {
+                            "type": "Field",
+                            "id": "attachmentField_e65cf",
+                            "name": "description",
+                            "Field": {
+                              "fieldType": {
+                                "type": "StringType"
+                              }
+                            }
+                          },
+                          {
+                            "type": "Rule",
+                            "id": "attachmentRule_129c2",
+                            "name": "AttachmentInternalFilenameRequired",
+                            "Rule": {
+                              "errorEntityRelPath": "../internal_filename",
+                              "errorCode": "Error attachmentRule_129c2",
+                              "errorCondition": "GroupFilled(RuleGroup) and FieldNotFilled(internal_filename)",
+                              "severity": "ERROR",
+                              "errorMessage": [
+                                {
+                                  "locale": "de",
+                                  "text": "Internal Error: Field $internal_filename$ of customType attachment is not filled."
+                                },
+                                {
+                                  "locale": "en",
+                                  "text": "Internal Error: Field $internal_filename$ of customType attachment is not filled."
+                                }
+                              ],
+                              "guiPatterns": {
+                                "dynamicEnumeration": "false"
+                              }
+                            }
+                          },
+                          {
+                            "type": "Rule",
+                            "id": "attachmentRule_23ad7",
+                            "name": "AttachmentMimeTypeRequired",
+                            "Rule": {
+                              "errorEntityRelPath": "../mime_type",
+                              "errorCode": "Error attachmentRule_23ad7",
+                              "errorCondition": "GroupFilled(RuleGroup) and FieldNotFilled(mime_type)",
+                              "severity": "ERROR",
+                              "errorMessage": [
+                                {
+                                  "locale": "de",
+                                  "text": "Internal Error: Field $mime_type$ of customType attachment is not filled."
+                                },
+                                {
+                                  "locale": "en",
+                                  "text": "Internal Error: Field $mime_type$ of customType attachment is not filled."
+                                }
+                              ],
+                              "guiPatterns": {
+                                "dynamicEnumeration": "false"
+                              }
+                            }
+                          },
+                          {
+                            "type": "Rule",
+                            "id": "attachmentRule_c542e",
+                            "name": "AttachmentIdOrContentFilled",
+                            "Rule": {
+                              "errorEntityRelPath": "../content",
+                              "errorCode": "Error attachmentRule_c542e",
+                              "errorCondition": "GroupFilled(RuleGroup) and NotExactlyOneFieldFilled(attachment_id, content)",
+                              "severity": "ERROR",
+                              "errorMessage": [
+                                {
+                                  "locale": "de",
+                                  "text": "Internal Error: Either attachment_id or content must be filled in a customType attachment, but not both."
+                                },
+                                {
+                                  "locale": "en",
+                                  "text": "Internal Error: Either attachment_id or content must be filled in a customType attachment, but not both."
+                                }
+                              ],
+                              "guiPatterns": {
+                                "dynamicEnumeration": "false"
+                              }
+                            }
+                          },
+                          {
+                            "type": "Rule",
+                            "id": "attachmentRule_b50ac",
+                            "name": "SizeOfContentFilled",
+                            "Rule": {
+                              "errorEntityRelPath": "../content",
+                              "errorCode": "Error attachmentRule_b50ac",
+                              "errorCondition": "FieldFilled(content) and FieldNotFilled(size)",
+                              "severity": "ERROR",
+                              "errorMessage": [
+                                {
+                                  "locale": "en",
+                                  "text": "Internal Error: If the content is filled, the size must be also filled."
+                                },
+                                {
+                                  "locale": "de",
+                                  "text": "Internal Error: If the content is filled, the size must be also filled."
+                                }
+                              ],
+                              "guiPatterns": {
+                                "dynamicEnumeration": "false"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Group",
+                "id": "group_16020",
+                "name": "Addresses",
+                "Group": {
+                  "repeatability": 5,
+                  "elements": [
+                    {
+                      "type": "Field",
+                      "id": "field_08493",
+                      "name": "Street",
+                      "Field": {
+                        "fieldType": {
+                          "type": "StringType"
+                        },
+                        "label": [
+                          {
+                            "locale": "en",
+                            "text": "Street"
+                          },
+                          {
+                            "locale": "de",
+                            "text": "Straße"
+                          }
+                        ],
+                        "requirednessConfig": {
+                          "mode": "absoluteOrRelativeToNextRepAncestor"
+                        }
+                      }
+                    },
+                    {
+                      "type": "Field",
+                      "id": "field_fe397",
+                      "name": "City",
+                      "Field": {
+                        "fieldType": {
+                          "type": "StringType"
+                        },
+                        "label": [
+                          {
+                            "locale": "de",
+                            "text": "Stadt"
+                          },
+                          {
+                            "locale": "en",
+                            "text": "City"
+                          }
+                        ],
+                        "requirednessConfig": {
+                          "mode": "absoluteOrRelativeToNextRepAncestor"
+                        }
+                      }
+                    },
+                    {
+                      "type": "Field",
+                      "id": "field_21a07",
+                      "name": "Country",
+                      "Field": {
+                        "fieldType": {
+                          "type": "StringType"
+                        },
+                        "label": [
+                          {
+                            "locale": "en",
+                            "text": "Country"
+                          },
+                          {
+                            "locale": "de",
+                            "text": "Land"
+                          }
+                        ],
+                        "requirednessConfig": {
+                          "mode": "absoluteOrRelativeToNextRepAncestor"
+                        }
+                      }
+                    },
+                    {
+                      "type": "Field",
+                      "id": "field_97161",
+                      "name": "PostCode",
+                      "Field": {
+                        "fieldType": {
+                          "type": "StringType",
+                          "StringType": {
+                            "maxLength": 5
+                          }
+                        },
+                        "label": [
+                          {
+                            "locale": "de",
+                            "text": "Postleitzahl"
+                          },
+                          {
+                            "locale": "en",
+                            "text": "Post code"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Group",
+                "id": "group_daeac",
+                "name": "Phones",
+                "Group": {
+                  "repeatability": 5,
+                  "elements": [
+                    {
+                      "type": "Field",
+                      "id": "field_c49fa",
+                      "name": "PhoneNumber",
+                      "Field": {
+                        "fieldType": {
+                          "type": "StringType"
+                        },
+                        "label": [
+                          {
+                            "locale": "de",
+                            "text": "Telefonnummer"
+                          },
+                          {
+                            "locale": "en",
+                            "text": "Phone number"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "Field",
+                      "id": "field_81a99",
+                      "name": "Type",
+                      "Field": {
+                        "fieldType": {
+                          "type": "EnumerationType",
+                          "EnumerationType": {
+                            "values": [
+                              {
+                                "value": "MOBILE",
+                                "label": [
+                                  {
+                                    "locale": "en",
+                                    "text": "Mobile"
+                                  },
+                                  {
+                                    "locale": "de",
+                                    "text": "Mobil"
+                                  }
+                                ]
+                              },
+                              {
+                                "value": "WORK",
+                                "label": [
+                                  {
+                                    "locale": "en",
+                                    "text": "Work"
+                                  },
+                                  {
+                                    "locale": "de",
+                                    "text": "Arbeit"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "label": [
+                          {
+                            "locale": "en",
+                            "text": "Type"
+                          },
+                          {
+                            "locale": "de",
+                            "text": "Art"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Group",
+                "id": "group_3f138",
+                "name": "Education",
+                "Group": {
+                  "repeatability": 5,
+                  "elements": [
+                    {
+                      "type": "Field",
+                      "id": "field_4bcd0",
+                      "name": "SchoolName",
+                      "Field": {
+                        "fieldType": {
+                          "type": "StringType"
+                        },
+                        "label": [
+                          {
+                            "locale": "en",
+                            "text": "School Name"
+                          },
+                          {
+                            "locale": "de",
+                            "text": "Schulname"
+                          }
+                        ],
+                        "requirednessConfig": {
+                          "mode": "absoluteOrRelativeToNextRepAncestor"
+                        }
+                      }
+                    },
+                    {
+                      "type": "Field",
+                      "id": "field_57717",
+                      "name": "Degree",
+                      "Field": {
+                        "fieldType": {
+                          "type": "StringType"
+                        },
+                        "label": [
+                          {
+                            "locale": "en",
+                            "text": "Degree"
+                          },
+                          {
+                            "locale": "de",
+                            "text": "Abschluss"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "Field",
+                      "id": "field_93f77",
+                      "name": "Major",
+                      "Field": {
+                        "fieldType": {
+                          "type": "StringType"
+                        },
+                        "label": [
+                          {
+                            "locale": "en",
+                            "text": "Major"
+                          },
+                          {
+                            "locale": "de",
+                            "text": "Hauptfach"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "Field",
+                      "id": "field_4de20",
+                      "name": "StartDate",
+                      "Field": {
+                        "fieldType": {
+                          "type": "DateType",
+                          "DateType": {
+                            "format": "yyyy-MM-dd"
+                          }
+                        },
+                        "label": [
+                          {
+                            "locale": "en",
+                            "text": "Start date"
+                          },
+                          {
+                            "locale": "de",
+                            "text": "Anfangsdatum"
+                          }
+                        ],
+                        "requirednessConfig": {
+                          "mode": "absoluteOrRelativeToNextRepAncestor"
+                        }
+                      }
+                    },
+                    {
+                      "type": "Field",
+                      "id": "field_6190f",
+                      "name": "EndDate",
+                      "Field": {
+                        "fieldType": {
+                          "type": "DateType",
+                          "DateType": {
+                            "format": "yyyy-MM-dd"
+                          }
+                        },
+                        "label": [
+                          {
+                            "locale": "en",
+                            "text": "End date"
+                          },
+                          {
+                            "locale": "de",
+                            "text": "Abschlussdatum"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Group",
+                "id": "group_3ec66",
+                "name": "A12WF",
+                "Group": {
+                  "repeatability": 1,
+                  "elements": [
+                    {
+                      "type": "Group",
+                      "id": "group_5ccc8",
+                      "name": "ProcessDefinition",
+                      "Group": {
+                        "repeatability": 1,
+                        "elements": [
+                          {
+                            "type": "Field",
+                            "id": "field_53a11",
+                            "name": "Key",
+                            "Field": {
+                              "fieldType": {
+                                "type": "StringType"
+                              },
+                              "label": [
+                                {
+                                  "locale": "en",
+                                  "text": "Process Definition Key"
+                                },
+                                {
+                                  "locale": "de",
+                                  "text": "Process Definition Key"
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            "type": "Field",
+                            "id": "field_856aa",
+                            "name": "Name",
+                            "annotations": [
+                              {
+                                "name": "availableInProcessAs",
+                                "value": "processDefinitionName"
+                              }
+                            ],
+                            "Field": {
+                              "fieldType": {
+                                "type": "StringType"
+                              },
+                              "label": [
+                                {
+                                  "locale": "en",
+                                  "text": "Process Definition Name"
+                                },
+                                {
+                                  "locale": "de",
+                                  "text": "Name der Prozessdefinition"
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "Group",
+                      "id": "group_6bcbf",
+                      "name": "TaskDefinition",
+                      "Group": {
+                        "repeatability": 1,
+                        "elements": [
+                          {
+                            "type": "Field",
+                            "id": "field_1bed4",
+                            "name": "Key",
+                            "Field": {
+                              "fieldType": {
+                                "type": "StringType"
+                              },
+                              "label": [
+                                {
+                                  "locale": "en",
+                                  "text": "Task Definition Key"
+                                },
+                                {
+                                  "locale": "de",
+                                  "text": "Task Definition Key"
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            "type": "Field",
+                            "id": "field_6be10",
+                            "name": "Name",
+                            "Field": {
+                              "fieldType": {
+                                "type": "StringType"
+                              },
+                              "label": [
+                                {
+                                  "locale": "en",
+                                  "text": "Task Name"
+                                },
+                                {
+                                  "locale": "de",
+                                  "text": "Name des Tasks"
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            "type": "Field",
+                            "id": "field_d7bd0",
+                            "name": "FormKey",
+                            "Field": {
+                              "fieldType": {
+                                "type": "StringType"
+                              },
+                              "label": [
+                                {
+                                  "locale": "en",
+                                  "text": "Form Key"
+                                },
+                                {
+                                  "locale": "de",
+                                  "text": "Form Key"
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "Group",
+                      "id": "group_02b25",
+                      "name": "Process",
+                      "Group": {
+                        "repeatability": 1,
+                        "elements": [
+                          {
+                            "type": "Field",
+                            "id": "field_e1312",
+                            "name": "ID",
+                            "Field": {
+                              "fieldType": {
+                                "type": "StringType"
+                              },
+                              "label": [
+                                {
+                                  "locale": "en",
+                                  "text": "Process Instance ID"
+                                },
+                                {
+                                  "locale": "de",
+                                  "text": "Prozessinstanz ID"
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            "type": "Field",
+                            "id": "field_9f514",
+                            "name": "BusinessKey",
+                            "Field": {
+                              "fieldType": {
+                                "type": "StringType"
+                              },
+                              "label": [
+                                {
+                                  "locale": "en",
+                                  "text": "Business Key"
+                                },
+                                {
+                                  "locale": "de",
+                                  "text": "Business Key"
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            "type": "Field",
+                            "id": "field_d04f0",
+                            "name": "Initiator",
+                            "Field": {
+                              "fieldType": {
+                                "type": "StringType"
+                              },
+                              "label": [
+                                {
+                                  "locale": "en",
+                                  "text": "Process Initiator"
+                                },
+                                {
+                                  "locale": "de",
+                                  "text": "Prozessinitiator"
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "Group",
+                      "id": "group_5435c",
+                      "name": "Task",
+                      "Group": {
+                        "repeatability": 1,
+                        "elements": [
+                          {
+                            "type": "Field",
+                            "id": "field_885e7",
+                            "name": "ID",
+                            "Field": {
+                              "fieldType": {
+                                "type": "StringType"
+                              },
+                              "label": [
+                                {
+                                  "locale": "en",
+                                  "text": "Task ID"
+                                },
+                                {
+                                  "locale": "de",
+                                  "text": "Task ID"
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            "type": "Field",
+                            "id": "field_7af20",
+                            "name": "CreationDate",
+                            "Field": {
+                              "fieldType": {
+                                "type": "DateTimeType",
+                                "DateTimeType": {
+                                  "format": "yyyy-MM-dd'T'HH:mm:ss"
+                                }
+                              },
+                              "label": [
+                                {
+                                  "locale": "en",
+                                  "text": "Creation Date"
+                                },
+                                {
+                                  "locale": "de",
+                                  "text": "Erstellungsdatum"
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            "type": "Field",
+                            "id": "field_07e06",
+                            "name": "DueDate",
+                            "Field": {
+                              "fieldType": {
+                                "type": "DateType",
+                                "DateType": {
+                                  "format": "yyyy-MM-dd"
+                                }
+                              },
+                              "label": [
+                                {
+                                  "locale": "en",
+                                  "text": "Due Date"
+                                },
+                                {
+                                  "locale": "de",
+                                  "text": "Fälligkeitsdatum"
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            "type": "Field",
+                            "id": "field_95bc2",
+                            "name": "Assignee",
+                            "Field": {
+                              "fieldType": {
+                                "type": "StringType"
+                              },
+                              "label": [
+                                {
+                                  "locale": "en",
+                                  "text": "Assignee"
+                                },
+                                {
+                                  "locale": "de",
+                                  "text": "Zugewiesener Nutzer"
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "Field",
+                      "id": "field_86549",
+                      "name": "WorkflowsInternalDocumentStatus",
+                      "annotations": [
+                        {
+                          "name": "availableInProcessAs",
+                          "value": "internalStatus"
+                        },
+                        {
+                          "name": "indexed",
+                          "value": ""
+                        }
+                      ],
+                      "Field": {
+                        "fieldType": {
+                          "type": "EnumerationType",
+                          "EnumerationType": {
+                            "values": [
+                              {
+                                "value": "EMPTY",
+                                "label": [
+                                  {
+                                    "locale": "en",
+                                    "text": "EMPTY"
+                                  },
+                                  {
+                                    "locale": "de",
+                                    "text": "EMPTY"
+                                  }
+                                ]
+                              },
+                              {
+                                "value": "NON_EMPTY",
+                                "label": [
+                                  {
+                                    "locale": "en",
+                                    "text": "NON_EMPTY"
+                                  },
+                                  {
+                                    "locale": "de",
+                                    "text": "NON_EMPTY"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "label": [
+                          {
+                            "locale": "en",
+                            "text": "Workflows Internal Document Status"
+                          },
+                          {
+                            "locale": "de",
+                            "text": "Workflows Internal Document Status"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

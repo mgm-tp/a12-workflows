@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SimplePersonWithNestedResolvedMetadata_DM>
+    <a12wf>
+        <processDefinition>
+            <key>ProcessDefinitionKey</key>
+            <name>ProcessDefinitionName</name>
+        </processDefinition>
+        <taskDefinition>
+            <key>TaskDefinitionKey</key>
+            <name>TaskDefinitionName</name>
+            <formKey>FormKey</formKey>
+        </taskDefinition>
+        <process>
+            <id>530d14f2-107f-11ec-8308-803253632ada</id>
+            <businessKey>BusinessKey</businessKey>
+            <initiator>initiator</initiator>
+        </process>
+        <task>
+            <id>530d14f2-107f-11ec-8308-803253632adb</id>
+            <creationDate>2022-02-11T09:20:00</creationDate>
+            <dueDate>2022-02-20</dueDate>
+            <assignee>oldAssignee</assignee>
+            <someCustomField>foo</someCustomField>
+        </task>
+        <workflowsInternalDocumentStatus>EMPTY</workflowsInternalDocumentStatus>
+    </a12wf>
+    <person>
+        <name>John</name>
+    </person>
+</SimplePersonWithNestedResolvedMetadata_DM>

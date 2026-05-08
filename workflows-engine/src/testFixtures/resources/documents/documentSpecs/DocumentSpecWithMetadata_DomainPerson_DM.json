@@ -1,0 +1,33 @@
+{
+  "docRef": "DomainPerson_DM/1",
+  "documentModelName": "DomainPerson_DM",
+  "document": {
+    "id": "42",
+    "A12WF": {
+      "ProcessDefinition": {
+        "Key": "TaskQueryingProcess:1:4db6d024-107f-11ec-8308-803253632ada",
+        "Name": "TaskQueryingProcess"
+      },
+      "TaskDefinition": {
+        "Key": "",
+        "Name": "",
+        "FormKey": null
+      },
+      "Process": {
+        "ID": "530d14f2-107f-11ec-8308-803253632ada",
+        "BusinessKey": null,
+        "Initiator": "null"
+      },
+      "Task": {
+        "ID": "my-task-id",
+        "CreationDate": null,
+        "DueDate": null,
+        "Assignee": null
+      },
+      "WorkflowsInternalDocumentStatus": "NON_EMPTY"
+    },
+    "person": {
+      "name": "John"
+    }
+  }
+}

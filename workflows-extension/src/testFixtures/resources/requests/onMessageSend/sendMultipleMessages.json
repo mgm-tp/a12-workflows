@@ -1,0 +1,38 @@
+[
+
+  {
+    "jsonrpc": "2.0",
+    "id": "sendMessage",
+    "method": "SEND_MESSAGE",
+    "params": {
+      "processInstanceId":  "%s",
+      "messageName": "%s",
+      "businessKey": "%s",
+      "payload": %s
+    }
+  },
+  {
+    "jsonrpc": "2.0",
+    "id": "sendMessage",
+    "method": "SEND_MESSAGE",
+    "params": {
+      "processInstanceId":  "%s",
+      "messageName": "%s",
+      "businessKey": "%s",
+      "payload": %s
+    }
+  },
+  {
+    "jsonrpc": "2.0",
+    "id": "sendMessage",
+    "method": "SEND_MESSAGE",
+    "params": {
+      "processInstanceId":  "%s",
+      "messageName": "%s",
+      "businessKey": "%s",
+      "payload": {
+        "additionalVariable": "test"
+      }
+    }
+  }
+]

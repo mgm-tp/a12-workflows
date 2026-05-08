@@ -1,0 +1,25 @@
+import com.hierynomus.gradle.license.tasks.LicenseFormat
+
+apply plugin: "license"
+
+license {
+    header = rootProject.file("asciidoc_copyright_header_community")
+    mapping {
+        adoc = "adoc"
+    }
+    headerDefinitions {
+        adoc {
+            firstLine = "////"
+            endLine = "////"
+            firstLineDetectionPattern = "////"
+            lastLineDetectionPattern = "////"
+            allowBlankLines = true
+            isMultiline = true
+        }
+    }
+}
+
+tasks.register('licenseFormatAdoc', LicenseFormat) {
+    source = fileTree(dir: "userguides").include("**/*.adoc")
+}
+licenseFormat.dependsOn licenseFormatAdoc

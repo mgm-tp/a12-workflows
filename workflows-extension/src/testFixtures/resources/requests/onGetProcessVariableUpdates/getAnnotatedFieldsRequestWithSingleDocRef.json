@@ -1,0 +1,10 @@
+[
+  {
+    "jsonrpc": "2.0",
+    "id": "getProcessVariableUpdates",
+    "method": "GET_PROCESS_VARIABLE_UPDATES",
+    "params": {
+      "documentReferences": ["%s"]
+    }
+  }
+]

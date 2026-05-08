@@ -1,0 +1,205 @@
+{
+  "header": {
+    "id": "SimpleFillApplicantForDocumentModelWithNestedMetadata_FM",
+    "modelType": "form",
+    "modelVersion": "37.3.0",
+    "locales": [
+      {
+        "code": "en"
+      }
+    ],
+    "labels": [
+      {
+        "locale": "en",
+        "text": "Choose applicant"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "roles",
+        "value": "admin"
+      }
+    ],
+    "modelReferences": [
+      {
+        "alias": "SimplePersonWithNestedMetadata_DM",
+        "modelType": "document",
+        "purpose": "data binding",
+        "reference": "SimplePersonWithNestedMetadata_DM"
+      }
+    ]
+  },
+  "content": {
+    "subHeaderBox": {
+      "id": "subHeaderBox1"
+    },
+    "footerBox": {
+      "id": "footerBox1",
+      "minorButtons": {
+        "button": [
+          {
+            "type": "EVENT",
+            "id": "button-fc255",
+            "name": "showDiagram",
+            "buttonStyling": {
+              "label": {
+                "type": "Multilingual",
+                "multilingualText": {
+                  "text": [
+                    {
+                      "locale": "en",
+                      "text": "Show Diagram"
+                    }
+                  ]
+                }
+              },
+              "priority": "SECONDARY"
+            },
+            "event": "showDiagram",
+            "scope": "HIDDEN_IN_READONLY_MODE"
+          },
+          {
+            "type": "EVENT",
+            "id": "button-eec1e",
+            "name": "Cancel",
+            "buttonStyling": {
+              "label": {
+                "type": "Multilingual",
+                "multilingualText": {
+                  "text": [
+                    {
+                      "locale": "en",
+                      "text": "Cancel"
+                    }
+                  ]
+                }
+              },
+              "priority": "SECONDARY",
+              "destructive": true
+            },
+            "event": "cancel",
+            "scope": "HIDDEN_IN_READONLY_MODE"
+          },
+          {
+            "type": "EVENT",
+            "id": "button-3e628",
+            "name": "showHistory",
+            "buttonStyling": {
+              "label": {
+                "type": "Multilingual",
+                "multilingualText": {
+                  "text": [
+                    {
+                      "locale": "en",
+                      "text": "Show history"
+                    }
+                  ]
+                }
+              },
+              "priority": "SECONDARY"
+            },
+            "event": "showHistoryDiagram",
+            "scope": "HIDDEN_IN_READONLY_MODE"
+          }
+        ]
+      },
+      "majorButtons": {
+        "button": [
+          {
+            "type": "EVENT",
+            "id": "button-edeed",
+            "name": "Save",
+            "buttonStyling": {
+              "label": {
+                "type": "Multilingual",
+                "multilingualText": {
+                  "text": [
+                    {
+                      "locale": "en",
+                      "text": "Save"
+                    }
+                  ]
+                }
+              },
+              "priority": "SECONDARY"
+            },
+            "event": "save",
+            "scope": "HIDDEN_IN_READONLY_MODE"
+          },
+          {
+            "type": "EVENT",
+            "id": "button-3ca98",
+            "name": "Proceed",
+            "buttonStyling": {
+              "label": {
+                "type": "Multilingual",
+                "multilingualText": {
+                  "text": [
+                    {
+                      "locale": "en",
+                      "text": "Proceed"
+                    }
+                  ]
+                }
+              },
+              "priority": "PRIMARY"
+            },
+            "event": "proceed",
+            "scope": "HIDDEN_IN_READONLY_MODE"
+          }
+        ]
+      }
+    },
+    "screens": [
+      {
+        "id": "screen1",
+        "name": "Screen1",
+        "screenElements": [
+          {
+            "type": "MultiColumnSection",
+            "id": "multicolumnsection-3a988",
+            "name": "applicant",
+            "title": {
+              "type": "Multilingual",
+              "multilingualText": {
+                "text": [
+                  {
+                    "locale": "en",
+                    "text": "Choose an applicant"
+                  }
+                ]
+              }
+            },
+            "layout": {
+              "lg": "6-6"
+            },
+            "screenElements": [
+              {
+                "type": "ControlGrid",
+                "id": "controlgrid-74e97",
+                "name": "info",
+                "row": [
+                  {
+                    "type": "Row",
+                    "id": "row_2cedf",
+                    "cell": [
+                      {
+                        "type": "Control",
+                        "id": "control_9d89d",
+                        "elementRef": "field_6257f"
+                      }
+                    ]
+                  }
+                ],
+                "verticalAlignment": "TOP"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "fieldConfiguration": {},
+    "groupConfiguration": {},
+    "defaults": {}
+  }
+}

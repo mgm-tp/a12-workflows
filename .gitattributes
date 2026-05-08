@@ -1,0 +1,13 @@
+*	eol=crlf
+
+# Shell scripts must always use LF line endings
+oss_cleanup.sh	eol=lf
+.githooks/*	eol=lf
+
+# Avoids a bug in older Git versions
+*.png -text
+*.jpg -text
+*.gif -text
+
+# Interprets jar files as binary
+*.jar binary

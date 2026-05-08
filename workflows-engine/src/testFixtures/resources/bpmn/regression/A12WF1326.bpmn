@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1pphy4f" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.19.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+  <bpmn:process id="A12WF1326" name="A12WF1326" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_030l0br</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_030l0br" sourceRef="StartEvent_1" targetRef="UserTaskA" />
+    <bpmn:sequenceFlow id="Flow_0ti4hqi" sourceRef="UserTaskA" targetRef="ServiceTask" />
+    <bpmn:serviceTask id="ServiceTask" name="Service Task" camunda:asyncBefore="true" camunda:delegateExpression="${setStatusDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="repetitions" />
+          <camunda:inputParameter name="documentReference">${outDocRef}</camunda:inputParameter>
+          <camunda:inputParameter name="newValue">IN_PROGRESS</camunda:inputParameter>
+          <camunda:inputParameter name="pathToField">/test/status</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0ti4hqi</bpmn:incoming>
+      <bpmn:outgoing>Flow_0v1jrr3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="UserTaskA" name="User Task A" camunda:formKey="A12WF1326_FM">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="outDocRef">${newDocRef}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_030l0br</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ti4hqi</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0v1jrr3" sourceRef="ServiceTask" targetRef="UserTaskB" />
+    <bpmn:userTask id="UserTaskB" name="User Task B" camunda:modelerTemplate="userTaskWithInputDoc" camunda:modelerTemplateVersion="1" camunda:formKey="A12WF1326_FM">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="documentReference">${outDocRef}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0v1jrr3</bpmn:incoming>
+      <bpmn:outgoing>Flow_0dh1mor</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_1mxm2ac">
+      <bpmn:incoming>Flow_0dh1mor</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0dh1mor" sourceRef="UserTaskB" targetRef="Event_1mxm2ac" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="A12WF1326">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1p8izuq_di" bpmnElement="ServiceTask">
+        <dc:Bounds x="400" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1nhwd1r_di" bpmnElement="UserTaskA">
+        <dc:Bounds x="260" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0yi1w70_di" bpmnElement="UserTaskB">
+        <dc:Bounds x="540" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1mxm2ac_di" bpmnElement="Event_1mxm2ac">
+        <dc:Bounds x="692" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_030l0br_di" bpmnElement="Flow_030l0br">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="260" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ti4hqi_di" bpmnElement="Flow_0ti4hqi">
+        <di:waypoint x="360" y="117" />
+        <di:waypoint x="400" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0v1jrr3_di" bpmnElement="Flow_0v1jrr3">
+        <di:waypoint x="500" y="117" />
+        <di:waypoint x="540" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0dh1mor_di" bpmnElement="Flow_0dh1mor">
+        <di:waypoint x="640" y="117" />
+        <di:waypoint x="692" y="117" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,184 @@
+////
+SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
+Copyright (c) 2012-2026 mgm technology partners GmbH
+Dual License
+This source file is part of the mgm A12 Platform and available under a choice of two different licenses:
+1. Open-Source License – EUPL v1.2
+You may redistribute and/or modify this file under the terms of the European Union Public License, version 1.2 - see https://eupl.eu/.
+2. Commercial License
+Alternatively, you may obtain a commercial license from mgm technology partners GmbH, that permits use of this software under different terms (including support and maintenance services).
+
+Please contact a12-license@mgm-tp.com for more information.
+
+You must select and comply with exactly one of the above license options.
+
+Warranty Disclaimer (applies to either option)
+THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
+////
+= Process Migration
+
+== Overview
+
+CIB 7 offers three approaches to migrate processes:
+
+* Java API
+* REST API
+
+=== Avoiding Process Migration
+
+Not every change to a BPMN model (i.e. process definition) requires process migration.
+
+==== How to Avoid Migration
+Instead, it is also possible to use different versions of a process definition in parallel. Of course, this requires that the underlying application is able to handle both versions.
+
+Process instances running under the old definition will just keep running on their version, whereas new process instances automatically use the latest process definition.
+
+==== When to Avoid Migration
+Running different process definitions in parallel is advised if there are legal reasons or the migration is too complicated and the effort outweighs the benefits.
+
+==== When to Migrate
+
+On the other hand, process migration is the preferred approach if the new process definition contains only patches or bugfixes, or when the operational complexity of running parallel process definitions is to be avoided.
+
+== Migration Steps
+
+A process migration can be divided into two steps:
+
+* Mapping tokens ("active _User Tasks_") to the new model
+* Migrating the data
+
+As basis for the below sections we will use the following process:
+
+image::assets/images/base-process.png[Base Process]
+
+=== Mapping Tokens
+
+A migration plan defines the mappings between tokens of the source and the target process definition.
+
+This migration plan can be executed on a given set of process instances.
+Options include whether custom listeners and input/output mappings of _Tasks_ should be executed during the migration.
+
+In the example below we deployed a second version of our base process, removing the _User Task_ "Enter String B" and adding a _User Task_ "Enter String C".
+We now want to migrate all tokens from Enter String B to Enter String C.
+
+image::assets/images/updated-process.png[Updated Process]
+
+* link:assets/files/code/migration/ProcessMigration.kt[Process Migration Example]
+
+NOTE: For specific mapping rules of different BPMN elements, check out the https://docs.cibseven.org/manual/{cibsevenVersion}/user-guide/process-engine/process-instance-migration/#bpmn-specific-api-and-effects[CIB 7 docs].
+Be aware of the https://docs.cibseven.org/manual/{cibsevenVersion}/user-guide/process-engine/process-instance-migration/#validation[validation rules] for these mappings.
+
+== Migrating Data
+
+For scenarios that require data migration, there are several approaches.
+
+=== Migrating Data Automatically
+
+If process data can be migrated without user input, you can automate the entire migration.
+
+You must provide your migration logic via custom Java code using the CIB 7 API.
+
+Below you see an example for a migration that does not operate on different process definitions, but instead simply adjusts some variables in the _Task_ scope.
+This could e.g. happen if a small bugfix has to be deployed, where variables have to be renamed or added.
+Of course, this migration can be combined with the above example to have both a token and data migration.
+
+* link:assets/files/code/migration/DataMigration.kt[Data Migration Example]
+
+
+=== Migrating Data With User Input
+
+If you require user input for your data migration, the situation is more complex.In this case, you can use the migration island approach.
+
+==== Migration Island
+
+In the https://github.com/camunda-consulting/migration-examples/blob/master/Case1.md[migration island approach], the updated process definition is extended by a non-reachable _User Task_ and a data manipulating _Service Task_. This _Service Task_ executes your Java delegate that is responsible for adapting the data as necessary. After that, it leads into a _User Task_ outside of the migration island.
+
+image::assets/images/migration-island.png[Migration island]
+
+On migration, tokens are mapped from the source _Task(s)_ onto the non-reachable _User Task_. This can be done in batches with CIB 7's migration plan API.
+
+===== Pros
+
+* Simplicity
+* _User Task_ "Migration Task" could be used for non-automated migration scenarios that require user input.
+
+===== Cons
+
+* The new process is dirtied by unrelated BPMN elements, and you may require multiple migration islands to migrate multiple _User Tasks_.
+
+== Migration examples
+
+=== After Removing a User Task
+
+Let's suppose we have `WorkAndReviewProcess:1`, which contains two _User Tasks_: _DoWork_ and _ReviewWork_. Our business requirements have changed and we would like to remove _User Task_ _ReviewWork_. Then, we need to create `WorkAndReviewProcess:2` without the second _User Task_.
+
+image::assets/images/token-mapping.png[Mapping tokens between BPMN model versions]
+
+The migration plan for this use case will have following structure:
+
+[source,kotlin]
+----
+val migrationPlan = runtimeService
+    .createMigrationPlan(sourceProcessDefinition.id, targetProcessDefinition.id)
+    // Maps tokens of 'Review work' to 'Do work' _Task_
+    .mapActivities("ReviewWork", "DoWork")
+    .build()
+
+val processInstanceIds = runtimeService
+    .createProcessInstanceQuery()
+    .processDefinitionKey("WorkAndReviewProcess")
+    .list()
+    .map { process -> process.processInstanceId }
+
+runtimeService
+    .newMigration(migrationPlan)
+    .processInstanceIds(processInstanceIds)
+    .execute()
+----
+
+=== After Changing Gateway Condition
+
+Let's suppose our model includes a _Gateway_ with specific conditions. Our business requirements have changed and we would like to change conditions of our _Gateway_.
+
+This change is covered by CIB 7's `mapEqualActivities`:
+
+[source,kotlin]
+----
+MigrationPlan migrationPlan = processEngine
+    .getRuntimeService()
+    .createMigrationPlan(sourceProcessDefinition.id, targetProcessDefinition.id)
+    .mapEqualActivities()
+    .build()
+
+// Execute migration...
+----
+
+For more details please check out https://docs.cibseven.org/manual/{cibsevenVersion}/user-guide/process-engine/process-instance-migration/#gateways[the CIB 7 docs].
+
+=== After Changing BPMN events
+
+For this case, please refer to https://docs.cibseven.org/manual/{cibsevenVersion}/user-guide/process-engine/process-instance-migration/#events[the CIB 7 docs].
+
+== Upgrading Your A12 Version
+
+Upgrading to a new breaking A12 release line may require BPMN model changes and therefore migration.
+
+NOTE: Please be aware of our <<anchor-bpmn-model-migration-tool,BPMN migration tool>>.
+
+Please refer to the corresponding release pages for upgrade instructions as usual.
+
+== Versioning Delegates
+
+When migrating BPMN models, it might become necessary to run multiple versions of delegates in parallel.
+
+As CIB 7 picks up delegates by name, it is necessary to differentiate between the different delegate versions by name as well. For this, you could add a version suffix to your delegate names.
+
+== Further Resources
+
+* CIB 7 docs:
+** https://docs.cibseven.org/manual/{cibsevenVersion}/user-guide/process-engine/process-instance-migration/[Process instance migration]
+** https://docs.cibseven.org/manual/{cibsevenVersion}/user-guide/process-engine/process-instance-modification/[Process instance modification]
+* Camunda docs:
+** https://docs.camunda.io/docs/components/best-practices/operations/versioning-process-definitions/#migrating-process-instances-to-a-new-version[Versioning process definitions & Understanding process migration]
+
+

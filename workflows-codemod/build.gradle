@@ -1,0 +1,41 @@
+import groovy.json.JsonBuilder
+import groovy.json.JsonSlurper
+
+plugins {
+    alias libs.plugins.node
+    alias libs.plugins.artifact.publish
+    id 'com.mgmtp.a12.workflows.conventions.typescript'
+}
+
+clean.doFirst {
+    delete "lib", "node_modules", "target"
+}
+
+tasks.register("syncVersions") {
+    group("build")
+    doFirst {
+        def jsonFile = new File("${projectDir}/package.json")
+        def parsedJson = new JsonSlurper().parseText(jsonFile.text)
+        parsedJson.version = version
+        jsonFile.text = new JsonBuilder(parsedJson).toPrettyString()
+    }
+}
+
+tasks.register("reportTestCoverage", NpmTask) {
+    group "npm"
+    args = ["run", "test:coverage"]
+}
+
+assemble.dependsOn(rootProject.tasks.named("npmCompile"))
+npm_publish.dependsOn(syncVersions, tasks.named("assemble"))
+
+a12Publish {
+    // releaseLine resolved from gradle.properties
+    npm {
+        tag.set("rc.2.4") // prerelease versions must not publish to "latest" tag
+    }
+}
+
+tasks.named("npmPublish").configure {
+    dependsOn(syncVersions, tasks.named("assemble"))
+}

@@ -1,0 +1,37 @@
+[
+  {
+    "$schema": "https://unpkg.com/@camunda/element-templates-json-schema/resources/schema.json",
+    "name": "User Task Creating A New Document",
+    "id": "userTaskNewDoc",
+    "entriesVisible": true,
+    "description": "Choose this if you want to create a new document from this user task.",
+    "version": 1,
+    "appliesTo": [
+      "bpmn:UserTask"
+    ],
+    "elementType": {
+      "value": "bpmn:UserTask"
+    },
+    "groups": [
+      {
+        "id": "docRefOut",
+        "label": "Output Document Reference"
+      }
+    ],
+    "properties": [
+      {
+        "label": "Process Variable Name For New Document Reference",
+        "description": "Add a name for the process variable which stores the document reference of the created document, e.g. docRef",
+        "type": "String",
+        "group": "docRefOut",
+        "binding": {
+          "type": "camunda:outputParameter",
+          "source": "${newDocRef}"
+        },
+        "constraints": {
+          "notEmpty": true
+        }
+      }
+    ]
+  }
+]

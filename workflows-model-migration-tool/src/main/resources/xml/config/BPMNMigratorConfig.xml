@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<migrationConfig xmlns="http://www.mgm-tp.com/a12/migration/config/v1" modelType="bpmn" currentModelVersion="9.0.0">
+
+    <migrationStep sourceModelVersion="8.1.0" targetModelVersion="9.0.0">
+        <bean class="com.mgmtp.a12.model.workflows.migration.bpmn.steps.RemoveAllExtensionPropertiesStep"/>
+    </migrationStep>
+    <migrationStep sourceModelVersion="10.0.0" targetModelVersion="11.0.0">
+        <bean class="com.mgmtp.a12.model.workflows.migration.bpmn.steps.RefactorSetStatusDelegateStep"/>
+    </migrationStep>
+
+</migrationConfig>
+
+

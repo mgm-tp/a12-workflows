@@ -1,0 +1,11 @@
+[
+  {
+    "jsonrpc": "2.0",
+    "id": "createDocument",
+    "method": "CREATE_DOCUMENT",
+    "params": {
+      "documentModelName": "%s",
+      "document": %s
+    }
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "messageName": "someMessageName",
+  "businessKey": "someBusinessKey",
+  "processInstanceId":  "someProcessInstanceId",
+  "processVariables": {
+    "additionalVariable": {
+      "value": "test"
+    }
+  }
+}

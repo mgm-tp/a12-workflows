@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_0t786j7" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1">
+  <bpmn:collaboration id="Collaboration_0zufu0t">
+    <bpmn:extensionElements>
+      <camunda:properties>
+        <camunda:property name="documentName" value="DomainBusinessTripWF"/>
+        <camunda:property name="documentModelName" value="DomainBusinessTripWF"/>
+      </camunda:properties>
+    </bpmn:extensionElements>
+    <bpmn:participant id="Participant_1os2ca1" name="Fill Travel Expenses" processRef="FillTravelExpensesProcess"/>
+  </bpmn:collaboration>
+  <bpmn:process id="FillTravelExpensesProcess" name="Fill Travel Expenses" isExecutable="true">
+    <bpmn:startEvent id="Event_0mk2oh5">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="inputDocumentModel" value="DomainBusinessTripWF"/>
+        </camunda:properties>
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="groovy">def document = execution.getVariable("DomainBusinessTripWF")
+execution.setVariable("updateId", document.id)</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_05c1yel</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Activity_14bzbyr" name="Fill Travel Expenses" camunda:formKey="TravelExpense">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="groovy">def document = execution.getVariable("DomainBusinessTripWF")
+execution.setVariable("others", document.BusinessTrip.Others)
+execution.setVariable("food", document.BusinessTrip.Food)
+execution.setVariable("journeyDetail", document.BusinessTrip.JourneyDetail)</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0m47y7m</bpmn:incoming>
+      <bpmn:outgoing>Flow_1flwdyz</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_0b4jizb" default="Flow_0pxx9v3">
+      <bpmn:incoming>Flow_05c1yel</bpmn:incoming>
+      <bpmn:outgoing>Flow_0m47y7m</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0pxx9v3</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Event_096sp05" name="TRIP ALREADY COMPLETED">
+      <bpmn:incoming>Flow_0pxx9v3</bpmn:incoming>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_00gwx1s" errorRef="Error_0hbz9at"/>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1j7kskw" sourceRef="Activity_02pa5wn" targetRef="Event_1eqraa6"/>
+    <bpmn:sequenceFlow id="Flow_1tvfq17" sourceRef="Activity_1wc32ig" targetRef="Activity_02pa5wn"/>
+    <bpmn:sequenceFlow id="Flow_1i2ax9d" sourceRef="Activity_12y4r3a" targetRef="Activity_1wc32ig"/>
+    <bpmn:sequenceFlow id="Flow_1flwdyz" sourceRef="Activity_14bzbyr" targetRef="Activity_12y4r3a"/>
+    <bpmn:sequenceFlow id="Flow_05c1yel" sourceRef="Event_0mk2oh5" targetRef="Gateway_0b4jizb"/>
+    <bpmn:sequenceFlow id="Flow_0m47y7m" sourceRef="Gateway_0b4jizb" targetRef="Activity_14bzbyr">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{DomainBusinessTripWF.BusinessTrip.Status == "Planned"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0pxx9v3" sourceRef="Gateway_0b4jizb" targetRef="Event_096sp05"/>
+    <bpmn:scriptTask id="Activity_12y4r3a" name="Add expenses to document" scriptFormat="groovy">
+      <bpmn:incoming>Flow_1flwdyz</bpmn:incoming>
+      <bpmn:outgoing>Flow_1i2ax9d</bpmn:outgoing>
+      <bpmn:script>def document = execution.getVariable("DomainBusinessTripWF")
+def updateId = execution.getVariable("updateId")
+document.BusinessTrip.Others = execution.getVariable("others")
+document.BusinessTrip.Food = execution.getVariable("food")
+document.BusinessTrip.JourneyDetail = execution.getVariable("journeyDetail")
+document.BusinessTrip.Status = "Done"
+
+def processData = [BusinessTrip: document.BusinessTrip, id: updateId.toString()]
+execution.setVariable("DomainBusinessTripWF", processData)</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:serviceTask id="Activity_02pa5wn" name="Send business trip calculation" camunda:delegateExpression="#{sendEmailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="emailAddress">#{DomainBusinessTripWF.BusinessTrip.Email}</camunda:inputParameter>
+          <camunda:inputParameter name="subject">Business Trip - Travel Expense Calculation</camunda:inputParameter>
+          <camunda:inputParameter name="message">
+            <camunda:script scriptFormat="FreeMarker">&lt;#setting locale="de_DE"&gt;&lt;#t&gt;
+&lt;#t&gt;
+&lt;#if DomainBusinessTripWF.BusinessTrip??&gt;
+Dear ${DomainBusinessTripWF.BusinessTrip.Employee},
+&lt;/#if&gt;
+
+
+This is your Travel Expense Calculation after your Business Trip to 
+&lt;#if DomainBusinessTripWF.BusinessTrip??&gt;
+${DomainBusinessTripWF.BusinessTrip.Destination} from ${DomainBusinessTripWF.BusinessTrip.StartDate} to ${DomainBusinessTripWF.BusinessTrip.EndDate}.&lt;/#if&gt;
+
+
+&lt;#if DomainBusinessTripWF.BusinessTrip.DepositCurrency == "EUR"&gt;
+&lt;#if DomainBusinessTripWF.BusinessTrip.Deposit  gt 0&gt;
+You received deposit  ${DomainBusinessTripWF.BusinessTrip.Deposit} EUR
+&lt;/#if&gt;
+You deserve compensation ${DomainBusinessTripWF.BusinessTrip.CompensationEur} EUR.
+Result amount (difference deposit – compensation) is ${DomainBusinessTripWF.BusinessTrip.ResultAmountEur} EUR, which
+&lt;#if DomainBusinessTripWF.BusinessTrip.ResultAmountEur  gt 0&gt;
+you have to return to FBO
+&lt;#else&gt; you will get with next salary
+&lt;/#if&gt; 
+&lt;/#if&gt;
+
+&lt;#if DomainBusinessTripWF.BusinessTrip.DepositCurrency == "CZK"&gt;
+&lt;#if DomainBusinessTripWF.BusinessTrip.Deposit  gt 0&gt;
+You received deposit ${DomainBusinessTripWF.BusinessTrip.Deposit} CZK
+&lt;/#if&gt;
+You deserve compensation ${DomainBusinessTripWF.BusinessTrip.CompensationCzk} CZK.
+Result amount (difference deposit – compensation) is ${DomainBusinessTripWF.BusinessTrip.ResultAmountCzk} CZK, which
+&lt;#if DomainBusinessTripWF.BusinessTrip.ResultAmountCzk  gt 0&gt;
+you have to return to FBO
+&lt;#else&gt; you will get with next salary
+&lt;/#if&gt; 
+&lt;/#if&gt;
+
+Best regards,
+Josef on behalf of FBO team</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1tvfq17</bpmn:incoming>
+      <bpmn:outgoing>Flow_1j7kskw</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_1eqraa6" name="BUSINESS TRIP REALIZED">
+      <bpmn:incoming>Flow_1j7kskw</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Activity_1wc32ig" name="Update business trip document" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:delegateExpression="#{exportDocumentDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="documentName">DomainBusinessTripWF</camunda:inputParameter>
+          <camunda:inputParameter name="documentModelName">DomainBusinessTripWF</camunda:inputParameter>
+          <camunda:outputParameter name="documentId">${latestExportedDocumentId}</camunda:outputParameter>
+        </camunda:inputOutput>
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="groovy">def id = execution.getVariable("latestExportedDocumentId")
+println("Updated document with ID ${id}")
+execution.setVariable("businessTripId", id.toString());</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1i2ax9d</bpmn:incoming>
+      <bpmn:outgoing>Flow_1tvfq17</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmn:error id="Error_0hbz9at" name="Error_2e9hdcp" errorCode="404" camunda:errorMessage="Trip has already been completed"/>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0zufu0t">
+      <bpmndi:BPMNShape id="Participant_1os2ca1_di" bpmnElement="Participant_1os2ca1" isHorizontal="true">
+        <dc:Bounds x="129" y="85" width="1060" height="360"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0pxx9v3_di" bpmnElement="Flow_0pxx9v3">
+        <di:waypoint x="279" y="231"/>
+        <di:waypoint x="279" y="164"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0m47y7m_di" bpmnElement="Flow_0m47y7m">
+        <di:waypoint x="304" y="256"/>
+        <di:waypoint x="369" y="256"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05c1yel_di" bpmnElement="Flow_05c1yel">
+        <di:waypoint x="217" y="256"/>
+        <di:waypoint x="254" y="256"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1flwdyz_di" bpmnElement="Flow_1flwdyz">
+        <di:waypoint x="469" y="256"/>
+        <di:waypoint x="530" y="256"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1i2ax9d_di" bpmnElement="Flow_1i2ax9d">
+        <di:waypoint x="630" y="256"/>
+        <di:waypoint x="700" y="256"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1tvfq17_di" bpmnElement="Flow_1tvfq17">
+        <di:waypoint x="800" y="256"/>
+        <di:waypoint x="860" y="256"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1j7kskw_di" bpmnElement="Flow_1j7kskw">
+        <di:waypoint x="960" y="256"/>
+        <di:waypoint x="1052" y="256"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_0mk2oh5_di" bpmnElement="Event_0mk2oh5">
+        <dc:Bounds x="181" y="238" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_14bzbyr_di" bpmnElement="Activity_14bzbyr">
+        <dc:Bounds x="369" y="216" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0b4jizb_di" bpmnElement="Gateway_0b4jizb" isMarkerVisible="true">
+        <dc:Bounds x="254" y="231" width="50" height="50"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_096sp05_di" bpmnElement="Event_096sp05">
+        <dc:Bounds x="261" y="128" width="36" height="36"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="239" y="98" width="80" height="27"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_12y4r3a_di" bpmnElement="Activity_12y4r3a">
+        <dc:Bounds x="530" y="216" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_02pa5wn_di" bpmnElement="Activity_02pa5wn">
+        <dc:Bounds x="860" y="216" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1eqraa6_di" bpmnElement="Event_1eqraa6">
+        <dc:Bounds x="1052" y="238" width="36" height="36"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1029" y="281" width="84" height="27"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1wc32ig_di" bpmnElement="Activity_1wc32ig">
+        <dc:Bounds x="700" y="216" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,118 @@
+buildscript {
+    dependencies {
+        classpath libs.kotlin.noarg
+    }
+}
+
+plugins {
+    alias libs.plugins.kotlin.jvm
+    alias libs.plugins.artifact.publish
+    id 'com.mgmtp.a12.workflows.conventions.kotlin'
+}
+
+// JAXB configuration holds classpath for running the JAXB XJC compiler
+configurations {
+    jaxb
+}
+
+dependencies {
+    // Kotlin
+    implementation libs.bundles.kotlin
+
+    testImplementation libs.testingCatalog.junit5
+    testRuntimeOnly libs.testingCatalog.junit5.engine
+    testImplementation libs.bundles.testingCatalog.xmlunit
+    testImplementation libs.bundles.testingCatalog.unittest
+
+    // Spring
+    implementation libs.spring.core
+
+    // Utility
+    implementation libs.bundles.slf4j
+    implementation libs.lombok
+    annotationProcessor libs.lombok
+
+    // Workflow Migration
+    implementation libs.commons.cli
+    implementation libs.jdom
+    implementation libs.commons.lang3
+    implementation libs.commons.io
+
+    implementation libs.jaxb.core
+    jaxb libs.jaxb.xjc
+    jaxb libs.jaxb.runtime
+
+    implementation libs.jaxen
+
+    // The next two dependencies are not necessary for generating code, only when running the code:
+    // Generated code depends on the JAXB API, which is removed from base Java in JDK 11, and therefore needs to be added
+    implementation libs.jaxb.runtime
+    implementation libs.jakarta.xml.bind
+}
+
+tasks.register("packageMigrator", Jar) {
+    dependsOn configurations.runtimeClasspath
+    from sourceSets.main.output
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith("jar") }.collect { zipTree(it) }
+    }
+
+    duplicatesStrategy DuplicatesStrategy.EXCLUDE
+    archiveClassifier = "jar-with-dependencies"
+
+    manifest {
+        attributes "Main-Class": "com.mgmtp.a12.model.workflows.migration.WorkflowsMigratorCLI"
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.withType(Test).configureEach {
+    jvmArgs '-Xmx1g'
+}
+
+sourceSets {
+    test {
+        kotlin.srcDir("src/test/kotlin")
+        kotlin {
+            compileClasspath += sourceSets["main"].output
+            runtimeClasspath += sourceSets["main"].output
+        }
+    }
+}
+
+// Task for generation config beans
+tasks.register("MigratorConfig-xsd", JavaExec) {
+    classpath configurations.jaxb
+    mainClass = 'com.sun.tools.xjc.XJCFacade'
+
+    args "src/main/resources/xml/schema/MigratorConfig.xsd", "-b", "src/main/resources/xml/schema/MigratorBindings.xjb", "-p", "com.mgmtp.a12.model.workflows.migration.config.types", "-d", "src/main/java", "-no-header", "-extension"
+
+    systemProperties = [
+            'user.language': 'en'
+    ]
+}
+
+tasks.register("generateBeans") {
+    description "Generate Java sources from XSD files"
+    dependsOn tasks.named("MigratorConfig-xsd")
+}
+
+tasks.named("assemble") {
+    dependsOn tasks.named("generateBeans")
+    dependsOn tasks.named("packageMigrator")
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifact tasks.named("packageMigrator")
+        }
+    }
+}
+
+a12Publish {
+    maven {}
+}

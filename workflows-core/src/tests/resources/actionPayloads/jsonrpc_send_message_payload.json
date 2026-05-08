@@ -1,0 +1,9 @@
+{
+    "processInstanceId": "abc",
+    "messageName": "EVENT_ACCEPT",
+    "payload": {
+      "variable": "test"
+    },
+    "businessKey": "businessKey"
+}
+

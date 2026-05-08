@@ -1,0 +1,53 @@
+plugins {
+    id 'java-library'
+    id 'base'
+    alias libs.plugins.springboot
+    alias libs.plugins.kotlin.spring
+}
+
+apply plugin: "org.jetbrains.kotlin.jvm"
+
+dependencies {
+
+    api project(":workflows-shared-dtos")
+
+    // Spring
+    implementation libs.spring.boot.web
+    annotationProcessor libs.spring.boot.config.processor
+    developmentOnly libs.spring.boot.devtools
+    implementation libs.vulnerabilityOverrides.snakeyaml
+    api libs.spring.boot
+
+    // A12 UAA
+    implementation libs.a12.uaa.client.autoconfig
+
+    // A12 Utils
+    api libs.a12.rest.server.connector.autoconfig
+
+    // Jackson
+    implementation libs.jackson.kotlin
+    api libs.jackson.annotations
+}
+
+testing {
+    suites {
+        configureEach {
+            useJUnitJupiter()
+        }
+
+        test {
+            dependencies {
+                implementation.bundle libs.bundles.testingCatalog.unittest
+                implementation testFixtures(project(":workflows-shared-functions"))
+            }
+        }
+    }
+}
+
+jar {
+    archiveClassifier.set("")
+}
+
+bootJar {
+    enabled = false
+}

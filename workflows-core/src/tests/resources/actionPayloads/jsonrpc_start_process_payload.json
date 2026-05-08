@@ -1,0 +1,9 @@
+{
+    "processDefinition": "TestProcess",
+    "businessKey": "abc",
+    "variables": {
+      "customerDocRef": "Customer/17",
+      "moreDocRefs": ["Order/3", "Order/4"]
+    }
+}
+

@@ -1,0 +1,29 @@
+{
+  "id": "1",
+  "A12WF": {
+    "Task": {
+      "ID": "1234"
+    }
+  },
+  "repeatableGroup": [
+    {"repeatedAnnotatedString":  "repeatedAnnotatedString1"},
+    {"repeatedAnnotatedString":  "repeatedAnnotatedString2"},
+    {"repeatedAnnotatedString":  "repeatedAnnotatedString3"}
+  ],
+  "simpleGroup": {
+    "simpleAnnotatedString": "simpleAnnotatedString",
+    "simpleAnnotatedBoolean": "true",
+    "simpleNormalField": "simpleNormalField",
+    "simpleAnnotatedNumber": 1,
+    "simpleAnnotatedDate": "2023-01-01",
+    "simpleAnnotatedDateTime": "2023-01-01T01:01:01",
+    "simpleAnnotatedTime": "01:01:01",
+    "simpleAnnotatedDateFragment": "2023-01",
+    "simpleAnnotatedDateRange": "2023/2024",
+    "simpleAnnotatedConfirm": "simpleAnnotatedConfirm",
+    "simpleAnnotatedEnumeration": "VALUE_1",
+    "simpleComputatedAnnotatedField": "simpleComputatedAnnotatedField",
+    "simpleAnnotatedEmptyField": "",
+    "simpleAnnotatedNullField": null
+  }
+}

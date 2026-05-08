@@ -1,0 +1,10 @@
+**\node_modules
+target
+lib
+build
+*.md
+.eslintrc.js
+prettier.config.js
+*.json
+webpack.config.js
+header.js

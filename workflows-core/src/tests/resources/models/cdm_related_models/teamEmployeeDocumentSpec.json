@@ -1,0 +1,60 @@
+{
+    "docRef": "TeamEmployee_CDM/Team_DM/1",
+    "documentModelName": "TeamEmployee_CDM",
+    "document": {
+        "Team": {
+            "TeamName": "Development",
+            "A12WF": {
+                "ProcessDefinition": {
+                    "Key": "TeamProcessDefinitionKey",
+                    "Name": "TeamProcessDefinitionName"
+                },
+                "TaskDefinition": {
+                    "Key": "TeamTaskDefinitionKey",
+                    "Name": "TeamTaskDefinitionName",
+                    "FormKey": "TeamFormKey"
+                },
+                "Process": {
+                    "ID": "TeamProcessID",
+                    "BusinessKey": "TeamBusinessKey",
+                    "Initiator": "TeamInitiator"
+                },
+                "Task": {
+                    "ID": "TeamTaskID",
+                    "CreationDate": "2022-02-11T09:20:00",
+                    "DueDate": "2022-02-20T09:20:00",
+                    "Assignee": "TeamTaskAssignee"
+                }
+            }
+        },
+        "TeamEmployee_RM": [
+            {
+                "Employee": {
+                    "Name": "John",
+                    "A12WF": {
+                        "ProcessDefinition": {
+                            "Key": "EmployeeProcessDefinitionKey",
+                            "Name": "EmployeeProcessDefinitionName"
+                        },
+                        "TaskDefinition": {
+                            "Key": "EmployeeTaskDefinitionKey",
+                            "Name": "EmployeeTaskDefinitionName",
+                            "FormKey": "EmployeeFormKey"
+                        },
+                        "Process": {
+                            "ID": "EmployeeProcessID",
+                            "BusinessKey": "EmployeeBusinessKey",
+                            "Initiator": "EmployeeInitiator"
+                        },
+                        "Task": {
+                            "ID": "EmployeeTaskID",
+                            "CreationDate": "2022-02-11T09:20:00",
+                            "DueDate": "2022-02-20T09:20:00",
+                            "Assignee": "EmployeeTaskAssignee"
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}

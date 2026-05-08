@@ -1,0 +1,18 @@
+{
+  "id": "40",
+  "A12WF": {
+    "ProcessDefinition": {
+      "Key": "SomeProcessDefinition:530d14f2-107f-11ec-8308-803253632ada",
+      "Name": "SomeProcessDefinition"
+    },
+    "Process": {
+      "ID": "530d14f2-107f-11ec-8308-803253632ada",
+      "BusinessKey": "SomeBusinessKey",
+      "Initiator": "SomeInitiator"
+    },
+    "WorkflowsInternalDocumentStatus": "NON_EMPTY"
+  },
+  "person": {
+    "name": "John"
+  }
+}

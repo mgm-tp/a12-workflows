@@ -1,0 +1,93 @@
+{
+  "header": {
+    "id": "Employee_DM",
+    "modelType": "document",
+    "modelVersion": "28.3.0",
+    "locales": [
+      {
+        "code": "en"
+      },
+      {
+        "code": "de"
+      }
+    ],
+    "labels": [],
+    "annotations": [
+      {
+        "name": "roles",
+        "value": "tester,reviewer"
+      }
+    ],
+    "modelReferences": [
+      {
+        "alias": "WorkflowsMetadata_DM",
+        "modelType": "document",
+        "purpose": "include",
+        "reference": "WorkflowsMetadata_DM"
+      }
+    ]
+  },
+  "content": {
+    "modelInfo": {
+      "name": "Employee_DM",
+      "immutable": false,
+      "joinedModelsInfo": "Employee_DM-document-meta-data+Add"
+    },
+    "modelConfig": {
+      "decimalSeparator": ".",
+      "timeZone": "UTC",
+      "conditionLanguage": {
+        "code": "en_US"
+      }
+    },
+    "modelRoot": {
+      "rootGroups": [
+        {
+          "type": "Group",
+          "id": "group_7b666",
+          "name": "Employee",
+          "Group": {
+            "repeatability": 1,
+            "elements": [
+              {
+                "type": "Field",
+                "id": "field_99c3b",
+                "name": "Name",
+                "Field": {
+                  "fieldType": {
+                    "type": "StringType",
+                    "StringType": {
+                      "minLength": 1
+                    }
+                  },
+                  "label": [
+                    {
+                      "locale": "en",
+                      "text": "Name"
+                    },
+                    {
+                      "locale": "de",
+                      "text": "Name"
+                    }
+                  ],
+                  "requirednessConfig": {
+                    "mode": "absoluteOrRelativeToNextRepAncestor"
+                  }
+                }
+              },
+              {
+                "type": "Group",
+                "id": "include_70810",
+                "name": "A12WF",
+                "Group": {
+                  "repeatability": 1,
+                  "modelAlias": "WorkflowsMetadata_DM"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

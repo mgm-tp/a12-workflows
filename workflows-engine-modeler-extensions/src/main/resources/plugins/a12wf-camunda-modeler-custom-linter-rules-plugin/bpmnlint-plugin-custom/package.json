@@ -1,0 +1,10 @@
+{
+  "name": "a12wf-custom-bpmnlint-plugin",
+  "version": "1.0.0",
+  "private": true,
+  "description": "a12 workflows bpmnlint rules plugin",
+  "main": "index.js",
+  "dependencies": {
+    "bpmnlint-utils": "^1.0.1"
+  }
+}

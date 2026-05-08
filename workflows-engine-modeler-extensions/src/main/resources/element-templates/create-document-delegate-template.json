@@ -1,0 +1,90 @@
+[
+  {
+    "$schema": "https://unpkg.com/@camunda/element-templates-json-schema/resources/schema.json",
+    "name": "Create Document Delegate Template",
+    "id": "createDocumentDelegateTemplate",
+    "description": "Choose this if you want to create a new empty document.",
+    "version": 1,
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "elementType": {
+      "value": "bpmn:ServiceTask"
+    },
+    "groups": [
+      {
+        "id": "implementation",
+        "label": "Delegate Implementation"
+      },
+      {
+        "id": "inputs",
+        "label": "Delegate Input"
+      },
+      {
+        "id": "outputs",
+        "label": "Delegate Output"
+      },
+      {
+        "id": "async",
+        "label": "Async Properties"
+      }
+    ],
+    "properties": [
+      {
+        "label": "Implementation Type",
+        "type": "String",
+        "group": "implementation",
+        "value": "${createDocumentDelegate}",
+        "editable": false,
+        "binding": {
+          "type": "property",
+          "name": "camunda:delegateExpression"
+        }
+      },
+      {
+        "label": "Document Model Name",
+        "type": "String",
+        "description": "The name of the document model for which you want to create a new document",
+        "group": "inputs",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "documentModelName"
+        },
+        "constraints": {
+          "notEmpty": true
+        }
+      },
+      {
+        "label": "Process Variable Name For New Document Reference",
+        "description": "Add a name for the process variable which stores the document reference of the created document, e.g. docRef",
+        "type": "String",
+        "group": "outputs",
+        "binding": {
+          "type": "camunda:outputParameter",
+          "source": "${newDocRef}"
+        },
+        "constraints": {
+          "notEmpty": true
+        }
+      },
+      {
+        "label": "Async before?",
+        "type": "Boolean",
+        "group": "async",
+        "binding": {
+          "type": "property",
+          "name": "camunda:asyncBefore"
+        }
+      },
+      {
+        "label": "Async after?",
+        "type": "Boolean",
+        "group": "async",
+        "binding": {
+          "type": "property",
+          "name": "camunda:asyncAfter"
+        }
+      }
+    ]
+  }
+]

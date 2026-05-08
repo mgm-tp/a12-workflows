@@ -1,0 +1,237 @@
+[bundles]
+
+a12-dataservices-core = [
+    "a12-dataservices-core",
+    "a12-dataservices-core-autoconfig",
+]
+# CIB 7 bundles
+cibseven-base-app = [
+    "cibseven-starter",
+    "cibseven-starter-rest",
+    "cibseven-starter-webapp",
+]
+
+# Libs Bundles
+artemis = [
+    "artemis-jakarta-server",
+    "spring-boot-starter-artemis",
+]
+jaxb = [
+    "jaxb-api",
+    "jaxb-runtime",
+    "activation",
+]
+jsonpath = [
+    "json-path",
+    "json-standard",
+]
+kotlin = [
+    "kotlin-stdlib",
+    "kotlin-reflect",
+]
+openapi = [
+    "spring-rest-docs",
+    "openapi-ext",
+]
+slf4j = [
+    "slf4j-simple",
+    "slf4j-api",
+]
+springboot = [
+    "spring-boot-web",
+    "spring-boot-autoconfigure",
+    "spring-boot-actuator",
+]
+
+# TestingCatalog bundles
+testingCatalog-cibseven = [
+    "testingCatalog-cibseven-assert",
+    "testingCatalog-cibseven-junit5",
+]
+testingCatalog-integrationtest = [
+    "testingCatalog-spring-boot-test",
+    "testingCatalog-spring-security-test",
+    "testingCatalog-mockk",
+    "testingCatalog-springmockk",
+    "testingCatalog-kotest-assertions-core",
+    "testingCatalog-kotest-assertions-json",
+]
+testingCatalog-unittest = [
+    "testingCatalog-junit5",
+    "testingCatalog-mockk",
+    "testingCatalog-kotest-assertions-core",
+    "testingCatalog-kotest-assertions-json",
+]
+testingCatalog-xmlunit = [
+    "testingCatalog-xmlunit-core",
+    "testingCatalog-xmlunit-assertj",
+]
+
+[plugins]
+
+kotlin-jpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "kotlinVersion" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinVersion" }
+kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlinVersion" }
+node = { id = "com.github.node-gradle.node", version.ref = "nodeVersion" }
+springboot = { id = "org.springframework.boot", version.ref = "springBootVersion" }
+
+[versions]
+
+# Versions for A12 components
+a12DataServicesVersion = "38.4.0"
+a12KernelVersion = "30.8.1"
+a12UaaVersion = "9.3.2"
+a12UtilsConnectorVersion = "8.2.1"
+
+# Versions for other libraries
+activationVersion = "1.1.1"
+apacheLoggingVersion = "2.24.3"
+artemisVersion = "2.40.0"  # Aligned with Artemis version from Spring Boot Starter Artemis
+cibsevenH2Version = "2.3.232"
+cibsevenVersion = "2.0.0"
+commonsCliVersion = "1.9.0"
+commonsCompressVersion = "1.27.1"
+commonsCsvVersion = "1.14.0"
+commonsFileuploadVersion = "1.5"
+commonsIoVersion = "2.19.0"
+commonsLang3Version = "3.17.0"
+commonsMath3Version = "3.6.1"
+hibernateVersion = "8.0.2.Final"
+jacksonVersion = "2.20.1"
+jacksonAnnotationsVersion = "2.20"
+jaxbVersion = "4.0.5"
+jaxbApiVersion = "4.0.2"
+jaxenVersion = "2.0.0"
+jaxwsVersion = "4.0.3"
+jdomVersion = "2.0.6.1"
+jimFsVersion = "1.2"
+jsonVersion = "20250107"
+jsonPathVersion = "2.9.0"
+kotlinVersion = "2.1.20"
+kotlinterVersion = "5.0.2"
+kotlinCoroutinesVersion = "1.10.2"
+nettyVersion = "4.2.1.Final"
+nodeVersion = "7.1.0"
+openapiExtVersion = "0.18.2"
+postgresVersion = "42.7.5"
+slf4jVersion = "2.0.17"
+snakeyamlVersion = "2.4"
+springVersion = "6.2.15"
+springBootVersion = "3.5.9"
+springRestDocsVersion = "3.0.1"
+springSecurityVersion = "6.5.7"
+vertxVersion = "4.5.14"
+xmlBindVersion = "4.0.2"
+
+# Versions for test libraries
+awaitilityVersion = "4.3.0"
+junitVersion = "5.11.3"
+kotestVersion = "5.9.1"
+mockkVersion = "1.14.2"
+springmockkVersion = "4.0.2"
+xmlunitVersion = "2.10.0"
+
+[libraries]
+
+# A12 libraries
+a12-dataservices-client-autoconfig = { group = "com.mgmtp.a12.dataservices", name = "dataservices-client-spring-boot-autoconfigure", version.ref = "a12DataServicesVersion" }
+a12-dataservices-core = { group = "com.mgmtp.a12.dataservices", name = "dataservices-core", version.ref = "a12DataServicesVersion" }
+a12-dataservices-core-autoconfig = { group = "com.mgmtp.a12.dataservices", name = "dataservices-core-spring-boot-autoconfigure", version.ref = "a12DataServicesVersion" }
+a12-dataservices-domain = { group = "com.mgmtp.a12.dataservices", name = "dataservices-domain", version.ref = "a12DataServicesVersion" }
+a12-dataservices-server-app = { group = "com.mgmtp.a12.dataservices", name = "dataservices-server-app", version.ref = "a12DataServicesVersion" }
+a12-dataservices-server-autoconfig = { group = "com.mgmtp.a12.dataservices", name = "dataservices-server-spring-boot-autoconfigure", version.ref = "a12DataServicesVersion" }
+
+a12-kernel-conversion-java = { group = "com.mgmtp.a12.kernel", name = "kernel-conversion-java", version.ref = "a12KernelVersion" }
+
+a12-rest-server-connector-autoconfig = { group = "com.mgmtp.a12.utils", name = "utils-rest-server-connector-spring-boot-autoconfigure", version.ref = "a12UtilsConnectorVersion" }
+
+a12-uaa-authentication = { group = "com.mgmtp.a12.uaa", name = "uaa-authentication", version.ref = "a12UaaVersion" }
+a12-uaa-client-autoconfig = { group = "com.mgmtp.a12.uaa", name = "uaa-rest-client-spring-boot-autoconfigure", version.ref = "a12UaaVersion" }
+a12-uaa-principal-extension = { group = "com.mgmtp.a12.uaa", name = "uaa-authentication-principal-extension", version.ref = "a12UaaVersion" }
+a12-uaa-principal-extension-autoconfig = { group = "com.mgmtp.a12.uaa", name = "uaa-authentication-principal-extension-spring-boot-autoconfigure", version.ref = "a12UaaVersion" }
+
+# CIB 7 libraries
+cibseven-connectors-all = { group = "org.cibseven.connect", name = "cibseven-connect-connectors-all", version.ref = "cibsevenVersion" }
+cibseven-engine = { group = "org.cibseven.bpm", name = "cibseven-engine", version.ref = "cibsevenVersion" }
+cibseven-fileupload = { group = "commons-fileupload", name = "commons-fileupload", version.ref = "commonsFileuploadVersion" }
+cibseven-freemarker = { group = "org.cibseven.template-engines", name = "cibseven-template-engines-freemarker", version.ref = "cibsevenVersion" }
+cibseven-h2 = { group = "com.h2database", name = "h2", version.ref = "cibsevenH2Version" }
+cibseven-plugin-connect = { group = "org.cibseven.bpm", name = "cibseven-engine-plugin-connect", version.ref = "cibsevenVersion" }
+cibseven-postgres = { group = "org.postgresql", name = "postgresql", version.ref = "postgresVersion" }
+cibseven-starter = { group = "org.cibseven.bpm.springboot", name = "cibseven-bpm-spring-boot-starter", version.ref = "cibsevenVersion" }
+cibseven-starter-rest = { group = "org.cibseven.bpm.springboot", name = "cibseven-bpm-spring-boot-starter-rest", version.ref = "cibsevenVersion" }
+cibseven-starter-webapp = { group = "org.cibseven.bpm.springboot", name = "cibseven-bpm-spring-boot-starter-webapp", version.ref = "cibsevenVersion" }
+
+# Libraries
+activation = { group = "javax.activation", name = "activation", version.ref = "activationVersion" }
+apacheLogging = { group = "org.apache.logging.log4j", name = "log4j-core", version.ref = "apacheLoggingVersion" }
+artemis-jakarta-server = { group = "org.apache.activemq", name = "artemis-jakarta-server", version.ref = "artemisVersion" }
+commons-cli = { group = "commons-cli", name = "commons-cli", version.ref = "commonsCliVersion" }
+commons-io = { group = "commons-io", name = "commons-io", version.ref = "commonsIoVersion" }
+commons-lang3 = { group = "org.apache.commons", name = "commons-lang3", version.ref = "commonsLang3Version" }
+commonsMath3 = { group = "org.apache.commons", name = "commons-math3", version.ref = "commonsMath3Version" }
+commonsCsv = { group = "org.apache.commons", name = "commons-csv", version.ref = "commonsCsvVersion" }
+hibernate = { group = "org.hibernate.validator", name = "hibernate-validator", version.ref = "hibernateVersion" }
+jackson-annotations = { group = "com.fasterxml.jackson.core", name = "jackson-annotations", version.ref = "jacksonAnnotationsVersion" }
+jackson-databind = { group = "com.fasterxml.jackson.core", name = "jackson-databind", version.ref = "jacksonVersion" }
+jackson-kotlin = { group = "com.fasterxml.jackson.module", name = "jackson-module-kotlin", version.ref = "jacksonVersion" }
+jacksonDatatypeJdk8 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jdk8", version.ref = "jacksonVersion" }
+jacksonDatatypeJsr310 = { group = "com.fasterxml.jackson.datatype", name = "jackson-datatype-jsr310", version.ref = "jacksonVersion" }
+jakarta-xml-bind = { group = "jakarta.xml.bind", name = "jakarta.xml.bind-api", version.ref = "xmlBindVersion" }
+jaxb-api = { group = "jakarta.xml.bind", name = "jakarta.xml.bind-api", version.ref = "jaxbApiVersion" }
+jaxb-core = { group = "org.glassfish.jaxb", name = "jaxb-core", version.ref = "jaxbVersion" }
+jaxb-runtime = { group = "org.glassfish.jaxb", name = "jaxb-runtime", version.ref = "jaxbVersion" }
+jaxb-xjc = { group = "org.glassfish.jaxb", name = "jaxb-xjc", version.ref = "jaxbVersion" }
+jaxen = { group = "jaxen", name = "jaxen", version.ref = "jaxenVersion" }
+jaxws = { group = "com.sun.xml.ws", name = "jaxws-ri", version.ref = "jaxwsVersion" }
+jdbc = { group = "org.springframework.boot", name = "spring-boot-starter-jdbc", version.ref = "springBootVersion" }
+jdom = { group = "org.jdom", name = "jdom2", version.ref = "jdomVersion" }
+jimFs = { group = "com.google.jimfs", name = "jimfs", version.ref = "jimFsVersion" }
+json-standard = { group = "org.json", name = "json", version.ref = "jsonVersion" }
+json-path = { group = "com.jayway.jsonpath", name = "json-path", version.ref = "jsonPathVersion" }
+kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlinVersion" }
+kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlinVersion" }
+kotlin-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinCoroutinesVersion" }
+kotlin-noarg = { group = "org.jetbrains.kotlin", name = "kotlin-noarg", version.ref = "kotlinVersion" }
+netty-dns-resolver = { group = "io.netty", name = "netty-resolver-dns-native-macos", version.ref = "nettyVersion"}
+openapi-ext = { group = "com.epages", name = "restdocs-api-spec-mockmvc", version.ref = "openapiExtVersion" }
+pluginSpringBoot = { group = "org.springframework.boot", name = "spring-boot-gradle-plugin", version.ref = "springBootVersion" }
+slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4jVersion" }
+slf4j-simple = { group = "org.slf4j", name = "slf4j-simple", version.ref = "slf4jVersion" }
+spring-boot = { group ="org.springframework.boot", name = "spring-boot", version.ref = "springBootVersion" }
+spring-boot-actuator = { group = "org.springframework.boot", name = "spring-boot-starter-actuator", version.ref = "springBootVersion" }
+spring-boot-starter-artemis = { group = "org.springframework.boot", name = "spring-boot-starter-artemis", version.ref = "springBootVersion" }
+spring-boot-autoconfigure = { group = "org.springframework.boot", name = "spring-boot-autoconfigure", version.ref = "springBootVersion" }
+spring-boot-config-processor = { group = "org.springframework.boot", name = "spring-boot-configuration-processor", version.ref = "springBootVersion" }
+spring-boot-devtools = { group = "org.springframework.boot", name = "spring-boot-devtools", version.ref = "springBootVersion" }
+spring-boot-web = { group = "org.springframework.boot", name = "spring-boot-starter-web", version.ref = "springBootVersion" }
+spring-core = { group = "org.springframework", name = "spring-core", version.ref = "springVersion" }
+spring-rest-docs = { group = "org.springframework.restdocs", name = "spring-restdocs-mockmvc", version.ref = "springRestDocsVersion" }
+spring-security-core = { group = "org.springframework.security", name = "spring-security-core", version.ref = "springSecurityVersion" }
+spring-security-oauth2 = { group = "org.springframework.security", name = "spring-security-oauth2-jose", version.ref = "springSecurityVersion" }
+vertx = { group = "io.vertx", name = "vertx-mail-client", version.ref = "vertxVersion" }
+
+# Libraries for building gradle projects
+gradleBuild-spring-boot-gradle-plugin = { group = "org.springframework.boot", name = "spring-boot-gradle-plugin", version.ref = "springBootVersion" }
+gradleBuild-kotlin-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlinVersion"}
+gradleBuild-kotlinter-plugin = { group = "org.jmailen.gradle", name = "kotlinter-gradle", version.ref = "kotlinterVersion"}
+
+# Vulnerability Overrides
+vulnerabilityOverrides-commons-compress = { group = "org.apache.commons", name = "commons-compress", version.ref = "commonsCompressVersion" }    #CVE-2023-42503, 1.22 -> 1.24.0
+vulnerabilityOverrides-snakeyaml = { group = "org.yaml", name = "snakeyaml", version.ref = "snakeyamlVersion" }    # CVE-2022-25857 1.30 -> 1.31, CVE-2022-38752 1.31 -> 1.33, CVE-2022-1471 1.33 -> 2.2
+
+# TestingCatalog libraries
+testingCatalog-awaitility = { group = "org.awaitility", name = "awaitility", version.ref = "awaitilityVersion" }
+testingCatalog-cibseven-assert = { group = "org.cibseven.bpm", name = "cibseven-bpm-assert", version.ref = "cibsevenVersion" }
+testingCatalog-cibseven-engine = { group = "org.cibseven.bpm", name = "cibseven-engine", version.ref = "cibsevenVersion" }
+testingCatalog-cibseven-junit5 = { group = "org.cibseven.bpm", name = "cibseven-bpm-junit5", version.ref = "cibsevenVersion" }
+testingCatalog-junit5 = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitVersion" }
+testingCatalog-junit5-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junitVersion" }
+testingCatalog-kotest-assertions-core = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotestVersion" }
+testingCatalog-kotest-assertions-json = { group = "io.kotest", name = "kotest-assertions-json", version.ref = "kotestVersion" }
+testingCatalog-mockk = { group = "io.mockk", name = "mockk", version.ref = "mockkVersion" }
+testingCatalog-springmockk = { group = "com.ninja-squad", name = "springmockk", version.ref = "springmockkVersion" }
+testingCatalog-spring-boot-test = { group = "org.springframework.boot", name = "spring-boot-starter-test", version.ref = "springBootVersion" }
+testingCatalog-spring-security-test = { group = "org.springframework.security", name = "spring-security-test", version.ref = "springSecurityVersion" }
+testingCatalog-xmlunit-assertj = { group = "org.xmlunit", name = "xmlunit-assertj3", version.ref = "xmlunitVersion" }
+testingCatalog-xmlunit-core = { group = "org.xmlunit", name = "xmlunit-core", version.ref = "xmlunitVersion" }

@@ -1,0 +1,12 @@
+[
+  {
+    "jsonrpc": "2.0",
+    "id": "assignTask-111",
+    "method": "ASSIGN_TASK",
+    "params": {
+      "docRef": "%s",
+      "assignee": "newAssignee",
+      "locale": "invalid"
+    }
+  }
+]

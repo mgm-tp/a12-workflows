@@ -1,0 +1,90 @@
+////
+SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
+Copyright (c) 2012-2026 mgm technology partners GmbH
+Dual License
+This source file is part of the mgm A12 Platform and available under a choice of two different licenses:
+1. Open-Source License – EUPL v1.2
+You may redistribute and/or modify this file under the terms of the European Union Public License, version 1.2 - see https://eupl.eu/.
+2. Commercial License
+Alternatively, you may obtain a commercial license from mgm technology partners GmbH, that permits use of this software under different terms (including support and maintenance services).
+
+Please contact a12-license@mgm-tp.com for more information.
+
+You must select and comply with exactly one of the above license options.
+
+Warranty Disclaimer (applies to either option)
+THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
+////
+[[anchor-automatic-migration]]
+= Automatic Migration
+
+Since 2024.06, A12 components provide artifacts for automatic code migration where possible, to make migrations faster and less error-prone.
+
+Since we provide backend as well as frontend modules, we are using <<anchor-codemod,Codemod>> for frontend migration.
+
+[[anchor-codemod]]
+== Migrating with Codemod/Hypermod
+
+For our frontend module, we provide link:https://www.hypermod.io/docs[Hypermod] transformers via the artifact `com.mgmtp.a12.workflows/workflows-codemod`.
+
+You can run the transforms of this artifact with the following command (might be different depending on your CLI implementation):
+
+`npx @com.mgmtp.a12.workflows/workflows-codemod@<workflows-version> <path-to-your-frontend-sources> --targetVersion <version>`
+
+For 2025.06, `<workflows-version>` is `12.0.0` and the corresponding `<version>` is `12`.
+
+=== Transforms
+
+==== A12 Workflows 12.0.0
+
+The `workflows-codemod@12.0.0` will do the following changes:
+
+* Removes TaskOverviewDataProvider defined as `new TaskOverviewDataProvider()` or `taskOverviewDataProvider` and inserts the Workflows specific Data Loader as argument into Overview Engine's Data provider.
+** Adjusts the imports respectively.
+** TaskOverviewDataProvider does not exist any more and Workflows Data Loader in combination with Overview Engine's Data provider enables showing tasks on the Workflows specific `TaskList`.
+
+==== A12 Workflows 11.0.0
+
+The `workflows-codemod@11.0.0` will do the following changes:
+
+* Replacing all imports for the `workflows-access` library with imports for `workflows-core`
+** The `workflows-core` library now contains all contents from the `workflows-access` library, see also <<anchor-integration-frontend,A12 Workflows frontend integration>>
+
+[[anchor-bpmn-model-migration-tool]]
+== BPMN Model Migration Tool
+
+For BPMN migration, we provide an artifact which can be run via CLI.
+
+It is necessary to specify BPMN file or directory to migrate, and also provide at least the current model version you are using.
+
+=== Options
+
+There are a couple of options to use with the migration tool:
+
+- `-b` or `--backup`: Creates a backup (.bak file) before migrating a model
+- `-d` or `--debug` : Enables debug mode, which prints migration infos of steps
+- `-h` or `--help`: Prints the command line options
+- `-n` or `--no-validation`: Skips validation of the model against schema definitions after migration (not recommended)
+- `-o` or `--optional`: Enables optional migration steps, enable by listing the names of the steps
+- `-t` or `--test`: Prints migrated model to stdout instead of to a file
+- `-smv` or `--source-model-version`: Version to start migration from [mandatory]
+- `-tmv` or `--target-model-version`: Version until migration shall be run including the specified version. [optional]
+
+=== How to Run
+
+The following will migrate `SetDocumentFieldDelegate.bpmn` which is located in the directory in which the command is executed, creates a backup and performs migration from model version 10.0.0 until the latest model version available:
+
+[source,bash]
+----
+java -jar workflows-model-migration-tool-<VERSION>-jar-with-dependencies.jar SetDocumentFieldDelegate.bpmn -b -smv 10.0.0
+----
+
+[NOTE]
+====
+You can also migrate multiple BPMN files. In this case, please provide the path to a folder containing those files.
+
+[source,bash]
+----
+java -jar workflows-model-migration-tool-<VERSION>-jar-with-dependencies.jar your/bpmn/file/path -b -smv 10.0.0
+----
+====

@@ -1,0 +1,124 @@
+[
+  {
+    "$schema": "https://unpkg.com/@camunda/element-templates-json-schema/resources/schema.json",
+    "name": "Set Status Delegate Template",
+    "id": "setStatusDelegateTemplate",
+    "description": "Choose this if you want to change the status in your document.",
+    "version": 1,
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "elementType": {
+      "value": "bpmn:ServiceTask"
+    },
+    "groups": [
+      {
+        "id": "implementation",
+        "label": "Delegate Implementation"
+      },
+      {
+        "id": "inputs",
+        "label": "Delegate Inputs"
+      },
+      {
+        "id": "async",
+        "label": "Async Properties"
+      }
+    ],
+    "properties": [
+      {
+        "label": "Implementation Type",
+        "type": "String",
+        "group": "implementation",
+        "value": "${setStatusDelegate}",
+        "editable": false,
+        "binding": {
+          "type": "property",
+          "name": "camunda:delegateExpression"
+        }
+      },
+      {
+        "label": "Document Reference",
+        "type": "String",
+        "description": "Insert an expression for your process variable storing the reference of the document you want to update, e.g. ${yourDocRef}",
+        "group": "inputs",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "documentReference"
+        },
+        "constraints": {
+          "notEmpty": true,
+          "pattern": {
+            "value": "\\${.+}",
+            "message": "Must be an expression of type ${yourDocRef}"
+          }
+        }
+      },
+      {
+        "label": "New Value",
+        "type": "String",
+        "group": "inputs",
+        "description": "The value you want to set for the status, e.g. DONE",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "newValue"
+        },
+        "constraints": {
+          "notEmpty": true
+        }
+      },
+      {
+        "label": "Path To Field",
+        "type": "String",
+        "group": "inputs",
+        "description": "The path to the status you want to update, e.g. /order/status",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "pathToField"
+        },
+        "constraints": {
+          "notEmpty": true,
+          "pattern": {
+            "value": "^/.+",
+            "message": "Must be a path of type /status or /order/status"
+          }
+        }
+      },
+      {
+        "label": "Repetitions (Optional)",
+        "type": "String",
+        "group": "inputs",
+        "description": "The repetitions required for accessing the correct status in case of repeatable groups, e.g. 10,1 for /order/status or 10,1,1 for /contract/person/name. Default: only 1s.",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "repetitions"
+        },
+        "constraints": {
+          "notEmpty": false,
+          "pattern": {
+            "value": "^$|^(\\d{1,2},\\d{1,2}).*,1$|^1$|^\\d{1,2},1$",
+            "message": "Must be of type 10,1 or 1,10,1 ..."
+          }
+        }
+      },
+      {
+        "label": "Async before?",
+        "type": "Boolean",
+        "group": "async",
+        "binding": {
+          "type": "property",
+          "name": "camunda:asyncBefore"
+        }
+      },
+      {
+        "label": "Async after?",
+        "type": "Boolean",
+        "group": "async",
+        "binding": {
+          "type": "property",
+          "name": "camunda:asyncAfter"
+        }
+      }
+    ]
+  }
+]

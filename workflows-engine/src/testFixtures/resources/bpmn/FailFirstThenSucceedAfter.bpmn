@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0nemn5j" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.25.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.20.0">
+  <bpmn:process id="failFirstThenSucceedAfterProcessId" name="Fail first then succeed after process" isExecutable="true" camunda:historyTimeToLive="180">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${execution.setVariable(&#34;counter&#34;, &#34;0&#34;)}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_1bzrrxf</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1bzrrxf" sourceRef="StartEvent_1" targetRef="userTaskA" />
+    <bpmn:sequenceFlow id="Flow_1hzb3wt" sourceRef="failFirstThenSucceedAfterProcessDelegate" targetRef="userTaskB" />
+    <bpmn:userTask id="userTaskB" name="User Task B" camunda:formKey="TestForCbr_FM">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="documentReference">${documentReference}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1hzb3wt</bpmn:incoming>
+      <bpmn:outgoing>Flow_0wsyw1v</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="userTaskA" name="User Task A" camunda:formKey="TestForCbr_FM">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="documentReference">${newDocRef}</camunda:outputParameter>
+          <camunda:outputParameter name="failServiceTask">${failServiceTaskLocal}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1bzrrxf</bpmn:incoming>
+      <bpmn:outgoing>Flow_09wd7mf</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_09wd7mf" sourceRef="userTaskA" targetRef="failFirstThenSucceedAfterProcessDelegate" />
+    <bpmn:endEvent id="Event_1pdoxxz">
+      <bpmn:incoming>Flow_0wsyw1v</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0wsyw1v" sourceRef="userTaskB" targetRef="Event_1pdoxxz" />
+    <bpmn:scriptTask id="failFirstThenSucceedAfterProcessDelegate" name="fail first then succeed after delegate" scriptFormat="groovy">
+      <bpmn:incoming>Flow_09wd7mf</bpmn:incoming>
+      <bpmn:outgoing>Flow_1hzb3wt</bpmn:outgoing>
+      <bpmn:script>def skipTask = execution.getVariable("failServiceTask")
+
+println "Value of skipTask is " + skipTask
+
+if(skipTask == true) {
+println "skipTask was true"
+  throw new RuntimeException("Exception abc")
+} else {
+println "skipTask was false"
+return
+}</bpmn:script>
+    </bpmn:scriptTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="failFirstThenSucceedAfterProcessId">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="112" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0tltfg6_di" bpmnElement="userTaskB">
+        <dc:Bounds x="700" y="90" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0dnuo7w_di" bpmnElement="userTaskA">
+        <dc:Bounds x="330" y="90" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1pdoxxz_di" bpmnElement="Event_1pdoxxz">
+        <dc:Bounds x="872" y="112" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0v2me8u_di" bpmnElement="failFirstThenSucceedAfterProcessDelegate">
+        <dc:Bounds x="520" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1bzrrxf_di" bpmnElement="Flow_1bzrrxf">
+        <di:waypoint x="215" y="130" />
+        <di:waypoint x="330" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1hzb3wt_di" bpmnElement="Flow_1hzb3wt">
+        <di:waypoint x="620" y="130" />
+        <di:waypoint x="700" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_09wd7mf_di" bpmnElement="Flow_09wd7mf">
+        <di:waypoint x="430" y="130" />
+        <di:waypoint x="520" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0wsyw1v_di" bpmnElement="Flow_0wsyw1v">
+        <di:waypoint x="800" y="130" />
+        <di:waypoint x="872" y="130" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

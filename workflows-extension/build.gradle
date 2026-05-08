@@ -1,0 +1,69 @@
+plugins {
+    id 'java-library'
+    id 'base'
+    alias libs.plugins.springboot
+    alias libs.plugins.kotlin.spring
+    id 'jvm-test-suite'
+}
+
+apply plugin: "java-test-fixtures"
+apply plugin: "org.jetbrains.kotlin.jvm"
+
+dependencies {
+    api project(":workflows-engine-rest-client")
+    api project(":workflows-consumer")
+    api project(":workflows-extension-client")
+    api project(":workflows-shared-constants")
+    api project(":workflows-shared-dtos")
+    api project(":workflows-shared-logging")
+    implementation libs.a12.kernel.conversion.java
+    api libs.bundles.a12.dataservices.core  // Replacing this bundle by core-autoconfig causes issue with lockfiles
+    api libs.spring.boot.web
+    annotationProcessor libs.spring.boot.config.processor
+
+    // Jackson
+    api libs.jackson.kotlin
+
+    // Artemis JMS
+    implementation libs.bundles.artemis
+
+    developmentOnly libs.spring.boot.devtools
+
+    // Runtime dependencies are bundled into the bootJar, which needs server-app to actually be executable.
+    runtimeOnly libs.a12.dataservices.server.app
+    runtimeOnly libs.a12.uaa.principal.extension.autoconfig
+}
+
+testing {
+    suites {
+        configureEach {
+            useJUnitJupiter()
+        }
+
+        test {
+            targets.configureEach {
+                testTask.configure {
+                    systemProperty('junit.jupiter.execution.parallel.enabled', 'true')
+                    systemProperty 'junit.jupiter.execution.parallel.mode.default', 'same_thread'
+                    systemProperty 'junit.jupiter.execution.parallel.mode.classes.default', 'concurrent'
+                }
+            }
+            dependencies {
+                implementation.bundle libs.bundles.testingCatalog.unittest
+                implementation testFixtures(project())
+                implementation testFixtures(project(":workflows-shared-functions"))
+            }
+        }
+    }
+}
+
+jar {
+    archiveClassifier.set("")
+
+    include "com/**", "application-workflows-uaa.properties", "application-workflows-async.properties","application-workflows-automatic-sync.properties", "uaa/workflowsAuthorizationDefinition.json"
+}
+
+bootJar {
+    archiveClassifier.set("boot")
+    mainClass = 'com.mgmtp.a12.dataservices.server.app.ServerApplication'
+}

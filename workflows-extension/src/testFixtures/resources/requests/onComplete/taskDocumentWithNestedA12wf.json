@@ -1,0 +1,25 @@
+{
+  "id": "1",
+  "person": {
+    "name": "John",
+    "A12WF": {
+      "ProcessDefinition": {
+        "Key": "",
+        "Name": ""
+      },
+      "TaskDefinition": {
+        "Key": "",
+        "Name": ""
+      },
+      "Process": {
+        "ID": "",
+        "BusinessKey": ""
+      },
+      "Task": {
+        "ID": "8a6bd517-ec0e-11e8-8b7a-34e12db78816",
+        "CreationDate": "2018-11-19T16:19:43",
+        "Assignee": ""
+      }
+    }
+  }
+}

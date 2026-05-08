@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:mig="http://www.mgm-tp.com/a12/migration/config/v1"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.mgm-tp.com/a12/migration/config/v1"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+	<xs:element name="migrationConfig" type="mig:MigrationConfig"/>
+	<xs:complexType name="MigrationConfig">
+		<xs:sequence>
+			<xs:element name="migrationStep" type="mig:MigrationStepConfigType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="modelType" type="mig:MigratorModelType" use="required"/>
+		<xs:attribute name="currentModelVersion" type="mig:ModelVersionType"/>
+	</xs:complexType>
+
+	<xs:simpleType name="MigratorModelType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="bpmn"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="MigrationStepConfigType">
+		<xs:sequence>
+			<xs:element name="bean" type="mig:BeanType" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="sourceModelVersion" type="mig:ModelVersionType" use="required"/>
+		<xs:attribute name="targetModelVersion" type="mig:ModelVersionType" use="required"/>
+		<xs:attribute name="optional" type="xs:boolean" use="optional"/>
+	</xs:complexType>
+	<xs:simpleType name="ModelVersionType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="([1-9]?[0-9]\.)([1-9]?[0-9])(.[1-9]?[0-9]+)?"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="BeanType">
+		<xs:attribute name="class" type="xs:string">
+			<xs:annotation>
+				<xs:documentation source="java:java.lang.Class"><![CDATA[
+	The fully qualified name of the bean's class, except if it serves only
+	as a parent definition for child bean definitions.
+				]]></xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+</xs:schema>
+

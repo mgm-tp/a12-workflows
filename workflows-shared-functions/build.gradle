@@ -1,0 +1,36 @@
+plugins {
+    id 'java-library'
+    id 'base'
+    id 'jvm-test-suite'
+}
+
+apply plugin: "java-test-fixtures"
+apply plugin: "org.jetbrains.kotlin.jvm"
+
+dependencies {
+    // Jackson
+    implementation libs.jackson.kotlin
+    api libs.jackson.databind
+
+    testFixturesApi libs.jackson.kotlin
+}
+
+testing {
+    suites {
+        configureEach {
+            useJUnitJupiter()
+        }
+
+        test {
+            dependencies {
+                implementation.bundle libs.bundles.testingCatalog.unittest
+            }
+        }
+    }
+}
+
+jar {
+    archiveClassifier.set("")
+
+    include "com/**"
+}

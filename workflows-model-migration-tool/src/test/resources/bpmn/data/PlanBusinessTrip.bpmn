@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_0bww6rh" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0">
+  <bpmn:collaboration id="Collaboration_0neixfz">
+    <bpmn:participant id="Participant_1kp6flm" name="Plan Business Trip" processRef="PlanBusinessTripProcess" />
+  </bpmn:collaboration>
+  <bpmn:process id="PlanBusinessTripProcess" name="Plan Business Trip" isExecutable="true">
+    <bpmn:extensionElements>
+      <camunda:properties>
+        <camunda:property name="documentName" value="DomainBusinessTripWF" />
+        <camunda:property name="documentModelName" value="DomainBusinessTripWF" />
+      </camunda:properties>
+    </bpmn:extensionElements>
+    <bpmn:dataObjectReference id="DataObjectReference_12447ly" dataObjectRef="DataObject_1fvkwmu" />
+    <bpmn:dataObject id="DataObject_1fvkwmu" />
+    <bpmn:userTask id="UserTask_0alpa9b" name="Add business trip details" camunda:formKey="AddBusinessTripDetails">
+      <bpmn:incoming>SequenceFlow_1gfkrgi</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0a8fbrd</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="UserTask_14xufsm" name="Approve business trip" camunda:formKey="ApproveBusinessTrip">
+      <bpmn:incoming>SequenceFlow_0a8fbrd</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1kjb67z</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0f6ys0x" name="BUSINESS TRIP APPROVED" default="SequenceFlow_1m1v50g">
+      <bpmn:incoming>SequenceFlow_1kjb67z</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0qrh71o</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_1m1v50g</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:parallelGateway id="ParallelGateway_0q2awzn">
+      <bpmn:incoming>SequenceFlow_0qrh71o</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_05mwau5</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0xsbu8e</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0fahb3a" name="Hotel Reservation Needed" default="SequenceFlow_0p5r5qa">
+      <bpmn:incoming>SequenceFlow_0xsbu8e</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0p5r5qa</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_17hpzhz</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="UserTask_1epziip" name="Book hotel" camunda:formKey="BookHotel">
+      <bpmn:incoming>SequenceFlow_17hpzhz</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1c6rx68</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1ti4nl4">
+      <bpmn:incoming>SequenceFlow_0p5r5qa</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1hw00on</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0qa0yfd</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:parallelGateway id="ParallelGateway_07nr98o">
+      <bpmn:incoming>SequenceFlow_0qa0yfd</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0shcdbd</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_08ztesu</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_10159to" name="Transport Reservation needed" default="SequenceFlow_1qx4cbn">
+      <bpmn:incoming>SequenceFlow_05mwau5</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0ibgwug</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_1qx4cbn</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0hrkdj9">
+      <bpmn:incoming>SequenceFlow_0ibgwug</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0d5zw7a</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0shcdbd</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="UserTask_18heagk" name="Book transport" camunda:formKey="BookTransport">
+      <bpmn:incoming>SequenceFlow_1qx4cbn</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1mea9ou</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="ServiceTask_0n4e76n" name="Send hotel confirmation email" camunda:delegateExpression="#{sendEmailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="emailAddress">#{DomainBusinessTripWF.BusinessTrip.Email}</camunda:inputParameter>
+          <camunda:inputParameter name="subject">Business Trip - Hotel Confirmation</camunda:inputParameter>
+          <camunda:inputParameter name="message">
+            <camunda:script scriptFormat="FreeMarker">&lt;#setting locale="de_DE"&gt;&lt;#t&gt;
+&lt;#t&gt;
+Dear ${DomainBusinessTripWF.BusinessTrip.Employee},
+
+Your Business Trip to your Business Trip to ${DomainBusinessTripWF.BusinessTrip.Destination} has been approved by ${DomainBusinessTripWF.BusinessTrip.Approver} and this is your hotel confirmation.
+
+&lt;#if DomainBusinessTripWF.BusinessTrip.HotelName??&gt;
+Hotel Name: ${DomainBusinessTripWF.BusinessTrip.HotelName}
+&lt;/#if&gt;
+
+&lt;#if DomainBusinessTripWF.BusinessTrip.HotelAddress??&gt;
+Hotel Address: ${DomainBusinessTripWF.BusinessTrip.HotelAddress}
+&lt;/#if&gt;
+
+Best regards,
+Josef on behalf of FBO team</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1c6rx68</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1hw00on</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_1lxjika" name="BUSINESS TRIP REJECTED&#10;&#10;">
+      <bpmn:incoming>SequenceFlow_0e9fjip</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="ServiceTask_07id89d" name="Send business trip rejected email" camunda:delegateExpression="#{sendEmailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="emailAddress">#{DomainBusinessTripWF.BusinessTrip.Email}</camunda:inputParameter>
+          <camunda:inputParameter name="subject">Business trip has been rejected</camunda:inputParameter>
+          <camunda:inputParameter name="message">
+            <camunda:script scriptFormat="FreeMarker">&lt;#setting locale="de_DE"&gt;&lt;#t&gt;
+&lt;#t&gt;
+Dear ${DomainBusinessTripWF.BusinessTrip.Employee},
+
+Your Business Trip to your Business Trip to ${DomainBusinessTripWF.BusinessTrip.Destination} has been rejected by ${DomainBusinessTripWF.BusinessTrip.Approver}.
+
+The reason for rejecting is: ${DomainBusinessTripWF.BusinessTrip.ApprovingNote}
+
+I am so sorry.
+
+Best regards,
+Josef on behalf of FBO team</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1m1v50g</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1pxk7n7</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_1npgdg2" name="Export rejected business trip document" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:delegateExpression="#{exportDocumentDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="documentName">DomainBusinessTripWF</camunda:inputParameter>
+          <camunda:inputParameter name="documentModelName">DomainBusinessTripWF</camunda:inputParameter>
+          <camunda:outputParameter name="documentId">${latestExportedDocumentId}</camunda:outputParameter>
+        </camunda:inputOutput>
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="groovy">def id = execution.getVariable("latestExportedDocumentId")
+println("Created new document with ID ${id}")
+execution.setVariable("businessTripId", id.toString());</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1pxk7n7</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_11hnadx</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_0qw4gvv" name="Send transportation confirmation email" camunda:delegateExpression="#{sendEmailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="emailAddress">#{DomainBusinessTripWF.BusinessTrip.Email}</camunda:inputParameter>
+          <camunda:inputParameter name="subject">Business Trip - Tranportation Confirmation</camunda:inputParameter>
+          <camunda:inputParameter name="message">
+            <camunda:script scriptFormat="FreeMarker">&lt;#setting locale="de_DE"&gt;&lt;#t&gt;
+&lt;#t&gt;
+Dear ${DomainBusinessTripWF.BusinessTrip.Employee},
+
+Your Business Trip to your Business Trip to ${DomainBusinessTripWF.BusinessTrip.Destination} has been approved by ${DomainBusinessTripWF.BusinessTrip.Approver} and this is your transportation confirmation.
+
+Selected type of transportation: ${DomainBusinessTripWF.BusinessTrip.Transportation}
+&lt;#if DomainBusinessTripWF.BusinessTrip.TransportationDetails??&gt;
+${DomainBusinessTripWF.BusinessTrip.TransportationDetails}
+&lt;/#if&gt;
+
+Best regards,
+Josef on behalf of FBO team</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1mea9ou</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0d5zw7a</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_1hol748" name="Link Person to rejected business trip" camunda:delegateExpression="#{createRelationshipLinkDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="relationshipModel">PersonBusinessTrip</camunda:inputParameter>
+          <camunda:inputParameter name="sourceRole">Person</camunda:inputParameter>
+          <camunda:inputParameter name="sourceDocModel">DomainPerson_DM</camunda:inputParameter>
+          <camunda:inputParameter name="sourceDocId">${DomainPerson_DM.id}</camunda:inputParameter>
+          <camunda:inputParameter name="targetRole">BusinessTrip</camunda:inputParameter>
+          <camunda:inputParameter name="targetDocModel">DomainBusinessTripWF</camunda:inputParameter>
+          <camunda:inputParameter name="targetDocId">${businessTripId}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_11hnadx</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0e9fjip</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0e9fjip" sourceRef="ServiceTask_1hol748" targetRef="EndEvent_1lxjika" />
+    <bpmn:sequenceFlow id="SequenceFlow_11hnadx" sourceRef="ServiceTask_1npgdg2" targetRef="ServiceTask_1hol748" />
+    <bpmn:sequenceFlow id="SequenceFlow_1pxk7n7" sourceRef="ServiceTask_07id89d" targetRef="ServiceTask_1npgdg2" />
+    <bpmn:sequenceFlow id="SequenceFlow_1m1v50g" sourceRef="ExclusiveGateway_0f6ys0x" targetRef="ServiceTask_07id89d" />
+    <bpmn:sequenceFlow id="SequenceFlow_0d5zw7a" sourceRef="ServiceTask_0qw4gvv" targetRef="ExclusiveGateway_0hrkdj9" />
+    <bpmn:sequenceFlow id="SequenceFlow_0klt81t" sourceRef="ServiceTask_0o3l5wh" targetRef="ServiceTask_0wivb9i" />
+    <bpmn:sequenceFlow id="SequenceFlow_1mea9ou" sourceRef="UserTask_18heagk" targetRef="ServiceTask_0qw4gvv" />
+    <bpmn:sequenceFlow id="SequenceFlow_1qx4cbn" name="YES" sourceRef="ExclusiveGateway_10159to" targetRef="UserTask_18heagk" />
+    <bpmn:sequenceFlow id="SequenceFlow_0ibgwug" name="NO" sourceRef="ExclusiveGateway_10159to" targetRef="ExclusiveGateway_0hrkdj9">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{DomainBusinessTripWF.BusinessTrip.Transportation == "OWN_CAR"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_08ztesu" sourceRef="ParallelGateway_07nr98o" targetRef="Activity_1elozv6" />
+    <bpmn:sequenceFlow id="SequenceFlow_0shcdbd" sourceRef="ExclusiveGateway_0hrkdj9" targetRef="ParallelGateway_07nr98o" />
+    <bpmn:sequenceFlow id="SequenceFlow_0qa0yfd" sourceRef="ExclusiveGateway_1ti4nl4" targetRef="ParallelGateway_07nr98o" />
+    <bpmn:sequenceFlow id="SequenceFlow_1hw00on" sourceRef="ServiceTask_0n4e76n" targetRef="ExclusiveGateway_1ti4nl4" />
+    <bpmn:sequenceFlow id="SequenceFlow_1c6rx68" sourceRef="UserTask_1epziip" targetRef="ServiceTask_0n4e76n" />
+    <bpmn:sequenceFlow id="SequenceFlow_17hpzhz" name="YES" sourceRef="ExclusiveGateway_0fahb3a" targetRef="UserTask_1epziip">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{DomainBusinessTripWF.BusinessTrip.StartDate != DomainBusinessTripWF.BusinessTrip.EndDate}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_0p5r5qa" name="NO" sourceRef="ExclusiveGateway_0fahb3a" targetRef="ExclusiveGateway_1ti4nl4" />
+    <bpmn:sequenceFlow id="SequenceFlow_0xsbu8e" sourceRef="ParallelGateway_0q2awzn" targetRef="ExclusiveGateway_0fahb3a" />
+    <bpmn:sequenceFlow id="SequenceFlow_05mwau5" sourceRef="ParallelGateway_0q2awzn" targetRef="ExclusiveGateway_10159to" />
+    <bpmn:sequenceFlow id="SequenceFlow_0qrh71o" sourceRef="ExclusiveGateway_0f6ys0x" targetRef="ParallelGateway_0q2awzn">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{DomainBusinessTripWF.BusinessTrip.BusinessTripApproved == true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_1kjb67z" sourceRef="UserTask_14xufsm" targetRef="ExclusiveGateway_0f6ys0x" />
+    <bpmn:sequenceFlow id="SequenceFlow_0a8fbrd" sourceRef="UserTask_0alpa9b" targetRef="UserTask_14xufsm" />
+    <bpmn:sequenceFlow id="SequenceFlow_1gfkrgi" sourceRef="StartEvent_1jgb9af" targetRef="UserTask_0alpa9b" />
+    <bpmn:endEvent id="EndEvent_0wi25dd" name="BUSINESS TRIP PLANNED">
+      <bpmn:incoming>Flow_1r7hh77</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="ServiceTask_0o3l5wh" name="Export realized business trip document" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:delegateExpression="#{exportDocumentDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="documentName">DomainBusinessTripWF</camunda:inputParameter>
+          <camunda:inputParameter name="documentModelName">DomainBusinessTripWF</camunda:inputParameter>
+          <camunda:outputParameter name="documentId">${latestExportedDocumentId}</camunda:outputParameter>
+        </camunda:inputOutput>
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="groovy">def id = execution.getVariable("latestExportedDocumentId")
+println("Created new document with ID ${id}")
+execution.setVariable("businessTripId", id.toString());</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1mrux1m</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0klt81t</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:scriptTask id="Activity_1gv5x6k" name="Trigger expense process" camunda:asyncBefore="true" scriptFormat="groovy">
+      <bpmn:incoming>Flow_1l89s7o</bpmn:incoming>
+      <bpmn:outgoing>Flow_1r7hh77</bpmn:outgoing>
+      <bpmn:script>def document = execution.getVariable("DomainBusinessTripWF")
+def updateId = execution.getVariable("businessTripId")
+
+Map&lt;String, Object&gt; variables = new HashMap&lt;String,Object&gt;();
+
+variables.put("DomainBusinessTripWF", [BusinessTrip: document.BusinessTrip, id: updateId.toString()]);
+
+def initiator = execution.getVariable("initiator")
+variables.put("initiator", initiator);
+
+execution.getProcessEngineServices().getRuntimeService().startProcessInstanceByKey("FillTravelExpensesProcess", variables)</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_1l89s7o" sourceRef="ServiceTask_0wivb9i" targetRef="Activity_1gv5x6k" />
+    <bpmn:sequenceFlow id="Flow_1r7hh77" sourceRef="Activity_1gv5x6k" targetRef="EndEvent_0wi25dd" />
+    <bpmn:startEvent id="StartEvent_1jgb9af" name="PLAN BUSINESS TRIP">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="groovy">def document = execution.getVariable("DomainPerson_DM")
+def processData = [BusinessTrip: [Employee : document.Person.PersonalData.FirstName + " " + document.Person.PersonalData.LastName, Email : document.Person.PersonalData.Email]]
+execution.setVariable("DomainBusinessTripWF", processData)</camunda:script>
+        </camunda:executionListener>
+        <camunda:properties>
+          <camunda:property name="inputDocumentModel" value="DomainPerson_DM" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>SequenceFlow_1gfkrgi</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Activity_1elozv6" name="Pay deposit" camunda:formKey="PayDeposit">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="groovy">def document = execution.getVariable("DomainBusinessTripWF")
+document.BusinessTrip.Status = "Planned"</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_08ztesu</bpmn:incoming>
+      <bpmn:outgoing>Flow_1mrux1m</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_1mrux1m" sourceRef="Activity_1elozv6" targetRef="ServiceTask_0o3l5wh" />
+    <bpmn:serviceTask id="ServiceTask_0wivb9i" name="Link person to realized business trip" camunda:delegateExpression="#{createRelationshipLinkDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="relationshipModel">PersonBusinessTrip</camunda:inputParameter>
+          <camunda:inputParameter name="sourceRole">Person</camunda:inputParameter>
+          <camunda:inputParameter name="sourceDocModel">DomainPerson_DM</camunda:inputParameter>
+          <camunda:inputParameter name="sourceDocId">${DomainPerson_DM.id}</camunda:inputParameter>
+          <camunda:inputParameter name="targetRole">BusinessTrip</camunda:inputParameter>
+          <camunda:inputParameter name="targetDocModel">DomainBusinessTripWF</camunda:inputParameter>
+          <camunda:inputParameter name="targetDocId">${businessTripId}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0klt81t</bpmn:incoming>
+      <bpmn:outgoing>Flow_1l89s7o</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:textAnnotation id="TextAnnotation_04lqxsk">
+      <bpmn:text>Person:  Firstname Lastname Email</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1c4ftf8" sourceRef="DataObjectReference_12447ly" targetRef="TextAnnotation_04lqxsk" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0neixfz">
+      <bpmndi:BPMNShape id="Participant_1kp6flm_di" bpmnElement="Participant_1kp6flm" isHorizontal="true">
+        <dc:Bounds x="131" y="70" width="1359" height="881" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1mrux1m_di" bpmnElement="Flow_1mrux1m">
+        <di:waypoint x="1120" y="590" />
+        <di:waypoint x="1120" y="550" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1r7hh77_di" bpmnElement="Flow_1r7hh77">
+        <di:waypoint x="1280" y="670" />
+        <di:waypoint x="1280" y="762" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1l89s7o_di" bpmnElement="Flow_1l89s7o">
+        <di:waypoint x="1280" y="550" />
+        <di:waypoint x="1280" y="590" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1gfkrgi_di" bpmnElement="SequenceFlow_1gfkrgi">
+        <di:waypoint x="248" y="630" />
+        <di:waypoint x="380" y="630" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0a8fbrd_di" bpmnElement="SequenceFlow_0a8fbrd">
+        <di:waypoint x="480" y="630" />
+        <di:waypoint x="521" y="630" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1kjb67z_di" bpmnElement="SequenceFlow_1kjb67z">
+        <di:waypoint x="621" y="630" />
+        <di:waypoint x="666" y="630" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0qrh71o_di" bpmnElement="SequenceFlow_0qrh71o">
+        <di:waypoint x="716" y="630" />
+        <di:waypoint x="776" y="630" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_05mwau5_di" bpmnElement="SequenceFlow_05mwau5">
+        <di:waypoint x="801" y="655" />
+        <di:waypoint x="801" y="695" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0xsbu8e_di" bpmnElement="SequenceFlow_0xsbu8e">
+        <di:waypoint x="801" y="605" />
+        <di:waypoint x="801" y="545" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0p5r5qa_di" bpmnElement="SequenceFlow_0p5r5qa">
+        <di:waypoint x="826" y="520" />
+        <di:waypoint x="986" y="520" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="823" y="509" width="17" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_17hpzhz_di" bpmnElement="SequenceFlow_17hpzhz">
+        <di:waypoint x="801" y="495" />
+        <di:waypoint x="801" y="270" />
+        <di:waypoint x="851" y="270" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="785" y="482" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1c6rx68_di" bpmnElement="SequenceFlow_1c6rx68">
+        <di:waypoint x="951" y="270" />
+        <di:waypoint x="1011" y="270" />
+        <di:waypoint x="1011" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1hw00on_di" bpmnElement="SequenceFlow_1hw00on">
+        <di:waypoint x="1011" y="420" />
+        <di:waypoint x="1011" y="495" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0qa0yfd_di" bpmnElement="SequenceFlow_0qa0yfd">
+        <di:waypoint x="1011" y="545" />
+        <di:waypoint x="1011" y="605" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0shcdbd_di" bpmnElement="SequenceFlow_0shcdbd">
+        <di:waypoint x="1011" y="695" />
+        <di:waypoint x="1011" y="655" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_08ztesu_di" bpmnElement="SequenceFlow_08ztesu">
+        <di:waypoint x="1036" y="630" />
+        <di:waypoint x="1070" y="630" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ibgwug_di" bpmnElement="SequenceFlow_0ibgwug">
+        <di:waypoint x="826" y="720" />
+        <di:waypoint x="986" y="720" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="837" y="702" width="17" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1qx4cbn_di" bpmnElement="SequenceFlow_1qx4cbn">
+        <di:waypoint x="801" y="745" />
+        <di:waypoint x="801" y="890" />
+        <di:waypoint x="851" y="890" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="805" y="821" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1mea9ou_di" bpmnElement="SequenceFlow_1mea9ou">
+        <di:waypoint x="951" y="890" />
+        <di:waypoint x="1011" y="890" />
+        <di:waypoint x="1011" y="860" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0klt81t_di" bpmnElement="SequenceFlow_0klt81t">
+        <di:waypoint x="1170" y="510" />
+        <di:waypoint x="1230" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0d5zw7a_di" bpmnElement="SequenceFlow_0d5zw7a">
+        <di:waypoint x="1011" y="780" />
+        <di:waypoint x="1011" y="745" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1m1v50g_di" bpmnElement="SequenceFlow_1m1v50g">
+        <di:waypoint x="691" y="605" />
+        <di:waypoint x="691" y="560" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1pxk7n7_di" bpmnElement="SequenceFlow_1pxk7n7">
+        <di:waypoint x="691" y="480" />
+        <di:waypoint x="691" y="420" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_11hnadx_di" bpmnElement="SequenceFlow_11hnadx">
+        <di:waypoint x="691" y="340" />
+        <di:waypoint x="691" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0e9fjip_di" bpmnElement="SequenceFlow_0e9fjip">
+        <di:waypoint x="691" y="190" />
+        <di:waypoint x="691" y="148" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="DataObjectReference_12447ly_di" bpmnElement="DataObjectReference_12447ly">
+        <dc:Bounds x="263" y="505" width="36" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0alpa9b_di" bpmnElement="UserTask_0alpa9b">
+        <dc:Bounds x="380" y="590" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_14xufsm_di" bpmnElement="UserTask_14xufsm">
+        <dc:Bounds x="521" y="590" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0f6ys0x_di" bpmnElement="ExclusiveGateway_0f6ys0x" isMarkerVisible="true">
+        <dc:Bounds x="666" y="605" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="691" y="646" width="84" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ParallelGateway_0q2awzn_di" bpmnElement="ParallelGateway_0q2awzn">
+        <dc:Bounds x="776" y="605" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0fahb3a_di" bpmnElement="ExclusiveGateway_0fahb3a" isMarkerVisible="true">
+        <dc:Bounds x="776" y="495" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="740" y="520" width="59" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1epziip_di" bpmnElement="UserTask_1epziip">
+        <dc:Bounds x="851" y="230" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1ti4nl4_di" bpmnElement="ExclusiveGateway_1ti4nl4" isMarkerVisible="true">
+        <dc:Bounds x="986" y="495" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ParallelGateway_07nr98o_di" bpmnElement="ParallelGateway_07nr98o">
+        <dc:Bounds x="986" y="605" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_10159to_di" bpmnElement="ExclusiveGateway_10159to" isMarkerVisible="true">
+        <dc:Bounds x="776" y="695" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="707" y="700" width="59" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0hrkdj9_di" bpmnElement="ExclusiveGateway_0hrkdj9" isMarkerVisible="true">
+        <dc:Bounds x="986" y="695" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_18heagk_di" bpmnElement="UserTask_18heagk">
+        <dc:Bounds x="851" y="850" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0n4e76n_di" bpmnElement="ServiceTask_0n4e76n">
+        <dc:Bounds x="961" y="340" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1lxjika_di" bpmnElement="EndEvent_1lxjika">
+        <dc:Bounds x="673" y="112" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="649" y="83" width="84" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_07id89d_di" bpmnElement="ServiceTask_07id89d">
+        <dc:Bounds x="641" y="480" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1npgdg2_di" bpmnElement="ServiceTask_1npgdg2">
+        <dc:Bounds x="641" y="340" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0qw4gvv_di" bpmnElement="ServiceTask_0qw4gvv">
+        <dc:Bounds x="961" y="780" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1hol748_di" bpmnElement="ServiceTask_1hol748">
+        <dc:Bounds x="641" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0wi25dd_di" bpmnElement="EndEvent_0wi25dd">
+        <dc:Bounds x="1262" y="762" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1239" y="805" width="84" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0o3l5wh_di" bpmnElement="ServiceTask_0o3l5wh">
+        <dc:Bounds x="1070" y="470" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1gv5x6k_di" bpmnElement="Activity_1gv5x6k">
+        <dc:Bounds x="1230" y="590" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1jgb9af_di" bpmnElement="StartEvent_1jgb9af">
+        <dc:Bounds x="212" y="612" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="188" y="655" width="88" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1elozv6_di" bpmnElement="Activity_1elozv6">
+        <dc:Bounds x="1070" y="590" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0wivb9i_di" bpmnElement="ServiceTask_0wivb9i">
+        <dc:Bounds x="1230" y="470" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_04lqxsk_di" bpmnElement="TextAnnotation_04lqxsk">
+        <dc:Bounds x="330" y="390" width="80" height="82" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1c4ftf8_di" bpmnElement="Association_1c4ftf8">
+        <di:waypoint x="299" y="510" />
+        <di:waypoint x="334" y="472" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

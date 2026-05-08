@@ -1,0 +1,149 @@
+////
+SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
+Copyright (c) 2012-2026 mgm technology partners GmbH
+Dual License
+This source file is part of the mgm A12 Platform and available under a choice of two different licenses:
+1. Open-Source License – EUPL v1.2
+You may redistribute and/or modify this file under the terms of the European Union Public License, version 1.2 - see https://eupl.eu/.
+2. Commercial License
+Alternatively, you may obtain a commercial license from mgm technology partners GmbH, that permits use of this software under different terms (including support and maintenance services).
+
+Please contact a12-license@mgm-tp.com for more information.
+
+You must select and comply with exactly one of the above license options.
+
+Warranty Disclaimer (applies to either option)
+THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
+////
+= Security
+
+== General
+
+For an overview of recommended security measures for A12-based projects, please refer to the link:/docs/OVERALL/security/index.html[overall security documentation,role=internal].
+
+=== Terminology
+
+Regarding terminology, we refer to two layers where security may be configured:
+
+* **Service/product level:** Spring Boot configuration, authorization rules, user setup, ...
+* **Infrastructure/network level:** firewalls, proxies, ingress configuration on Kubernetes, access- or block-listing, ...
+
+
+[[anchor-workflows-gdpr]]
+== GDPR
+
+* The fields *initiator* and *assignee* are stored in Data Services, in our Document Metadata, and transferred to CIB 7 on process start.
+* The field *initiator* is stored in the CIB 7 database. Projects have the option to <<anchor-data-encryption,encrypt data in CIB 7>>.
+* Projects can decide which data can be synchronized between A12 and CIB 7. Data Encryption in this case is also possible.
+
+== Workflows Extension
+
+[[anchor-workflows-extension-authz]]
+=== Authorization Scopes
+
+Each JSON-RPC operation requires certain user permissions.
+
+We define the following scopes in `workflowsAuthorizationDefinition.json`:
+
+[horizontal]
+TaskAssign:: Check that the user has access right to assign tasks. `#resource` is "AssignTaskOperation.rpc", `docRef` and `assignee` are available in the UAA decision context.
+TaskComplete:: Check that the user has access right to complete tasks. `#resource` is "CompleteTaskOperation.rpc", `docRef` is available in the UAA decision context.
+SendMessage:: Check that the user has access right to send messages. `#resource` is "SendMessageOperation.rpc", `messageName`, `processInstanceId`, `payload`, and `businessKey` are available in the UAA decision context.
+StartProcess:: Check that the user has access right to start processes. `#resource` is "StartProcessOperation.rpc", `processDefinition`, `businessKey`, and `variables` are available in the UAA decision context.
+GetProcessVariableUpdates (used by link:/docs/workflows/ba-docs/index.html#anchor-provided-delegates[`syncAvailableFieldsDelegate`]:: Check that CIB 7 has access right to get process variables manually by a _Service Task_. `#resource` is "GetProcessVariableUpdates.rpc", `documentReferences` is available in the UAA decision context.
+CreateMetadata (used internally):: Check that CIB 7 has access right to create Workflows metadata in a document. `#resource` is "CreateMetadataOperation.rpc", `docRef` and `metadata` are available in the UAA decision context.
+RemoveMetadata (used internally):: Check that CIB 7 has access right ro remove Workflows Metadata in a document. `#resource` is "RemoveMetadataOperation.rpc", `docRef` is available in the UAA decision context.
+
+By default we look for the following access rights on the user for authorization:
+
+* `*TASK_ASSIGN*`
+* `*TASK_COMPLETE*`
+* `*SEND_MESSAGE*`
+* `*START_PROCESS*`
+* `*GET_PROCESS_VARIABLE_UPDATES*` (only CIB 7 should have this right)
+* `*CREATE_METADATA*` (only CIB 7 should have this right)
+* `*REMOVE_METADATA*` (only CIB 7 should have this right)
+
+WARNING: If you set `child-authorization-definitions` in Data Services, include `classpath:/uaa/workflowsAuthorizationDefinition.json` or make sure that you define proper policies for all our scopes.
+See link:/docs/UAA/uaa-documentation-src/index.html#_permission_hierarchy[UAA docs: Permission Hierarchy,role=internal] for more information about `child-authorization-definitions`
+and link:/docs/UAA/uaa-documentation-src/index.html#authorization-configuration[UAA docs: Authorization Configuration] on how to to register `child-authorization-definitions` files.
+
+[[anchor-workflows-extension-secure-config]]
+=== Secure Configuration
+
+==== Basics
+
+First, read and apply link:/docs/DATA_SERVICES/dataservices-documentation-src/index.html#a12-security[*secure configuration for Data Services* ,role=internal].
+
+[[anchor-workflows-extension-secure-config-authn]]
+==== Authentication
+
+For the technical communication between Data Services and CIB 7, we recommend:
+
+* link:/docs/UAA/uaa-documentation-src/index.html#CertificateAuthentication[*CERTIFICATE mode*,role=internal] because certificates are a secure way to represent technical users (i.e., Data Services and CIB 7).
+* Alternatively, you may use your IDP as a secure way to store technical users. In this case, consider creating a separate Realm for technical users (e.g. to enforce different password policies than for human users).
+
+For details, please refer to link:/docs/UAA/uaa-documentation-src/index.html#authentication[UAA authentication,role=internal].
+
+==== Authorization
+
+. In your `mgmtp.a12.uaa.authorization.child-authorization-definitions`, please include our child authorization definition:
+
+    mgmtp.a12.uaa.authorization.child-authorization-definitions=classpath:uaa/workflowsAuthorizationDefinition.json, <YOUR_ADDITIONAL_AUTHORIZATION_DEFINITION>
+
+. Set proper authorization rules for <<anchor-workflows-extension-authz, all our UAA scopes>>.
+
+For details, please refer to link:/docs/UAA/uaa-documentation-src/index.html#authorization[UAA authorization,role=internal].
+
+== CIB 7
+
+[[anchor-cib7-secure-config]]
+=== Secure Configuration
+
+CIB 7 is *currently not secure*. Therefore, it *must be protected from any external access on infrastructure level*.
+
+==== Authentication
+
+For authentication, the <<anchor-workflows-extension-secure-config-authn,same recommendations apply as for the Workflows Extension>>.
+
+==== Authorization
+
+WARNING: Currently, CIB 7 does not integrate UAA authorization.
+
+For all configuration options, see <<anchor-cib7-config, CIB 7 configuration>>.
+
+=== Endpoints
+
+CIB 7 has an extensive https://docs.cibseven.org/manual/{cibsevenVersion}/reference/rest/[REST API] as well as an admin UI called https://docs.cibseven.org/manual/{cibsevenVersion}/webapps/cockpit/[CIB 7 Cockpit].
+
+Exposing these unsecured endpoints in production would be a **huge security issue**.
+
+WARNING: Therefore, **CIB 7 must be protected from any external access on infrastructure level**.
+
+Only Data Services needs access to CIB 7.
+
+If you don't use CIB 7 Cockpit for development, you may also remove it completely by excluding the transitive dependency to `org.cibseven.bpm.springboot:cibseven-bpm-spring-boot-starter-webapp-core`.
+
+[[anchor-cib7-security-logging]]
+=== Logging
+
+CIB 7 logs on the `INFO` level are GDPR compliant, with the exceptions mentioned in <<anchor-workflows-gdpr>>.
+
+=== Upgrading & Patching
+
+A12WF major releases integrate the latest CIB 7 release.
+
+Projects must align their CIB 7 version to the version used in their A12WF release.
+
+=== Cockpit
+
+If you do not need the CIB 7 Cockpit in production, disable it by removing the `cibseven-bpm-spring-boot-starter-webapp` dependency from your deployment. If you do need the CIB 7 Cockpit, make sure to do one of the following:
+
+* Define a default admin user in your configuration files.
+* Use an identity management system and configure it to be used by the Cockpit.
+
+
+== Summary
+* Protect all endpoints from any outside access.
+* Use `INFO` log level in CIB 7 or anonymize your logging
+* Disable the cockpit *or* configure a Cockpit admin user/identity management system.

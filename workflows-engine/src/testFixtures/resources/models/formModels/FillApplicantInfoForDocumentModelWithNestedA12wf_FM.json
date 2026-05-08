@@ -1,0 +1,321 @@
+{
+  "header": {
+    "id": "FillApplicantInfoForDocumentModelWithNestedA12wf_FM",
+    "modelType": "form",
+    "modelVersion": "37.3.0",
+    "locales": [
+      {
+        "code": "en"
+      },
+      {
+        "code": "de"
+      }
+    ],
+    "labels": [
+      {
+        "locale": "en",
+        "text": "Choose applicant"
+      },
+      {
+        "locale": "de",
+        "text": "Bewerber auswählen"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "roles",
+        "value": "admin"
+      }
+    ],
+    "modelReferences": [
+      {
+        "alias": "DomainPersonWithNestedMetadata_DM",
+        "modelType": "document",
+        "purpose": "data binding",
+        "reference": "DomainPersonWithNestedMetadata_DM"
+      }
+    ]
+  },
+  "content": {
+    "subHeaderBox": {
+      "id": "subHeaderBox1"
+    },
+    "footerBox": {
+      "id": "footerBox1",
+      "minorButtons": {
+        "button": [
+          {
+            "type": "EVENT",
+            "id": "button-fc255",
+            "name": "showDiagram",
+            "buttonStyling": {
+              "label": {
+                "type": "Multilingual",
+                "multilingualText": {
+                  "text": [
+                    {
+                      "locale": "en",
+                      "text": "Show Diagram"
+                    },
+                    {
+                      "locale": "de",
+                      "text": "Prozessdiagramm"
+                    }
+                  ]
+                }
+              },
+              "priority": "SECONDARY"
+            },
+            "event": "showDiagram",
+            "scope": "HIDDEN_IN_READONLY_MODE"
+          },
+          {
+            "type": "EVENT",
+            "id": "button-eec1e",
+            "name": "Cancel",
+            "buttonStyling": {
+              "label": {
+                "type": "Multilingual",
+                "multilingualText": {
+                  "text": [
+                    {
+                      "locale": "en",
+                      "text": "Cancel"
+                    },
+                    {
+                      "locale": "de",
+                      "text": "Abbrechen"
+                    }
+                  ]
+                }
+              },
+              "priority": "SECONDARY",
+              "destructive": true
+            },
+            "event": "cancel",
+            "scope": "HIDDEN_IN_READONLY_MODE"
+          },
+          {
+            "type": "EVENT",
+            "id": "button-3e628",
+            "name": "showHistory",
+            "buttonStyling": {
+              "label": {
+                "type": "Multilingual",
+                "multilingualText": {
+                  "text": [
+                    {
+                      "locale": "en",
+                      "text": "Show history"
+                    },
+                    {
+                      "locale": "de",
+                      "text": "Historie"
+                    }
+                  ]
+                }
+              },
+              "priority": "SECONDARY"
+            },
+            "event": "showHistoryDiagram",
+            "scope": "HIDDEN_IN_READONLY_MODE"
+          }
+        ]
+      },
+      "majorButtons": {
+        "button": [
+          {
+            "type": "EVENT",
+            "id": "button-edeed",
+            "name": "Save",
+            "buttonStyling": {
+              "label": {
+                "type": "Multilingual",
+                "multilingualText": {
+                  "text": [
+                    {
+                      "locale": "en",
+                      "text": "Save"
+                    },
+                    {
+                      "locale": "de",
+                      "text": "Speichern"
+                    }
+                  ]
+                }
+              },
+              "priority": "SECONDARY"
+            },
+            "event": "save",
+            "scope": "HIDDEN_IN_READONLY_MODE"
+          },
+          {
+            "type": "EVENT",
+            "id": "button-3ca98",
+            "name": "Proceed",
+            "buttonStyling": {
+              "label": {
+                "type": "Multilingual",
+                "multilingualText": {
+                  "text": [
+                    {
+                      "locale": "en",
+                      "text": "Proceed"
+                    },
+                    {
+                      "locale": "de",
+                      "text": "Weiter"
+                    }
+                  ]
+                }
+              },
+              "priority": "PRIMARY"
+            },
+            "event": "proceed",
+            "scope": "HIDDEN_IN_READONLY_MODE"
+          }
+        ]
+      }
+    },
+    "screens": [
+      {
+        "id": "screen1",
+        "name": "Screen1",
+        "screenElements": [
+          {
+            "type": "MultiColumnSection",
+            "id": "multicolumnsection-3a988",
+            "name": "applicant",
+            "title": {
+              "type": "Multilingual",
+              "multilingualText": {
+                "text": [
+                  {
+                    "locale": "en",
+                    "text": "Choose an applicant"
+                  }
+                ]
+              }
+            },
+            "layout": {
+              "lg": "6-6"
+            },
+            "screenElements": [
+              {
+                "type": "ControlGrid",
+                "id": "controlgrid-62387",
+                "name": "cg",
+                "title": {
+                  "type": "Multilingual",
+                  "multilingualText": {
+                    "text": [
+                      {
+                        "locale": "en",
+                        "text": "Job details"
+                      },
+                      {
+                        "locale": "de",
+                        "text": "Job Info"
+                      }
+                    ]
+                  }
+                },
+                "row": [
+                  {
+                    "type": "Row",
+                    "id": "row-3d5e0",
+                    "cell": [
+                      {
+                        "type": "Control",
+                        "id": "control-9c42f",
+                        "elementRef": "field_1ad73"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Row",
+                    "id": "row-45c04",
+                    "cell": [
+                      {
+                        "type": "Control",
+                        "id": "control-42a8b",
+                        "elementRef": "field_6775a"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Row",
+                    "id": "row-cd870",
+                    "cell": [
+                      {
+                        "type": "Control",
+                        "id": "control-c407b",
+                        "elementRef": "field_96ea7"
+                      }
+                    ]
+                  }
+                ],
+                "verticalAlignment": "BOTTOM"
+              },
+              {
+                "type": "ControlGrid",
+                "id": "controlgrid-74e97",
+                "name": "info",
+                "row": [
+                  {
+                    "type": "Row",
+                    "id": "row-80304",
+                    "cell": [
+                      {
+                        "type": "Control",
+                        "id": "control-c052d",
+                        "elementRef": "F7"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Row",
+                    "id": "row-d2575",
+                    "cell": [
+                      {
+                        "type": "Control",
+                        "id": "control-4bc91",
+                        "elementRef": "F8"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Row",
+                    "id": "row-a65d4",
+                    "cell": [
+                      {
+                        "type": "Control",
+                        "id": "control-5842e",
+                        "elementRef": "field_379e3"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Row",
+                    "id": "row-0ffdf",
+                    "cell": [
+                      {
+                        "type": "Control",
+                        "id": "control-94162",
+                        "elementRef": "group_36ede"
+                      }
+                    ]
+                  }
+                ],
+                "verticalAlignment": "TOP"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "fieldConfiguration": {},
+    "groupConfiguration": {},
+    "defaults": {}
+  }
+}

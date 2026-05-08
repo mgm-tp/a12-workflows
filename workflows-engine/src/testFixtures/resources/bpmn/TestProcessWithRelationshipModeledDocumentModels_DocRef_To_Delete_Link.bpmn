@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1menj36" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.25.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.21.0">
+  <bpmn:process id="TestProcessWithRelationshipModeledDocumentModels_DocRefToDeleteALink" name="TestProcessWithRelationshipModeledDocumentModels_DocRefToDeleteALink" isExecutable="true" camunda:historyTimeToLive="180">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1m4lixk</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1m4lixk" sourceRef="StartEvent_1" targetRef="CreateRelationshipLinkTask" />
+    <bpmn:endEvent id="Event_13ypudd">
+      <bpmn:incoming>Flow_09vcpe9</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1xsq2ud" sourceRef="CreateRelationshipLinkTask" targetRef="Gateway_04uhqyo" />
+    <bpmn:serviceTask id="CreateRelationshipLinkTask" name="Create RelationshipLink Task" camunda:delegateExpression="#{createRelationshipLinkDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="relationshipModel">${relationshipModel}</camunda:inputParameter>
+          <camunda:inputParameter name="sourceRole">${sourceRole}</camunda:inputParameter>
+          <camunda:inputParameter name="sourceDocRef">${sourceDocRef}</camunda:inputParameter>
+          <camunda:inputParameter name="targetRole">${targetRole}</camunda:inputParameter>
+          <camunda:inputParameter name="targetDocRef">${targetDocRef}</camunda:inputParameter>
+          <camunda:outputParameter name="relationshipLinkId">${newLinkId}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1m4lixk</bpmn:incoming>
+      <bpmn:outgoing>Flow_1xsq2ud</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_04uhqyo">
+      <bpmn:incoming>Flow_1xsq2ud</bpmn:incoming>
+      <bpmn:outgoing>Flow_09vcpe9</bpmn:outgoing>
+      <bpmn:outgoing>Flow_17qpr1q</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_09vcpe9" name="Id doesn&#39;t exist&#10;" sourceRef="Gateway_04uhqyo" targetRef="Event_13ypudd">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${relationshipLinkId == null}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="Event_0eh9x76">
+      <bpmn:incoming>Flow_07gdjxg</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_17qpr1q" name="Id exist" sourceRef="Gateway_04uhqyo" targetRef="TaskToVerifyIdExist">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${relationshipLinkId != null}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_07gdjxg" sourceRef="deleteRelationshipLinkTask" targetRef="Event_0eh9x76" />
+    <bpmn:serviceTask id="deleteRelationshipLinkTask" name="Delete Relationship Link Task" camunda:delegateExpression="${deleteRelationshipLinkDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="relationshipModel">${relationshipModel}</camunda:inputParameter>
+          <camunda:inputParameter name="sourceRole">${sourceRole}</camunda:inputParameter>
+          <camunda:inputParameter name="sourceDocRef">${sourceDocRef}</camunda:inputParameter>
+          <camunda:inputParameter name="targetRole">${targetRole}</camunda:inputParameter>
+          <camunda:inputParameter name="targetDocRef">${targetDocRef}</camunda:inputParameter>
+          <camunda:inputParameter name="id">${relationshipLinkId}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_06ivolh</bpmn:incoming>
+      <bpmn:outgoing>Flow_07gdjxg</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_06ivolh" sourceRef="TaskToVerifyIdExist" targetRef="deleteRelationshipLinkTask" />
+    <bpmn:userTask id="TaskToVerifyIdExist" name="Task to verify id exist" camunda:formKey="TestForCbr_FM">
+      <bpmn:incoming>Flow_17qpr1q</bpmn:incoming>
+      <bpmn:outgoing>Flow_06ivolh</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmn:error id="Error_08erq6a" name="Link Limit Reached" errorCode="LinkLimitReachedError" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="TestProcessWithRelationshipModeledDocumentModels_DocRefToDeleteALink">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="152" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0x67xsb_di" bpmnElement="CreateRelationshipLinkTask">
+        <dc:Bounds x="250" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_04uhqyo_di" bpmnElement="Gateway_04uhqyo" isMarkerVisible="true">
+        <dc:Bounds x="445" y="92" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_19ms4yc_di" bpmnElement="deleteRelationshipLinkTask">
+        <dc:Bounds x="820" y="190" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0eh9x76_di" bpmnElement="Event_0eh9x76">
+        <dc:Bounds x="1132" y="212" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1o5fryj_di" bpmnElement="TaskToVerifyIdExist">
+        <dc:Bounds x="570" y="190" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_13ypudd_di" bpmnElement="Event_13ypudd">
+        <dc:Bounds x="1132" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1m4lixk_di" bpmnElement="Flow_1m4lixk">
+        <di:waypoint x="188" y="117" />
+        <di:waypoint x="250" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1xsq2ud_di" bpmnElement="Flow_1xsq2ud">
+        <di:waypoint x="350" y="117" />
+        <di:waypoint x="445" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_09vcpe9_di" bpmnElement="Flow_09vcpe9">
+        <di:waypoint x="495" y="117" />
+        <di:waypoint x="1132" y="117" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="927" y="99" width="74" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17qpr1q_di" bpmnElement="Flow_17qpr1q">
+        <di:waypoint x="470" y="142" />
+        <di:waypoint x="470" y="230" />
+        <di:waypoint x="570" y="230" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="522" y="213" width="36" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_07gdjxg_di" bpmnElement="Flow_07gdjxg">
+        <di:waypoint x="920" y="230" />
+        <di:waypoint x="1132" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06ivolh_di" bpmnElement="Flow_06ivolh">
+        <di:waypoint x="670" y="230" />
+        <di:waypoint x="820" y="230" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

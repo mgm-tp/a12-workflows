@@ -1,0 +1,41 @@
+[
+  {
+    "$schema": "https://unpkg.com/@camunda/element-templates-json-schema/resources/schema.json",
+    "name": "User Task With Input Document",
+    "id": "userTaskWithInputDoc",
+    "entriesVisible": true,
+    "description": "Choose this if you have an existing document which the user will see or modify to work on this task.",
+    "version": 1,
+    "appliesTo": [
+      "bpmn:UserTask"
+    ],
+    "elementType": {
+      "value": "bpmn:UserTask"
+    },
+    "groups": [
+      {
+        "id": "docRefIn",
+        "label": "Input Document Reference"
+      }
+    ],
+    "properties": [
+      {
+        "label": "Document Reference Variable",
+        "description": "Insert an expression for your process variable storing the document reference of the input document, e.g. ${yourDocRef}",
+        "type": "String",
+        "group": "docRefIn",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "documentReference"
+        },
+        "constraints": {
+          "notEmpty": true,
+          "pattern": {
+            "value": "\\${.+}",
+            "message": "Must be an expression of type ${yourDocRef}"
+          }
+        }
+      }
+    ]
+  }
+]

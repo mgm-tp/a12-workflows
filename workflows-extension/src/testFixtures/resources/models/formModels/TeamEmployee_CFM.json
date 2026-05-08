@@ -1,0 +1,187 @@
+{
+  "header": {
+    "id": "TeamEmployee_CFM",
+    "modelType": "form",
+    "modelVersion": "37.3.0",
+    "locales": [
+      {
+        "code": "en"
+      },
+      {
+        "code": "de"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "bindingConfiguration",
+        "value": "[{\"details\":{\"name\":\"TeamEmployee_RM_Binding\",\"metaInformation\":{\"version\":\"1.0.0\"},\"relationshipName\":\"TeamEmployee_RM\",\"targetRole\":\"Employee\",\"techincalField_cdmChildActivitiesEnabledState\":\"notChanged\",\"modificationConfiguration\":{\"addButtonLabel\":[{\"locale\":\"en\",\"text\":\"Add Employee\"},{\"locale\":\"de\",\"text\":\"Mitarbeiter hinzufügen\"}],\"editButtonLabel\":[{\"locale\":\"en\",\"text\":\"Edit Employee\"},{\"locale\":\"de\",\"text\":\"Mitarbeiter bearbeiten\"}],\"extendParentActivityDescriptor\":true},\"components\":[{\"name\":\"TableList\",\"props\":{\"editComponent\":\"1\"},\"models\":[{\"name\":\"TeamEmployee_Employee_SelectedItems_OM\",\"use\":\"link\"}]},{\"name\":\"DualPaneSelection\",\"id\":\"1\",\"models\":[{\"name\":\"TeamEmployee_Employee_AvailableItems_OM\",\"use\":\"candidate\"},{\"name\":\"TeamEmployee_Employee_SelectedItems_OM\",\"use\":\"link\"}]}]},\"type\":\"relationship\",\"elementId\":\"detachedrepeat_9a2bf\"}]"
+      },
+      {
+        "name": "roles",
+        "value": "tester,reviewer"
+      }
+    ],
+    "modelReferences": [
+      {
+        "alias": "TeamEmployee_CDM",
+        "modelType": "document",
+        "purpose": "data binding",
+        "reference": "TeamEmployee_CDM"
+      },
+      {
+        "modelType": "overview",
+        "purpose": "bindingReference",
+        "reference": "TeamEmployee_Employee_AvailableItems_OM"
+      },
+      {
+        "modelType": "overview",
+        "purpose": "bindingReference",
+        "reference": "TeamEmployee_Employee_SelectedItems_OM"
+      }
+    ]
+  },
+  "content": {
+    "subHeaderBox": {
+      "id": "subHeaderBox1"
+    },
+    "footerBox": {
+      "id": "footerBox1",
+      "majorButtons": {
+        "button": [
+          {
+            "type": "EVENT",
+            "id": "button_50fac",
+            "name": "cancel",
+            "buttonStyling": {
+              "label": {
+                "type": "Multilingual",
+                "multilingualText": {
+                  "text": [
+                    {
+                      "locale": "en",
+                      "text": "Cancel"
+                    },
+                    {
+                      "locale": "de",
+                      "text": "Abbrechen"
+                    }
+                  ]
+                }
+              },
+              "destructive": true
+            },
+            "event": "event_cancel",
+            "scope": "HIDDEN_IN_READONLY_MODE"
+          },
+          {
+            "type": "EVENT",
+            "id": "button_4a3f6",
+            "name": "save",
+            "buttonStyling": {
+              "label": {
+                "type": "Multilingual",
+                "multilingualText": {
+                  "text": [
+                    {
+                      "locale": "en",
+                      "text": "Save"
+                    },
+                    {
+                      "locale": "de",
+                      "text": "Speichern"
+                    }
+                  ]
+                }
+              }
+            },
+            "event": "event_save",
+            "validation": "full",
+            "scope": "HIDDEN_IN_READONLY_MODE"
+          },
+          {
+            "type": "EVENT",
+            "id": "button_3448e",
+            "name": "proceed",
+            "buttonStyling": {
+              "label": {
+                "type": "Multilingual",
+                "multilingualText": {
+                  "text": [
+                    {
+                      "locale": "en",
+                      "text": "Submit"
+                    },
+                    {
+                      "locale": "de",
+                      "text": "Absenden"
+                    }
+                  ]
+                }
+              },
+              "priority": "PRIMARY"
+            },
+            "event": "proceed",
+            "validation": "full",
+            "scope": "HIDDEN_IN_READONLY_MODE"
+          }
+        ]
+      }
+    },
+    "screens": [
+      {
+        "id": "screen_dcb1d",
+        "name": "Screen 1",
+        "screenElements": [
+          {
+            "type": "ControlGrid",
+            "id": "controlgrid_1467d",
+            "name": "CG1",
+            "row": [
+              {
+                "type": "Row",
+                "id": "row_abd15",
+                "title": {
+                  "type": "Multilingual",
+                  "multilingualText": {
+                    "text": [
+                      {
+                        "locale": "en",
+                        "text": "Team"
+                      },
+                      {
+                        "locale": "de",
+                        "text": "Team"
+                      }
+                    ]
+                  }
+                },
+                "cell": [
+                  {
+                    "type": "Control",
+                    "id": "control_d1235",
+                    "elementRef": "include_edfb9_field_c9ad3"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "DetachedRepeat",
+            "id": "detachedrepeat_9a2bf",
+            "name": "TeamEmployee_RM_Binding",
+            "groupRef": "group_1ea83",
+            "enableAdd": true,
+            "detailScreen": {
+              "id": "screen_f6c9d",
+              "name": "Details",
+              "screenElements": []
+            }
+          }
+        ]
+      }
+    ],
+    "fieldConfiguration": {},
+    "groupConfiguration": {},
+    "defaults": {}
+  }
+}

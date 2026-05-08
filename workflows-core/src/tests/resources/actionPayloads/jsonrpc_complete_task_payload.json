@@ -1,0 +1,22 @@
+{
+    "activityId": "",
+    "docRef": "23",
+    "document": {
+        "Person": {
+            "PersonalData": {
+                "FirstName": "John",
+                "LastName": "Wilson",
+                "Email": "john@mgm.com",
+                "DateOfBirth": "1987-10-11",
+                "Nationality": "British",
+                "PlaceOfBirth": "London"
+            },
+            "Phones": [
+                {
+                    "PhoneNumber": "123456",
+                    "Type": "WORK"
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,90 @@
+{
+  "header": {
+    "id": "SimplePerson_DM",
+    "modelType": "document",
+    "modelVersion": "28.3.0",
+    "locales": [
+      {
+        "code": "en"
+      }
+    ],
+    "labels": [
+      {
+        "locale": "en",
+        "text": "SimplePerson_DM"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "roles",
+        "value": "admin"
+      }
+    ],
+    "modelReferences": [
+      {
+        "alias": "WorkflowsMetadata_DM",
+        "modelType": "document",
+        "purpose": "include",
+        "reference": "WorkflowsMetadata_DM"
+      }
+    ]
+  },
+  "content": {
+    "modelInfo": {
+      "name": "SimplePerson_DM",
+      "immutable": false
+    },
+    "modelConfig": {
+      "decimalSeparator": ".",
+      "timeZone": "UTC",
+      "conditionLanguage": {
+        "code": "en_US"
+      }
+    },
+    "modelRoot": {
+      "rootGroups": [
+        {
+          "type": "Group",
+          "id": "group_d0314",
+          "name": "person",
+          "Group": {
+            "repeatability": 1,
+            "elements": [
+              {
+                "type": "Field",
+                "id": "field_6257f",
+                "name": "name",
+                "Field": {
+                  "fieldType": {
+                    "type": "StringType",
+                    "StringType": {
+                      "minLength": 2
+                    }
+                  },
+                  "label": [
+                    {
+                      "locale": "en",
+                      "text": "Name"
+                    }
+                  ],
+                  "requirednessConfig": {
+                    "mode": "absoluteOrRelativeToNextRepAncestor"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Group",
+          "id": "include_dc786",
+          "name": "A12WF",
+          "Group": {
+            "repeatability": 1,
+            "modelAlias": "WorkflowsMetadata_DM"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "header": {
+    "id": "Status_DM",
+    "modelType": "document",
+    "modelVersion": "28.3.0",
+    "locales": [
+      {
+        "code": "en"
+      },
+      {
+        "code": "de"
+      }
+    ],
+    "labels": [],
+    "annotations": [
+      {
+        "name": "roles",
+        "value": "admin"
+      }
+    ],
+    "modelReferences": [
+      {
+        "alias": "WorkflowsMetadata_DM",
+        "modelType": "document",
+        "purpose": "include",
+        "reference": "WorkflowsMetadata_DM"
+      }
+    ]
+  },
+  "content": {
+    "modelInfo": {
+      "name": "Status_DM"
+    },
+    "modelConfig": {
+      "decimalSeparator": ".",
+      "timeZone": "UTC",
+      "conditionLanguage": {
+        "code": "en_US"
+      }
+    },
+    "modelRoot": {
+      "rootGroups": [
+        {
+          "type": "Group",
+          "id": "group_0eb60",
+          "name": "status",
+          "Group": {
+            "repeatability": 1,
+            "elements": [
+              {
+                "type": "Field",
+                "id": "field_031fe",
+                "name": "status",
+                "Field": {
+                  "fieldType": {
+                    "type": "StringType"
+                  },
+                  "label": [
+                    {
+                      "locale": "en",
+                      "text": "status"
+                    },
+                    {
+                      "locale": "de",
+                      "text": "status"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Group",
+          "id": "include_18bef",
+          "name": "A12WF",
+          "Group": {
+            "repeatability": 1,
+            "modelAlias": "WorkflowsMetadata_DM"
+          }
+        }
+      ]
+    }
+  }
+}

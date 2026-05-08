@@ -1,0 +1,14 @@
+rootProject.name = 'workflows'
+
+include 'workflows-engine'
+include 'workflows-engine-modeler-extensions'
+include 'workflows-engine-rest-client'
+include 'workflows-consumer'
+include 'workflows-extension'
+include 'workflows-extension-client'
+
+include 'workflows-shared-constants'
+include 'workflows-shared-dtos'
+include 'workflows-shared-functions'
+include 'workflows-shared-logging'
+

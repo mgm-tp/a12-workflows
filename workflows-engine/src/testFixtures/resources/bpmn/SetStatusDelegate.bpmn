@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_06y86pz" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.24.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.21.0">
+  <bpmn:process id="SetStatusDelegateExample" name="Set status delegate example" isExecutable="true" camunda:versionTag="1.0" camunda:historyTimeToLive="180">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_0foayx3</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0foayx3" sourceRef="StartEvent_1" targetRef="UpdateContractField" />
+    <bpmn:endEvent id="Event_0e9590l">
+      <bpmn:incoming>Flow_0jqz82w</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0jqz82w" sourceRef="UpdateContractField" targetRef="Event_0e9590l" />
+    <bpmn:serviceTask id="UpdateContractField" name="Set status field to &#34;ON_ VACATION&#34;" camunda:modelerTemplate="setStatusDelegateTemplate" camunda:modelerTemplateVersion="1" camunda:delegateExpression="${setStatusDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="repetitions">1,1</camunda:inputParameter>
+          <camunda:inputParameter name="pathToField">/Vacation/Status</camunda:inputParameter>
+          <camunda:inputParameter name="documentReference">${myDocRef}</camunda:inputParameter>
+          <camunda:inputParameter name="newValue">ON_VACATION</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0foayx3</bpmn:incoming>
+      <bpmn:outgoing>Flow_0jqz82w</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="SetStatusDelegateExample">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0e9590l_di" bpmnElement="Event_0e9590l">
+        <dc:Bounds x="432" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ycjr0i_di" bpmnElement="UpdateContractField">
+        <dc:Bounds x="270" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0foayx3_di" bpmnElement="Flow_0foayx3">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="270" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0jqz82w_di" bpmnElement="Flow_0jqz82w">
+        <di:waypoint x="370" y="117" />
+        <di:waypoint x="432" y="117" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

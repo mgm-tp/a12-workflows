@@ -1,0 +1,92 @@
+{
+  "header": {
+    "id": "TeamEmployee_OM",
+    "modelType": "overview",
+    "modelVersion": "38.0.0",
+    "locales": [
+      {
+        "code": "en"
+      },
+      {
+        "code": "de"
+      }
+    ],
+    "labels": [],
+    "annotations": [
+      {
+        "name": "roles",
+        "value": "admin"
+      }
+    ],
+    "modelReferences": [
+      {
+        "purpose": "document-model-for-overview",
+        "modelType": "document",
+        "alias": "DM",
+        "reference": "TeamEmployee_CDM"
+      }
+    ]
+  },
+  "content": {
+    "configuration": {
+      "enableFilter": true,
+      "multiSelection": {
+        "collapseOption": "collapsible_collapsed",
+        "counterOption": "simple",
+        "clearConfirmation": {
+          "enabled": true
+        }
+      },
+      "showFullTextSearch": true,
+      "pagingSize": 50,
+      "filterConfiguration": {
+        "showFilterButton": true,
+        "showFilterBar": true,
+        "filterMode": "all_columns"
+      }
+    },
+    "columns": [
+      {
+        "id": "column-83f7e",
+        "width": 1,
+        "styles": {},
+        "elementRef": "include_edfb9_include_64597_F13",
+        "sortable": false
+      },
+      {
+        "id": "column-3e99a",
+        "width": 1,
+        "styles": {},
+        "elementRef": "include_edfb9_include_64597_F16",
+        "sortable": false
+      },
+      {
+        "id": "column-240fe",
+        "width": 1,
+        "styles": {},
+        "elementRef": "include_edfb9_field_c9ad3",
+        "sortable": false
+      }
+    ],
+    "subHeaderBox": {
+      "majorElements": [
+        {
+          "type": "search"
+        },
+        {
+          "type": "filter"
+        }
+      ],
+      "minorElements": [
+        {
+          "type": "multi_selection"
+        }
+      ]
+    },
+    "rowActionGroup": {},
+    "footerBox": {
+      "majorElements": [],
+      "minorElements": []
+    }
+  }
+}

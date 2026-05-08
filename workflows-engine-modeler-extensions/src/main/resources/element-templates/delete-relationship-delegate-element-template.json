@@ -1,0 +1,146 @@
+[
+  {
+    "$schema": "https://unpkg.com/@camunda/element-templates-json-schema/resources/schema.json",
+    "name": "Delete Relationship Link Delegate Template",
+    "id": "deleteRelationshipLinkTemplate",
+    "description": "Choose this if you want to delete a relationship link between two documents.",
+    "version": 2,
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "elementType": {
+      "value": "bpmn:ServiceTask"
+    },
+    "groups": [
+      {
+        "id": "implementation",
+        "label": "Delegate Implementation"
+      },
+      {
+        "id": "inputs",
+        "label": "Delegate Inputs"
+      },
+      {
+        "id": "async",
+        "label": "Async Properties"
+      }
+    ],
+    "properties": [
+      {
+        "label": "Implementation Type",
+        "type": "String",
+        "group": "implementation",
+        "value": "${deleteRelationshipLinkDelegate}",
+        "editable": false,
+        "binding": {
+          "type": "property",
+          "name": "camunda:delegateExpression"
+        }
+      },
+      {
+        "label": "Link ID",
+        "type": "String",
+        "group": "inputs",
+        "description": "The ID of the link to be deleted, e.g. ${myLinkId}",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "id"
+        },
+        "constraints": {
+          "notEmpty": true
+        }
+      },
+      {
+        "label": "Relationship Model",
+        "type": "String",
+        "group": "inputs",
+        "description": "The name of the relationship model, e.g. PersonBusinessTrip",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "relationshipModel"
+        },
+        "constraints": {
+          "notEmpty": true
+        }
+      },
+      {
+        "label": "Source Document Reference",
+        "type": "String",
+        "description": "The document reference of the source document (as an expression for a variable, e.g. ${mySourceDocRef} )",
+        "group": "inputs",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "sourceDocRef"
+        },
+        "constraints": {
+          "notEmpty": true,
+          "pattern": {
+            "value": "\\${.+}",
+            "message": "Must be an expression of type ${yourDocRef}"
+          }
+        }
+      },
+      {
+        "label": "Source Role",
+        "type": "String",
+        "description": "The name of the role for the relationship source, e.g. Person",
+        "group": "inputs",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "sourceRole"
+        },
+        "constraints": {
+          "notEmpty": true
+        }
+      },
+      {
+        "label": "Target Document Reference",
+        "type": "String",
+        "description": "The document reference of the target document (as an expression for a variable, e.g. ${myTargetDocRef} )",
+        "group": "inputs",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "targetDocRef"
+        },
+        "constraints": {
+          "notEmpty": true,
+          "pattern": {
+            "value": "\\${.+}",
+            "message": "Must be an expression of type ${yourDocRef}"
+          }
+        }
+      },
+      {
+        "label": "Target Role",
+        "type": "String",
+        "description": "The name of the role for the relationship target, e.g. BusinessTrip",
+        "group": "inputs",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "targetRole"
+        },
+        "constraints": {
+          "notEmpty": true
+        }
+      },
+      {
+        "label": "Async before?",
+        "type": "Boolean",
+        "group": "async",
+        "binding": {
+          "type": "property",
+          "name": "camunda:asyncBefore"
+        }
+      },
+      {
+        "label": "Async after?",
+        "type": "Boolean",
+        "group": "async",
+        "binding": {
+          "type": "property",
+          "name": "camunda:asyncAfter"
+        }
+      }
+    ]
+  }
+]

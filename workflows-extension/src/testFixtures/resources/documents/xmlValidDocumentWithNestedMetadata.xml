@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SimplePersonWithNestedResolvedMetadata_DM>
+    <person>
+        <name>John</name>
+        <A12WF>
+            <ProcessDefinition>
+                <Key>ProcessDefinitionKey</Key>
+                <Name>ProcessDefinitionName</Name>
+            </ProcessDefinition>
+            <TaskDefinition>
+                <Key>TaskDefinitionKey</Key>
+                <Name>TaskDefinitionName</Name>
+                <FormKey>FormKey</FormKey>
+            </TaskDefinition>
+            <Process>
+                <ID>530d14f2-107f-11ec-8308-803253632ada</ID>
+                <BusinessKey>BusinessKey</BusinessKey>
+                <Initiator>initiator</Initiator>
+            </Process>
+            <Task>
+                <ID>530d14f2-107f-11ec-8308-803253632adb</ID>
+                <CreationDate>2022-02-11T09:20:00</CreationDate>
+                <DueDate>2022-02-20</DueDate>
+                <Assignee>oldAssignee</Assignee>
+            </Task>
+        </A12WF>
+    </person>
+</SimplePersonWithNestedResolvedMetadata_DM>

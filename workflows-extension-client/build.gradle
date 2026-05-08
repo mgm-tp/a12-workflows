@@ -1,0 +1,28 @@
+plugins {
+    id 'java-library'
+    id 'base'
+    alias libs.plugins.springboot
+    alias libs.plugins.kotlin.spring
+}
+
+apply plugin: "org.jetbrains.kotlin.jvm"
+
+
+
+dependencies {
+    // Spring
+    implementation libs.spring.boot.web
+    annotationProcessor libs.spring.boot.config.processor
+    implementation libs.vulnerabilityOverrides.snakeyaml
+
+    // Jackson
+    implementation libs.jackson.kotlin
+}
+
+jar {
+    archiveClassifier = ''
+}
+
+bootJar {
+    enabled = false
+}

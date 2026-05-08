@@ -1,0 +1,19 @@
+{
+	"extends": "../tsconfig.base.json",
+	"exclude": [
+		"./node_modules",
+		"../node_modules",
+	],
+	"include": [
+		"./src"
+	],
+	"compilerOptions": {
+		"rootDir": "./src",
+		"outDir": "./lib",
+		"declarationMap": true,
+		"preserveWatchOutput": true,
+		"noEmitOnError": true,
+		"skipLibCheck": true,
+        "types": ["vitest/globals"]
+	}
+}

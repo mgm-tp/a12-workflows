@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0fp994f" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.24.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.21.0">
+  <bpmn:collaboration id="Collaboration_06p5lzn">
+    <bpmn:participant id="statePart" name="Status Change Pool" processRef="dataDrivenStatusProcess" />
+    <bpmn:participant id="mainProcess" name="Business Logic Pool" processRef="dataDrivenMainProcess" />
+    <bpmn:messageFlow id="Flow_1wq7x99" sourceRef="Event_1y00x94" targetRef="Event_047z0g1" />
+    <bpmn:messageFlow id="Flow_1er4h94" sourceRef="Event_1161c0h" targetRef="Event_047z0g1" />
+    <bpmn:textAnnotation id="TextAnnotation_11x273b">
+      <bpmn:text>Let's assume the document has the annotated fields approval and cost</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_17ximui">
+      <bpmn:text>These events can be thrown whenever the status needs to be changed to trigger the other pool</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1pteto8" sourceRef="Event_1y00x94" targetRef="TextAnnotation_17ximui" />
+    <bpmn:association id="Association_1m52762" sourceRef="TextAnnotation_17ximui" targetRef="Event_1161c0h" />
+    <bpmn:association id="Association_081altw" sourceRef="Activity_1uv7to3" targetRef="TextAnnotation_11x273b" />
+  </bpmn:collaboration>
+  <bpmn:process id="dataDrivenStatusProcess" name="dataDrivenStatusProcess" isExecutable="true">
+    <bpmn:startEvent id="Event_047z0g1" name="Status updated">
+      <bpmn:outgoing>Flow_1mgvph2</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0ua6wjl" messageRef="Message_3fpr5hk" />
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1mgvph2" sourceRef="Event_047z0g1" targetRef="Activity_1uv7to3" />
+    <bpmn:sequenceFlow id="Flow_1alw8s5" sourceRef="SetStatusDelegate" targetRef="UserTask2" />
+    <bpmn:sequenceFlow id="Flow_127em9y" sourceRef="Activity_1uv7to3" targetRef="SetStatusDelegate" />
+    <bpmn:endEvent id="Event_0roznhw">
+      <bpmn:incoming>Flow_0tex516</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0tex516" sourceRef="UserTask2" targetRef="Event_0roznhw" />
+    <bpmn:businessRuleTask id="Activity_1uv7to3" name="Choose status to set from document" camunda:resultVariable="statusnew" camunda:decisionRef="StatusCheck" camunda:mapDecisionResult="singleEntry">
+      <bpmn:incoming>Flow_1mgvph2</bpmn:incoming>
+      <bpmn:outgoing>Flow_127em9y</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:serviceTask id="SetStatusDelegate" name="SetStatusDelegate" camunda:modelerTemplate="setStatusDelegateTemplate" camunda:modelerTemplateVersion="1" camunda:delegateExpression="${setStatusDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="newValue">${statusnew}</camunda:inputParameter>
+          <camunda:inputParameter name="pathToField">/status/status</camunda:inputParameter>
+          <camunda:inputParameter name="repetitions">1,1</camunda:inputParameter>
+          <camunda:inputParameter name="documentReference">${StatusDocRef}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_127em9y</bpmn:incoming>
+      <bpmn:outgoing>Flow_1alw8s5</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="UserTask2" name="View new status" camunda:modelerTemplate="userTaskWithInputDoc" camunda:modelerTemplateVersion="1" camunda:formKey="someFormKey">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="documentReference">${StatusDocRef}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1alw8s5</bpmn:incoming>
+      <bpmn:outgoing>Flow_0tex516</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmn:process id="dataDrivenMainProcess" name="dataDrivenMainProcess" isExecutable="true">
+    <bpmn:endEvent id="Event_0rl0xk7">
+      <bpmn:incoming>Flow_1pmopps</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:intermediateThrowEvent id="Event_1161c0h" name="Status to be changed" camunda:modelerTemplate="messageThrowEventWithVariable" camunda:modelerTemplateVersion="2">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="messageName">STATUS_UPDATED</camunda:inputParameter>
+          <camunda:inputParameter name="businessKey">${execution.businessKey}</camunda:inputParameter>
+          <camunda:inputParameter name="allVariables">${execution.getVariables()}</camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="groovy">execution.getProcessEngineServices().getRuntimeService().createMessageCorrelation(messageName).processInstanceBusinessKey(businessKey).setVariables(allVariables).correlate()</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0v8iakb</bpmn:incoming>
+      <bpmn:outgoing>Flow_1pmopps</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0qips7a" messageRef="Message_11q0tna" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:startEvent id="Event_00sm21m">
+      <bpmn:extensionElements />
+      <bpmn:outgoing>Flow_0trlxoi</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:intermediateThrowEvent id="Event_1y00x94" name="Status to be changed" camunda:modelerTemplate="messageThrowEventWithVariable" camunda:modelerTemplateVersion="2">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="messageName">STATUS_UPDATED</camunda:inputParameter>
+          <camunda:inputParameter name="businessKey">${execution.businessKey}</camunda:inputParameter>
+          <camunda:inputParameter name="allVariables">${execution.getVariables()}</camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="groovy">execution.getProcessEngineServices().getRuntimeService().createMessageCorrelation(messageName).processInstanceBusinessKey(businessKey).setVariables(allVariables).correlate()</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0trlxoi</bpmn:incoming>
+      <bpmn:outgoing>Flow_0lc994g</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_08y8tqs" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_1pmopps" sourceRef="Event_1161c0h" targetRef="Event_0rl0xk7" />
+    <bpmn:sequenceFlow id="Flow_0v8iakb" sourceRef="UserTask1" targetRef="Event_1161c0h" />
+    <bpmn:sequenceFlow id="Flow_0trlxoi" sourceRef="Event_00sm21m" targetRef="Event_1y00x94" />
+    <bpmn:sequenceFlow id="Flow_0lc994g" sourceRef="Event_1y00x94" targetRef="UserTask1" />
+    <bpmn:userTask id="UserTask1" name="Work on document" camunda:modelerTemplate="userTaskWithInputDoc" camunda:modelerTemplateVersion="1" camunda:formKey="someFormKey">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="documentReference">${StatusDocRef}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0lc994g</bpmn:incoming>
+      <bpmn:outgoing>Flow_0v8iakb</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmn:message id="Message_3fpr5hk" name="STATUS_UPDATED" />
+  <bpmn:message id="Message_11q0tna" name="statusupdated" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_06p5lzn">
+      <bpmndi:BPMNShape id="Participant_1vy0938_di" bpmnElement="statePart" isHorizontal="true">
+        <dc:Bounds x="160" y="350" width="790" height="270" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_16oar5d_di" bpmnElement="Event_047z0g1">
+        <dc:Bounds x="312" y="472" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="293" y="515" width="75" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0f7km3l_di" bpmnElement="Event_0roznhw">
+        <dc:Bounds x="892" y="472" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1wphg16_di" bpmnElement="Activity_1uv7to3">
+        <dc:Bounds x="430" y="450" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0twr1n2_di" bpmnElement="SetStatusDelegate">
+        <dc:Bounds x="590" y="450" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1gerf6u" bpmnElement="UserTask2">
+        <dc:Bounds x="740" y="450" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1mgvph2_di" bpmnElement="Flow_1mgvph2">
+        <di:waypoint x="348" y="490" />
+        <di:waypoint x="430" y="490" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1alw8s5_di" bpmnElement="Flow_1alw8s5">
+        <di:waypoint x="690" y="490" />
+        <di:waypoint x="740" y="490" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_127em9y_di" bpmnElement="Flow_127em9y">
+        <di:waypoint x="530" y="490" />
+        <di:waypoint x="590" y="490" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0tex516_di" bpmnElement="Flow_0tex516">
+        <di:waypoint x="840" y="490" />
+        <di:waypoint x="892" y="490" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Participant_1ybzy9m_di" bpmnElement="mainProcess" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="790" height="250" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0rl0xk7_di" bpmnElement="Event_0rl0xk7">
+        <dc:Bounds x="862" y="202" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1dtwn4k_di" bpmnElement="Event_1161c0h">
+        <dc:Bounds x="732" y="202" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="721" y="176" width="59" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_00sm21m_di" bpmnElement="Event_00sm21m">
+        <dc:Bounds x="202" y="202" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_00l8zvy_di" bpmnElement="Event_1y00x94">
+        <dc:Bounds x="312" y="202" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="301" y="172" width="59" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0t43fer_di" bpmnElement="UserTask1">
+        <dc:Bounds x="500" y="180" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1pmopps_di" bpmnElement="Flow_1pmopps">
+        <di:waypoint x="768" y="220" />
+        <di:waypoint x="862" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0v8iakb_di" bpmnElement="Flow_0v8iakb">
+        <di:waypoint x="600" y="220" />
+        <di:waypoint x="732" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0trlxoi_di" bpmnElement="Flow_0trlxoi">
+        <di:waypoint x="238" y="220" />
+        <di:waypoint x="312" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0lc994g_di" bpmnElement="Flow_0lc994g">
+        <di:waypoint x="348" y="220" />
+        <di:waypoint x="500" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_11x273b_di" bpmnElement="TextAnnotation_11x273b">
+        <dc:Bounds x="510" y="370" width="160" height="50" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_17ximui_di" bpmnElement="TextAnnotation_17ximui">
+        <dc:Bounds x="370" y="90" width="190" height="60" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1pteto8_di" bpmnElement="Association_1pteto8">
+        <di:waypoint x="345" y="211" />
+        <di:waypoint x="450" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1m52762_di" bpmnElement="Association_1m52762">
+        <di:waypoint x="551" y="150" />
+        <di:waypoint x="733" y="214" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_081altw_di" bpmnElement="Association_081altw">
+        <di:waypoint x="510" y="450" />
+        <di:waypoint x="533" y="420" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1wq7x99_di" bpmnElement="Flow_1wq7x99">
+        <di:waypoint x="330" y="238" />
+        <di:waypoint x="330" y="472" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1er4h94_di" bpmnElement="Flow_1er4h94">
+        <di:waypoint x="750" y="238" />
+        <di:waypoint x="750" y="320" />
+        <di:waypoint x="330" y="320" />
+        <di:waypoint x="330" y="472" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

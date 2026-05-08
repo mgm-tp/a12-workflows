@@ -1,0 +1,382 @@
+{
+  "header": {
+    "id": "SimplePerson_DM",
+    "modelType": "document",
+    "modelVersion": "28.3.0",
+    "locales": [
+      {
+        "code": "en"
+      }
+    ],
+    "labels": [
+      {
+        "locale": "en",
+        "text": "SimplePerson_DM"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "roles",
+        "value": "admin"
+      }
+    ],
+    "modelReferences": []
+  },
+  "content": {
+    "modelInfo": {
+      "name": "SimplePerson_DM",
+      "immutable": false
+    },
+    "modelConfig": {
+      "decimalSeparator": ".",
+      "timeZone": "UTC",
+      "conditionLanguage": {
+        "code": "en_US"
+      }
+    },
+    "modelRoot": {
+      "rootGroups": [
+        {
+          "type": "Group",
+          "id": "group_d0314",
+          "name": "person",
+          "Group": {
+            "repeatability": 1,
+            "elements": [
+              {
+                "type": "Field",
+                "id": "field_6257f",
+                "name": "name",
+                "Field": {
+                  "fieldType": {
+                    "type": "StringType",
+                    "StringType": {
+                      "minLength": 2
+                    }
+                  },
+                  "label": [
+                    {
+                      "locale": "en",
+                      "text": "Name"
+                    }
+                  ],
+                  "requirednessConfig": {
+                    "mode": "absoluteOrRelativeToNextRepAncestor"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Group",
+          "id": "group_50670",
+          "name": "A12WF",
+          "Group": {
+            "repeatability": 1,
+            "elements": [
+              {
+                "type": "Group",
+                "id": "group_602c0",
+                "name": "ProcessDefinition",
+                "Group": {
+                  "repeatability": 1,
+                  "elements": [
+                    {
+                      "type": "Field",
+                      "id": "field_93f67",
+                      "name": "Key",
+                      "Field": {
+                        "fieldType": {
+                          "type": "StringType"
+                        },
+                        "label": [
+                          {
+                            "locale": "en",
+                            "text": "Process Definition Key"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "Field",
+                      "id": "field_72cd8",
+                      "name": "Name",
+                      "annotations": [
+                        {
+                          "name": "availableInProcessAs",
+                          "value": "processDefinitionName"
+                        }
+                      ],
+                      "Field": {
+                        "fieldType": {
+                          "type": "StringType"
+                        },
+                        "label": [
+                          {
+                            "locale": "en",
+                            "text": "Process Definition Name"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Group",
+                "id": "group_052ba",
+                "name": "TaskDefinition",
+                "Group": {
+                  "repeatability": 1,
+                  "elements": [
+                    {
+                      "type": "Field",
+                      "id": "field_5e0f2",
+                      "name": "Key",
+                      "Field": {
+                        "fieldType": {
+                          "type": "StringType"
+                        },
+                        "label": [
+                          {
+                            "locale": "en",
+                            "text": "Task Definition Key"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "Field",
+                      "id": "field_a9fbe",
+                      "name": "Name",
+                      "Field": {
+                        "fieldType": {
+                          "type": "StringType"
+                        },
+                        "label": [
+                          {
+                            "locale": "en",
+                            "text": "Task Name"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "Field",
+                      "id": "field_9121a",
+                      "name": "FormKey",
+                      "Field": {
+                        "fieldType": {
+                          "type": "StringType"
+                        },
+                        "label": [
+                          {
+                            "locale": "en",
+                            "text": "Form Key"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Group",
+                "id": "group_19f98",
+                "name": "Process",
+                "Group": {
+                  "repeatability": 1,
+                  "elements": [
+                    {
+                      "type": "Field",
+                      "id": "field_9beb8",
+                      "name": "ID",
+                      "Field": {
+                        "fieldType": {
+                          "type": "StringType"
+                        },
+                        "label": [
+                          {
+                            "locale": "en",
+                            "text": "Process Instance ID"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "Field",
+                      "id": "field_e3492",
+                      "name": "BusinessKey",
+                      "Field": {
+                        "fieldType": {
+                          "type": "StringType"
+                        },
+                        "label": [
+                          {
+                            "locale": "en",
+                            "text": "Business Key"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "Field",
+                      "id": "field_9326d",
+                      "name": "Initiator",
+                      "Field": {
+                        "fieldType": {
+                          "type": "StringType"
+                        },
+                        "label": [
+                          {
+                            "locale": "en",
+                            "text": "Process Initiator"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Group",
+                "id": "group_6e11c",
+                "name": "Task",
+                "Group": {
+                  "repeatability": 1,
+                  "elements": [
+                    {
+                      "type": "Field",
+                      "id": "field_8e99f",
+                      "name": "ID",
+                      "annotations": [
+                        {
+                          "name": "indexed",
+                          "value": ""
+                        }
+                      ],
+                      "Field": {
+                        "fieldType": {
+                          "type": "StringType"
+                        },
+                        "label": [
+                          {
+                            "locale": "en",
+                            "text": "Task ID"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "Field",
+                      "id": "field_979ba",
+                      "name": "CreationDate",
+                      "Field": {
+                        "fieldType": {
+                          "type": "DateTimeType",
+                          "DateTimeType": {
+                            "format": "yyyy-MM-dd'T'HH:mm:ss"
+                          }
+                        },
+                        "label": [
+                          {
+                            "locale": "en",
+                            "text": "Creation Date"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "Field",
+                      "id": "field_2ad7e",
+                      "name": "DueDate",
+                      "Field": {
+                        "fieldType": {
+                          "type": "DateType",
+                          "DateType": {
+                            "format": "yyyy-MM-dd"
+                          }
+                        },
+                        "label": [
+                          {
+                            "locale": "en",
+                            "text": "Due Date"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "Field",
+                      "id": "field_a277f",
+                      "name": "Assignee",
+                      "Field": {
+                        "fieldType": {
+                          "type": "StringType"
+                        },
+                        "label": [
+                          {
+                            "locale": "en",
+                            "text": "Assignee"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Field",
+                "id": "field_568ec",
+                "name": "WorkflowsInternalDocumentStatus",
+                "annotations": [
+                  {
+                    "name": "availableInProcessAs",
+                    "value": "internalStatus"
+                  },
+                  {
+                    "name": "indexed",
+                    "value": ""
+                  }
+                ],
+                "Field": {
+                  "fieldType": {
+                    "type": "EnumerationType",
+                    "EnumerationType": {
+                      "values": [
+                        {
+                          "value": "EMPTY",
+                          "label": [
+                            {
+                              "locale": "en",
+                              "text": "EMPTY"
+                            }
+                          ]
+                        },
+                        {
+                          "value": "NON_EMPTY",
+                          "label": [
+                            {
+                              "locale": "en",
+                              "text": "NON_EMPTY"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "label": [
+                    {
+                      "locale": "en",
+                      "text": "Workflows Internal Document Status"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

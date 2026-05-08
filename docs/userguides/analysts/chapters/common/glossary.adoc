@@ -1,0 +1,59 @@
+////
+SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
+Copyright (c) 2012-2026 mgm technology partners GmbH
+Dual License
+This source file is part of the mgm A12 Platform and available under a choice of two different licenses:
+1. Open-Source License – EUPL v1.2
+You may redistribute and/or modify this file under the terms of the European Union Public License, version 1.2 - see https://eupl.eu/.
+2. Commercial License
+Alternatively, you may obtain a commercial license from mgm technology partners GmbH, that permits use of this software under different terms (including support and maintenance services).
+
+Please contact a12-license@mgm-tp.com for more information.
+
+You must select and comply with exactly one of the above license options.
+
+Warranty Disclaimer (applies to either option)
+THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
+////
+= Glossary
+
+[%header, cols="1,3a"]
+|===
+|Term|Description
+|Decision table (from DMN)|See link:https://docs.cibseven.org/manual/latest/reference/dmn/decision-table/[CIB 7 Docs: DMN Table] for more info.
+
+|Delegate| Delegates are pieces of code you can call from  Service Tasks to be executed at a certain point in the process, passing process variables as input.
+
+|Delegate Expression| Delegate expressions are used for identifying the specific Delegate to be invoked (an expression for the delegate name).
+
+|Document Reference (docRef)|Unique identifier for a document, e.g. `Contract/143be3e9-32bc-4d57-a155-ba1f89eba93a`.
+
+|Element Template|Element templates are a way to extend the Camunda Modeler with domain-specific diagram elements, such as service and user tasks.
+
+Applying an element template configures the diagram element with pre-defined values for BPMN properties, input/output mappings, and extension properties.
+
+|Event|Events in BPMN represent things that happen.
+A process can react to events (catching event) as well as emit events (throwing event).
+
+For example, a catching message event makes the token continue as soon as a message is received.
+
+|Gateway| See link:https://docs.cibseven.org/manual/{cibsevenVersion}/reference/bpmn20/gateways/[CIB 7 Docs: Gateways]  for more info.
+
+|Payload|All non-metadata fields in a Document Model.
+
+|Task| Tasks are the basic elements of BPMN processes.
+These are atomic units of work composed to create a meaningful result.
+
+|Task document|A document which has task-level metadata filled in (`/A12WF/Task` and `/A12WF/TaskDefinition`).
+
+|Process| A process defines steps which should happen in a specific order or flow.
+
+The steps which make up a process are Tasks, Gateways, Events and Subprocesses.
+
+|Process document|A document which has process-level metadata filled in (`/A12WF/Process` and `/A12WF/ProcessDefinition`).
+
+|Subprocess|Subprocesses are element containers that allow defining common functionality.
+This allows you to create a "process within a process" that can be called multiple times.
+
+|Workflows metadata (or metadata)|All fields contained in our `WorkflowsMetadata_DM.json` model.
+|===

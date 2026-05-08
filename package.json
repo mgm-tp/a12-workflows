@@ -1,0 +1,13 @@
+{
+  "name": "@com.mgmtp.a12.workflows/workflows",
+  "private": true,
+  "description": "The overall workflows package",
+  "directories": {
+    "doc": "docs"
+  },
+  "workspaces": [
+    "workflows-codemod",
+    "workflows-core"
+  ],
+  "type": "module"
+}

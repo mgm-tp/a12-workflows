@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": "startProcessOperation",
+  "method": "START_PROCESS",
+  "params": {
+    "processDefinition": "TestProcess",
+    "businessKey": "abc",
+    "variables": {
+      "customerDocRef": "Customer/17",
+      "moreDocRefs": ["Order/3", "Order/4"]
+    }
+  }
+}

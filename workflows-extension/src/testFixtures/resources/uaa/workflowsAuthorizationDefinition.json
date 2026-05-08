@@ -1,0 +1,127 @@
+{
+  "name": "Workflows Permission Definition",
+  "description": "",
+  "policies": [
+    {
+      "name": "User Has Task Complete Right",
+      "description": "Check the current user has a role which has TASK_COMPLETE right.",
+      "rules": [
+        "!principal.authorities.?[!accessRights.?[name == 'TASK_COMPLETE'].isEmpty()].isEmpty()"
+      ]
+    },
+    {
+      "name": "User Has Task Assign Right",
+      "description": "Check the current user has a role which has TASK_ASSIGN right.",
+      "rules": [
+        "!principal.authorities.?[!accessRights.?[name == 'TASK_ASSIGN'].isEmpty()].isEmpty()"
+      ]
+    },
+    {
+      "name": "User Has Start Process Right",
+      "description": "Check the current user has a role which has START_PROCESS right.",
+      "rules": [
+        "!principal.authorities.?[!accessRights.?[name == 'START_PROCESS'].isEmpty()].isEmpty()"
+      ]
+    },
+    {
+      "name": "User Has Send Message Right",
+      "description": "Check the current user has a role which has SEND_MESSAGE right.",
+      "rules": [
+        "!principal.authorities.?[!accessRights.?[name == 'SEND_MESSAGE'].isEmpty()].isEmpty()"
+      ]
+    },
+    {
+      "name": "User Has Get Process Variable Updates Right",
+      "description": "Check the current user has a role which has GET_PROCESS_VARIABLE_UPDATES right.",
+      "rules": [
+        "!principal.authorities.?[!accessRights.?[name == 'GET_PROCESS_VARIABLE_UPDATES'].isEmpty()].isEmpty()"
+      ]
+    },
+    {
+      "name": "User Has Remove Metadata Right",
+      "description": "Check the current user has a role which has REMOVE_METADATA right.",
+      "rules": [
+        "!principal.authorities.?[!accessRights.?[name == 'REMOVE_METADATA'].isEmpty()].isEmpty()"
+      ]
+    },
+    {
+      "name": "User Has Create Metadata Right",
+      "description": "Check the current user has a role which has CREATE_METADATA right.",
+      "rules": [
+        "!principal.authorities.?[!accessRights.?[name == 'CREATE_METADATA'].isEmpty()].isEmpty()"
+      ]
+    }
+  ],
+  "permissions": [
+    {
+      "name": "Task Complete",
+      "description": "",
+      "policy-refs": [
+        "User Has Task Complete Right"
+      ],
+      "scopes": [
+        "TaskComplete"
+      ]
+    },
+    {
+      "name": "Task Assign",
+      "description": "",
+      "policy-refs": [
+        "User Has Task Assign Right"
+      ],
+      "scopes": [
+        "TaskAssign"
+      ]
+    },
+    {
+      "name": "Start Process",
+      "description": "",
+      "policy-refs": [
+        "User Has Start Process Right"
+      ],
+      "scopes": [
+        "StartProcess"
+      ]
+    },
+    {
+      "name": "Send Message",
+      "description": "",
+      "policy-refs": [
+        "User Has Send Message Right"
+      ],
+      "scopes": [
+        "SendMessage"
+      ]
+    },
+    {
+      "name": "Get Process Variable Updates",
+      "description": "",
+      "policy-refs": [
+        "User Has Get Process Variable Updates Right"
+      ],
+      "scopes": [
+        "GetProcessVariableUpdates"
+      ]
+    },
+    {
+      "name": "Remove Metadata",
+      "description": "",
+      "policy-refs": [
+        "User Has Remove Metadata Right"
+      ],
+      "scopes": [
+        "RemoveMetadata"
+      ]
+    },
+    {
+      "name": "Create Metadata",
+      "description": "",
+      "policy-refs": [
+        "User Has Create Metadata Right"
+      ],
+      "scopes": [
+        "CreateMetadata"
+      ]
+    }
+  ]
+}

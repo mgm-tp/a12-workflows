@@ -1,0 +1,112 @@
+////
+SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
+Copyright (c) 2012-2026 mgm technology partners GmbH
+Dual License
+This source file is part of the mgm A12 Platform and available under a choice of two different licenses:
+1. Open-Source License – EUPL v1.2
+You may redistribute and/or modify this file under the terms of the European Union Public License, version 1.2 - see https://eupl.eu/.
+2. Commercial License
+Alternatively, you may obtain a commercial license from mgm technology partners GmbH, that permits use of this software under different terms (including support and maintenance services).
+
+Please contact a12-license@mgm-tp.com for more information.
+
+You must select and comply with exactly one of the above license options.
+
+Warranty Disclaimer (applies to either option)
+THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
+////
+= Deployment
+
+NOTE: For deployment, please be aware of the link:/docs/build_and_deployment/a12-stack/index.html[Helm A12 Stack].
+
+== Artifacts
+
+Please see <<anchor-cbr-artifacts, our list of artifacts>>.
+
+== Workflows Extension
+
+=== Secure Configuration
+
+See <<anchor-workflows-extension-secure-config, secure configuration>> in Security section.
+
+=== Clustering
+
+The `workflows-extension` should not affect the clustering setup of Data Services. It primarily adds stateless RPC operations.
+
+== CIB 7
+
+=== Requirements
+
+* CIB 7 must not be accessible from the outside (see <<Security, Security>>)
+** Only Data Services must be able to access CIB 7
+
+=== Secure Configuration
+
+Not supported, see <<anchor-cib7-secure-config, secure configuration>> in Security section.
+
+=== Clustering
+
+==== CIB 7 Process Engine
+
+CIB 7 allows clustering by distributing the process engine across multiple nodes which access a shared database.
+
+image::assets/images/deployment-clustering-cib7-overview.png[Architecture sketch of clustered CIB 7]
+
+NOTE: For details, please refer to the link:https://camunda.com/en/platform-7/performance/[Camunda documentation on performance and scalability,role=external], in particular the section titled "Clustering".
+
+==== CIB 7 Job Executor
+
+In CIB 7, the _Job Executor_ is responsible for executing any _asynchronous continuations_ which are triggered during process execution. Asynchronous continuations can be triggered e.g. by transaction boundaries or timer events.
+
+NOTE: For details about the Job Executor, please refer to link:https://docs.cibseven.org/manual/{cibsevenVersion}/user-guide/process-engine/the-job-executor/[CIB 7's official documentation.,role=external]
+
+CIB 7 differentiates between _homogenous_ and _heterogeneous_ deployments. _Homogenous_ means that the same process applications are deployed on all nodes.
+
+NOTE: For details about these variants, please refer to link:https://docs.cibseven.org/manual/{cibsevenVersion}/user-guide/process-engine/the-job-executor/#cluster-setups[cluster setups for the Job Executor.,role=external]
+
+In short, in case of heterogeneous cluster, you must set the following Spring config:
+
+[source,properties]
+----
+camunda.bpm.generic-properties.properties.jobExecutorDeploymentAware=true
+----
+
+NOTE: The above configuration is equal to setting `<property name="jobExecutorDeploymentAware">true</property>` in XML as shown in the Camunda documentation.
+
+// === Deployment Options
+//
+// ==== Consumers
+//
+// For most projects, embedded consumers should suffice and come out of the box.
+//
+// However, you also have the option to deploy standalone consumers which can be scaled independently.
+// We provide a runnable `workflows-consumer-app` to facilitate this.
+//
+// Note that these two options are the same that Data Services provide for their CDD queue consumers.
+//
+// === Deployment Scripts
+//
+
+== Monitoring
+
+Both CIB 7 and the Workflows Extension (Data Services) provide Micrometer for monitoring.
+
+This goes for our Boot JARs and our vanilla Docker images alike.
+
+NOTE: CIB 7 provides additional monitoring capabilities, see link:https://docs.camunda.io/docs/8.7/components/best-practices/operations/operating-camunda-c7/#monitoring-performance-indicators[Camunda monitoring documentation].
+
+== Recovery
+
+When crashed or restarted, CIB 7 will automatically continue execution from the last state ("savepoint") committed to the database.
+
+Savepoints include wait states such as user tasks or timer events. Additionally, savepoints can be modeled in BPMN via _asynchronous continuations_.
+
+NOTE: For details, please refer to link:https://docs.cibseven.org/manual/{cibsevenVersion}/user-guide/process-engine/transactions-in-processes/[transactions in CIB 7,role=external].
+
+=== Backups
+
+Please refer to link:https://docs.camunda.io/docs/8.7/components/best-practices/operations/operating-camunda-c7/#create-backups[Camunda's recommendations regarding backups,role=external].
+
+== Auditing
+
+Regarding logging, please refer to <<anchor-cib7-security-logging, secure logging configuration for CIB 7>>.

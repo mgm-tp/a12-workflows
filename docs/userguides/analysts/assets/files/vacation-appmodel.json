@@ -1,0 +1,111 @@
+{
+  "header": {
+    "id": "vacation-appmodel",
+    "modelType": "application",
+    "modelVersion": "6.0.0",
+    "locales": [
+      {
+        "code": "en"
+      },
+      {
+        "code": "de"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "roles",
+        "value": "admin"
+      }
+    ],
+    "modelReferences": []
+  },
+  "content": {
+    "modules": [
+      {
+        "name": "VacationModule",
+        "menu": {
+          "name": "Vacation",
+          "label": [
+            {
+              "locale": "en",
+              "text": "Vacation"
+            },
+            {
+              "locale": "de",
+              "text": "Urlaub"
+            }
+          ],
+          "initialActivity": {
+            "descriptor": {
+              "model": "Vacation_DM",
+              "view": "TaskList"
+            }
+          }
+        },
+        "flows": [
+          {
+            "name": "TaskFlow",
+            "scenes": [
+              {
+                "name": "VacationOverview",
+                "description": "Overview of vacations",
+                "matchConditions": [
+                  {
+                    "key": "model",
+                    "mustEqual": "Vacation_DM"
+                  },
+                  {
+                    "key": "instance",
+                    "isSet": false
+                  }
+                ],
+                "sceneChange": {
+                  "onEnter": [
+                    {
+                      "layout": {
+                        "name": "MasterDetail"
+                      },
+                      "type": "REGION_CLEAR"
+                    },
+                    {
+                      "type": "VIEW_ADD",
+                      "name": "OverviewEngine",
+                      "models": [
+                        {
+                          "modelType": "overview",
+                          "name": "Vacation_OM"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "region": {
+      "name": "APP",
+      "layout": {
+        "name": "ApplicationFrame"
+      },
+      "subRegions": [
+        {
+          "name": "CONTENT",
+          "layout": {
+            "name": "MasterDetail"
+          }
+        }
+      ]
+    },
+    "defaultRegion": [
+      "CONTENT"
+    ],
+    "initialActivity": {
+      "descriptor": {
+        "page": "welcome"
+      }
+    }
+  }
+}

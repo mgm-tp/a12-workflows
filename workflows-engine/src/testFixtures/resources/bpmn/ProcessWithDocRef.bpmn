@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                  xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+                  xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_17xcle8"
+                  targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
+  <bpmn:collaboration id="Collaboration_0t18213">
+    <bpmn:documentation>Process element description</bpmn:documentation>
+    <bpmn:participant id="Participant_0cyjnnu" name="ProcessWithDocRef" processRef="ProcessWithDocRef">
+      <bpmn:documentation>Participant element description</bpmn:documentation>
+    </bpmn:participant>
+  </bpmn:collaboration>
+  <bpmn:process id="ProcessWithDocRef" name="ProcessWithDocRef" isExecutable="true">
+    <bpmn:documentation>Participant process description</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_0fe9qkc"/>
+    <bpmn:userTask id="TaskA" name="TaskA" camunda:candidateUsers="admin,roleA">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="documentReference">${stringADocRef}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0wkq744</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_02b581d</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:startEvent id="StartEvent_1" camunda:formKey="StartFormKey">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="groovy">println(execution.getVariables())</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>SequenceFlow_0wkq744</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="EndEvent_085qhxc">
+      <bpmn:incoming>SequenceFlow_02b581d</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_02b581d" sourceRef="TaskA" targetRef="EndEvent_085qhxc"/>
+    <bpmn:sequenceFlow id="SequenceFlow_0wkq744" sourceRef="StartEvent_1" targetRef="TaskA"/>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0t18213">
+      <bpmndi:BPMNShape id="Participant_0cyjnnu_di" bpmnElement="Participant_0cyjnnu" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="500" height="200"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_02b581d_di" bpmnElement="SequenceFlow_02b581d">
+        <di:waypoint x="460" y="183"/>
+        <di:waypoint x="542" y="183"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0wkq744_di" bpmnElement="SequenceFlow_0wkq744">
+        <di:waypoint x="278" y="183"/>
+        <di:waypoint x="360" y="183"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_0c3016n_di" bpmnElement="TaskA">
+        <dc:Bounds x="360" y="143" width="100" height="80"/>
+        <bpmndi:BPMNLabel/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="242" y="165" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_085qhxc_di" bpmnElement="EndEvent_085qhxc">
+        <dc:Bounds x="542" y="165" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

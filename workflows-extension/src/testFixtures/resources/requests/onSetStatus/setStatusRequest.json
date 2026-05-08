@@ -1,0 +1,16 @@
+[
+  {
+    "jsonrpc": "2.0",
+    "id": "setStatus",
+    "method": "SET_STATUS",
+    "params": {
+      "docRef": "%s",
+      "documentPart":
+        {
+          "path": "/root/status",
+          "repetitions": [1,1],
+          "value": %s
+        }
+    }
+  }
+]

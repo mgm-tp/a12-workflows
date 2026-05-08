@@ -1,0 +1,26 @@
+[
+  {
+    "jsonrpc": "2.0",
+    "id": "completeTask",
+    "method": "COMPLETE_TASK",
+    "params": {
+      "docRef": "%s"
+    }
+  },
+  {
+    "jsonrpc": "2.0",
+    "id": "completeTask",
+    "method": "COMPLETE_TASK",
+    "params": {
+      "docRef": "%s"
+    }
+  },
+  {
+    "jsonrpc": "2.0",
+    "id": "completeTask",
+    "method": "COMPLETE_TASK",
+    "params": {
+      "docRef": "%s"
+    }
+  }
+]

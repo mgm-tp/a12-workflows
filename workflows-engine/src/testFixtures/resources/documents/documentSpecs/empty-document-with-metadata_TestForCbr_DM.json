@@ -1,0 +1,29 @@
+{
+  "docRef": "%s",
+  "documentModelName": "TestForCbr_DM",
+  "document": {
+    "A12WF": {
+      "ProcessDefinition": {
+        "Key": "ProcessWithoutDocRef",
+        "Name": "ProcessWithoutDocRef"
+      },
+      "TaskDefinition": {
+        "Key": "TaskA",
+        "Name": "TaskA",
+        "FormKey": "TestForCbr_FM"
+      },
+      "Process": {
+        "ID": "%s",
+        "BusinessKey": null,
+        "Initiator": null
+      },
+      "Task": {
+        "ID": "%s",
+        "CreationDate": "%s",
+        "DueDate": null,
+        "Assignee": null
+      },
+      "WorkflowsInternalDocumentStatus": "EMPTY"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "docRef": "DomainPerson_DM/1",
+  "documentModelName": "DomainPerson_DM",
+  "document": {
+    "person": {
+      "name": "New user"
+    }
+  }
+}

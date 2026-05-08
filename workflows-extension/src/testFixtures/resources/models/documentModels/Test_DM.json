@@ -1,0 +1,410 @@
+{
+  "header": {
+    "id": "Test_DM",
+    "modelType": "document",
+    "modelVersion": "28.3.0",
+    "locales": [
+      {
+        "code": "en"
+      }
+    ],
+      "labels": [],
+    "annotations": [
+      {
+        "name": "roles",
+        "value": "admin"
+      }
+    ],
+    "modelReferences": []
+  },
+  "content": {
+    "modelInfo": {
+      "name": "Test_DM",
+      "immutable": false
+    },
+    "modelConfig": {
+      "decimalSeparator": ".",
+      "timeZone": "UTC",
+      "conditionLanguage": {
+        "code": "en_US"
+      }
+    },
+    "modelRoot": {
+      "rootGroups": [
+        {
+          "type": "Group",
+          "id": "group_10ef9",
+          "name": "repeatableGroup",
+          "Group": {
+            "repeatability": 3,
+            "elements": [
+              {
+                "type": "Field",
+                "id": "field_d57da",
+                "name": "repeatedAnnotatedString",
+                "annotations": [
+                  {
+                    "name": "availableInProcessAs",
+                    "value": "repeatedAnnotatedString"
+                  }
+                ],
+                "Field": {
+                  "fieldType": {
+                    "type": "StringType"
+                  },
+                  "label": [
+                    {
+                      "locale": "en",
+                      "text": "repeatedAnnotatedString"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Group",
+          "id": "group_db186",
+          "name": "simpleGroup",
+          "Group": {
+            "repeatability": 1,
+            "elements": [
+              {
+                "type": "Field",
+                "id": "field_ed046",
+                "name": "simpleAnnotatedString",
+                "annotations": [
+                  {
+                    "name": "availableInProcessAs",
+                    "value": "simpleAnnotatedString"
+                  }
+                ],
+                "Field": {
+                  "fieldType": {
+                    "type": "StringType"
+                  },
+                  "label": [
+                    {
+                      "locale": "en",
+                      "text": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Field",
+                "id": "field_6a49e",
+                "name": "simpleAnnotatedBoolean",
+                "annotations": [
+                  {
+                    "name": "availableInProcessAs",
+                    "value": "simpleAnnotatedBoolean"
+                  }
+                ],
+                "Field": {
+                  "fieldType": {
+                    "type": "BooleanType"
+                  }
+                }
+              },
+              {
+                "type": "Field",
+                "id": "field_da131",
+                "name": "simpleNormalField",
+                "Field": {
+                  "fieldType": {
+                    "type": "StringType"
+                  },
+                  "label": [
+                    {
+                      "locale": "en",
+                      "text": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Field",
+                "id": "field_9df9c",
+                "name": "simpleComputatedAnnotatedField",
+                "annotations": [
+                  {
+                    "name": "availableInProcessAs",
+                    "value": "simpleComputatedAnnotatedField"
+                  }
+                ],
+                "Field": {
+                  "fieldType": {
+                    "type": "StringType"
+                  }
+                }
+              },
+              {
+                "type": "Field",
+                "id": "field_25b89",
+                "name": "simpleAnnotatedNumber",
+                "annotations": [
+                  {
+                    "name": "availableInProcessAs",
+                    "value": "simpleAnnotatedNumber"
+                  }
+                ],
+                "Field": {
+                  "fieldType": {
+                    "type": "NumberType"
+                  }
+                }
+              },
+              {
+                "type": "Field",
+                "id": "field_9fd31",
+                "name": "simpleAnnotatedDate",
+                "annotations": [
+                  {
+                    "name": "availableInProcessAs",
+                    "value": "simpleAnnotatedDate"
+                  }
+                ],
+                "Field": {
+                  "fieldType": {
+                    "type": "DateType",
+                    "DateType": {
+                      "format": "yyyy-MM-dd"
+                    }
+                  },
+                  "label": [
+                    {
+                      "locale": "en",
+                      "text": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Field",
+                "id": "field_147fb",
+                "name": "simpleAnnotatedDateTime",
+                "annotations": [
+                  {
+                    "name": "availableInProcessAs",
+                    "value": "simpleAnnotatedDateTime"
+                  }
+                ],
+                "Field": {
+                  "fieldType": {
+                    "type": "DateTimeType",
+                    "DateTimeType": {
+                      "format": "yyyy-MM-dd'T'HH:mm:ss"
+                    }
+                  },
+                  "label": [
+                    {
+                      "locale": "en",
+                      "text": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Field",
+                "id": "field_8cf24",
+                "name": "simpleAnnotatedTime",
+                "annotations": [
+                  {
+                    "name": "availableInProcessAs",
+                    "value": "simpleAnnotatedTime"
+                  }
+                ],
+                "Field": {
+                  "fieldType": {
+                    "type": "TimeType",
+                    "TimeType": {
+                      "format": "HH:mm:ss"
+                    }
+                  },
+                  "label": [
+                    {
+                      "locale": "en",
+                      "text": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Field",
+                "id": "field_b73bf",
+                "name": "simpleAnnotatedDateFragment",
+                "annotations": [
+                  {
+                    "name": "availableInProcessAs",
+                    "value": "simpleAnnotatedDateFragment"
+                  }
+                ],
+                "Field": {
+                  "fieldType": {
+                    "type": "DateFragmentType",
+                    "DateFragmentType": {
+                      "formatOfFragment": "yyyy-MM"
+                    }
+                  },
+                  "label": [
+                    {
+                      "locale": "en",
+                      "text": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Field",
+                "id": "field_e41fd",
+                "name": "simpleAnnotatedDateRange",
+                "annotations": [
+                  {
+                    "name": "availableInProcessAs",
+                    "value": "simpleAnnotatedDateRange"
+                  }
+                ],
+                "Field": {
+                  "fieldType": {
+                    "type": "DateRangeType",
+                    "DateRangeType": {
+                      "format": "yyyy",
+                      "rangeSeparator": "/"
+                    }
+                  },
+                  "label": [
+                    {
+                      "locale": "en",
+                      "text": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Field",
+                "id": "field_6c735",
+                "name": "simpleAnnotatedConfirm",
+                "annotations": [
+                  {
+                    "name": "availableInProcessAs",
+                    "value": "simpleAnnotatedConfirm"
+                  }
+                ],
+                "Field": {
+                  "fieldType": {
+                    "type": "ConfirmType"
+                  },
+                  "label": [
+                    {
+                      "locale": "en",
+                      "text": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Field",
+                "id": "field_037a4",
+                "name": "simpleAnnotatedEnumeration",
+                "annotations": [
+                  {
+                    "name": "availableInProcessAs",
+                    "value": "simpleAnnotatedEnumeration"
+                  }
+                ],
+                "Field": {
+                  "fieldType": {
+                    "type": "EnumerationType",
+                    "EnumerationType": {
+                      "values": [
+                        {
+                          "value": "VALUE_1",
+                          "label": []
+                        }
+                      ]
+                    }
+                  },
+                  "label": [
+                    {
+                      "locale": "en",
+                      "text": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Field",
+                "id": "field_a3322",
+                "name": "simpleAnnotatedRemovedField",
+                "annotations": [
+                  {
+                    "name": "availableInProcessAs",
+                    "value": "simpleAnnotatedRemovedField"
+                  }
+                ],
+                "Field": {
+                  "fieldType": {
+                    "type": "StringType"
+                  }
+                }
+              },
+              {
+                "type": "Field",
+                "id": "field_0cfd0",
+                "name": "simpleAnnotatedEmptyField",
+                "annotations": [
+                  {
+                    "name": "availableInProcessAs",
+                    "value": "simpleAnnotatedEmptyField"
+                  }
+                ],
+                "Field": {
+                  "fieldType": {
+                    "type": "StringType"
+                  }
+                }
+              },
+              {
+                "type": "Field",
+                "id": "field_38655",
+                "name": "simpleAnnotatedNullField",
+                "annotations": [
+                  {
+                    "name": "availableInProcessAs",
+                    "value": "simpleAnnotatedNullField"
+                  }
+                ],
+                "Field": {
+                  "fieldType": {
+                    "type": "StringType"
+                  }
+                }
+              },
+              {
+                "type": "Computation",
+                "id": "computation_b660f",
+                "name": "simpleComputationRule",
+                "Computation": {
+                  "computedFieldRelPath": "../simpleComputatedAnnotatedField",
+                  "computationAlternatives": [
+                    {
+                      "operation": "[simpleAnnotatedString]+[simpleAnnotatedString]"
+                    }
+                  ],
+                  "errorMessage": [
+                    {
+                      "locale": "en",
+                      "text": "error text for computation of simpleComputationRule"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "header": {
+    "id": "TestForValidation_DM",
+    "modelType": "document",
+    "modelVersion": "28.3.0",
+    "locales": [
+      {
+        "code": "en"
+      }
+    ],
+    "labels": [
+      {
+        "locale": "en",
+        "text": "TestForValidation_DM"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "roles",
+        "value": "admin,writer"
+      }
+    ],
+    "modelReferences": []
+  },
+  "content": {
+    "modelInfo": {
+      "name": "TestForValidation_DM"
+    },
+    "modelConfig": {
+      "decimalSeparator": ".",
+      "timeZone": "UTC",
+      "conditionLanguage": {
+        "code": "en_US"
+      }
+    },
+    "modelRoot": {
+      "rootGroups": [
+        {
+          "type": "Group",
+          "id": "group_a510f",
+          "name": "root",
+          "Group": {
+            "repeatability": 1,
+            "elements": [
+              {
+                "type": "Field",
+                "id": "field_7c39f",
+                "name": "status",
+                "Field": {
+                  "fieldType": {
+                    "type": "EnumerationType",
+                    "EnumerationType": {
+                      "values": [
+                        {
+                          "value": "IN_REVIEW",
+                          "label": [
+                            {
+                              "locale": "en",
+                              "text": "IN_REVIEW"
+                            }
+                          ]
+                        },
+                        {
+                          "value": "REVIEWED",
+                          "label": [
+                            {
+                              "locale": "en",
+                              "text": "REVIEWED"
+                            }
+                          ]
+                        }
+                      ],
+                      "categories": []
+                    }
+                  },
+                  "requirednessConfig": {
+                    "mode": "absoluteOrRelativeToNextRepAncestor"
+                  }
+                }
+              },
+              {
+                "type": "Field",
+                "id": "field_b4e89",
+                "name": "name",
+                "Field": {
+                  "fieldType": {
+                    "type": "StringType"
+                  }
+                }
+              },
+              {
+                "type": "Rule",
+                "id": "rule_8eb60",
+                "name": "ValidateNameFieldIsSet",
+                "Rule": {
+                  "errorEntityRelPath": "../status",
+                  "errorCode": "Error rule_8eb60",
+                  "errorCondition": "[status] == \"REVIEWED\" and FieldNotFilled(name)",
+                  "severity": "ERROR",
+                  "errorMessage": [
+                    {
+                      "locale": "en",
+                      "text": "Name field has to be set."
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

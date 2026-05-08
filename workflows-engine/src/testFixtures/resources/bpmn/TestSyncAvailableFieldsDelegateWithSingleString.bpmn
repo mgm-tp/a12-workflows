@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1menj36" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.25.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
+  <bpmn:process id="TestSyncAvailableFieldsDelegateWithSingleString" name="TestSyncAvailableFieldsDelegateWithSingleString" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1m4lixk</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="SyncAvailableFields" name="Sync Task" camunda:asyncBefore="true" camunda:delegateExpression="#{syncAvailableFieldsDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="documentReferences">${someDocRef}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1476qag</bpmn:incoming>
+      <bpmn:outgoing>Flow_1yj2117</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1m4lixk" sourceRef="StartEvent_1" targetRef="TaskBefore" />
+    <bpmn:sequenceFlow id="Flow_1yj2117" sourceRef="SyncAvailableFields" targetRef="TaskAfter" />
+    <bpmn:endEvent id="Event_13ypudd" camunda:asyncBefore="true">
+      <bpmn:incoming>Flow_07645t0</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1476qag" sourceRef="TaskBefore" targetRef="SyncAvailableFields" />
+    <bpmn:sequenceFlow id="Flow_07645t0" sourceRef="TaskAfter" targetRef="Event_13ypudd" />
+    <bpmn:userTask id="TaskAfter" name="TaskAfter" camunda:formKey="TestForCbr_FM">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="documentReference">${someDocRef}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1yj2117</bpmn:incoming>
+      <bpmn:outgoing>Flow_07645t0</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="TaskBefore" name="TaskBefore" camunda:formKey="TestForCbr_FM">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="documentReference">${someDocRef}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1m4lixk</bpmn:incoming>
+      <bpmn:outgoing>Flow_1476qag</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="TestSyncAvailableFieldsDelegateWithSingleString">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="152" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ba5ulg_di" bpmnElement="SyncAvailableFields">
+        <dc:Bounds x="450" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_13ypudd_di" bpmnElement="Event_13ypudd">
+        <dc:Bounds x="782" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_09r8y9p_di" bpmnElement="TaskAfter">
+        <dc:Bounds x="620" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1u7l8dy_di" bpmnElement="TaskBefore">
+        <dc:Bounds x="280" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1m4lixk_di" bpmnElement="Flow_1m4lixk">
+        <di:waypoint x="188" y="117" />
+        <di:waypoint x="280" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1yj2117_di" bpmnElement="Flow_1yj2117">
+        <di:waypoint x="550" y="117" />
+        <di:waypoint x="620" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1476qag_di" bpmnElement="Flow_1476qag">
+        <di:waypoint x="380" y="117" />
+        <di:waypoint x="450" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_07645t0_di" bpmnElement="Flow_07645t0">
+        <di:waypoint x="720" y="117" />
+        <di:waypoint x="782" y="117" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

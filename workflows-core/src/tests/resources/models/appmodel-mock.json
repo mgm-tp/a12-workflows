@@ -1,0 +1,87 @@
+{
+  "header": {
+    "id": "appmodel-mock",
+    "modelVersion": "6.0.0",
+    "modelType": "application"
+  },
+  "content": {
+    "modules": [
+      {
+        "menu": {
+          "name": "someMenu"
+        },
+        "name": "someModule",
+        "flows": [
+          {
+            "name": "someFlow",
+            "scenes": [
+              {
+                "sceneChange": {
+                  "onEnter": [
+                    {
+                      "type": "VIEW_ADD",
+                      "name": "firstOnEnterName",
+                      "models": [
+                        {
+                          "modelType": "someModelType",
+                          "name": "firstModelType"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "name": "firstScene",
+                "matchConditions": [
+                  {
+                    "key": "firstKey",
+                    "mustEqual": "firstMustEqual"
+                  }
+                ]
+              },
+              {
+                "sceneChange": {
+                  "onEnter": [
+                    {
+                      "type": "VIEW_ADD",
+                      "name": "secondOnEnterName",
+                      "models": [
+                        {
+                          "modelType": "someModelType",
+                          "name": "secondModelType"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "name": "secondScene",
+                "matchConditions": [
+                  {
+                    "key": "secondKey",
+                    "mustEqual": "secondMustEqual"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "region": {
+      "name": "APP",
+      "layout": {
+        "name": "ApplicationFrame"
+      },
+      "subRegions": [
+        {
+          "layout": {
+            "name": "MasterDetail"
+          },
+          "name": "CONTENT"
+        }
+      ]
+    },
+    "defaultRegion": [
+      "CONTENT"
+    ]
+  }
+}

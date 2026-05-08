@@ -1,0 +1,9 @@
+{
+  "jsonrpc": "2.0",
+  "method": "ASSIGN_TASK",
+  "id": "TaskAssignOperation",
+  "params": {
+    "docRef": "23",
+    "assignee": ""
+  }
+}

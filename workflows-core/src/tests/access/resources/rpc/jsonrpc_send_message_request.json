@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": "SendMessageOperation",
+  "method": "SEND_MESSAGE",
+  "params": {
+    "processInstanceId": "abc",
+    "messageName": "EVENT_ACCEPT",
+    "payload": {
+      "variable": "test"
+    },
+    "businessKey": "businessKey"
+  }
+}

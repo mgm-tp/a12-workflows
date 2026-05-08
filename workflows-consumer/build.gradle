@@ -1,0 +1,36 @@
+plugins {
+    id 'java-library'
+    id 'base'
+    alias libs.plugins.springboot
+    alias libs.plugins.kotlin.spring
+    id 'jvm-test-suite'
+}
+
+apply plugin: "org.jetbrains.kotlin.jvm"
+
+
+dependencies {
+    api project(":workflows-engine-rest-client")
+    api project(":workflows-shared-constants")
+    api project(":workflows-shared-dtos")
+    api project(":workflows-shared-logging")
+    api libs.spring.boot.starter.artemis
+}
+
+testing {
+    suites {
+        configureEach {
+            useJUnitJupiter()
+        }
+
+        test {
+            dependencies {
+                implementation.bundle libs.bundles.testingCatalog.unittest
+            }
+        }
+    }
+}
+
+bootJar {
+    enabled = false
+}

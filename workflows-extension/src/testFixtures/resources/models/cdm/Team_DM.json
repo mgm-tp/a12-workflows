@@ -1,0 +1,96 @@
+{
+  "header": {
+    "id": "Team_DM",
+    "modelType": "document",
+    "modelVersion": "28.3.0",
+    "locales": [
+      {
+        "code": "en"
+      },
+      {
+        "code": "de"
+      }
+    ],
+    "labels": [
+      {
+        "locale": "en",
+        "text": "Team"
+      },
+      {
+        "locale": "de",
+        "text": "Team"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "roles",
+        "value": "tester,reviewer"
+      }
+    ],
+    "modelReferences": [
+      {
+        "alias": "WorkflowsMetadata_DM",
+        "modelType": "document",
+        "purpose": "include",
+        "reference": "WorkflowsMetadata_DM"
+      }
+    ]
+  },
+  "content": {
+    "modelInfo": {
+      "name": "Team_DM",
+      "immutable": false,
+      "joinedModelsInfo": "Team_DM-document-meta-data+Add"
+    },
+    "modelConfig": {
+      "decimalSeparator": ".",
+      "timeZone": "UTC",
+      "conditionLanguage": {
+        "code": "en_US"
+      }
+    },
+    "modelRoot": {
+      "rootGroups": [
+        {
+          "type": "Group",
+          "id": "group_4d78f",
+          "name": "Team",
+          "Group": {
+            "repeatability": 1,
+            "elements": [
+              {
+                "type": "Field",
+                "id": "field_c9ad3",
+                "name": "TeamName",
+                "Field": {
+                  "fieldType": {
+                    "type": "StringType"
+                  },
+                  "label": [
+                    {
+                      "locale": "en",
+                      "text": "Name"
+                    },
+                    {
+                      "locale": "de",
+                      "text": "Name"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Group",
+                "id": "include_64597",
+                "name": "A12WF",
+                "Group": {
+                  "repeatability": 1,
+                  "modelAlias": "WorkflowsMetadata_DM"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

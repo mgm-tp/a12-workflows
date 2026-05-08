@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0oacf84" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.24.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.21.0">
+  <bpmn:process id="UserTasksExampleProcess" name="UserTasksExampleProcess" isExecutable="true" camunda:historyTimeToLive="180">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1nocif1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1nocif1" sourceRef="StartEvent_1" targetRef="UserTaskCreatingDocument" />
+    <bpmn:sequenceFlow id="Flow_1by2zp9" sourceRef="UserTaskCreatingDocument" targetRef="UserTaskWithInputDocument" />
+    <bpmn:endEvent id="Event_1e7xayx">
+      <bpmn:incoming>Flow_0h2w1b0</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0h2w1b0" sourceRef="UserTaskWithInputDocument" targetRef="Event_1e7xayx" />
+    <bpmn:userTask id="UserTaskCreatingDocument" name="Submit request" camunda:modelerTemplate="userTaskNewDoc" camunda:modelerTemplateVersion="1" camunda:formKey="someFormKey">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="myRequestDocRef">${newDocRef}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1nocif1</bpmn:incoming>
+      <bpmn:outgoing>Flow_1by2zp9</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="UserTaskWithInputDocument" name="Review request" camunda:modelerTemplate="userTaskWithInputDoc" camunda:modelerTemplateVersion="1" camunda:formKey="someFormKey">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="documentReference">${myRequestDocRef}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1by2zp9</bpmn:incoming>
+      <bpmn:outgoing>Flow_0h2w1b0</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:textAnnotation id="TextAnnotation_0ynxsrt">
+      <bpmn:text>Creates a new request document</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0sbn7hf" sourceRef="UserTaskCreatingDocument" targetRef="TextAnnotation_0ynxsrt" />
+    <bpmn:textAnnotation id="TextAnnotation_1cxm36c">
+      <bpmn:text>References the new request document</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1lmh70l" sourceRef="UserTaskWithInputDocument" targetRef="TextAnnotation_1cxm36c" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="UserTasksExampleProcess">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="159" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1e7xayx_di" bpmnElement="Event_1e7xayx">
+        <dc:Bounds x="592" y="159" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0au9ha8_di" bpmnElement="UserTaskCreatingDocument">
+        <dc:Bounds x="270" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1hrh3pb_di" bpmnElement="UserTaskWithInputDocument">
+        <dc:Bounds x="430" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0ynxsrt_di" bpmnElement="TextAnnotation_0ynxsrt">
+        <dc:Bounds x="370" y="50" width="122" height="54" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1cxm36c_di" bpmnElement="TextAnnotation_1cxm36c">
+        <dc:Bounds x="530" y="50" width="100" height="55" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1nocif1_di" bpmnElement="Flow_1nocif1">
+        <di:waypoint x="215" y="177" />
+        <di:waypoint x="270" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1by2zp9_di" bpmnElement="Flow_1by2zp9">
+        <di:waypoint x="370" y="177" />
+        <di:waypoint x="430" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0h2w1b0_di" bpmnElement="Flow_0h2w1b0">
+        <di:waypoint x="530" y="177" />
+        <di:waypoint x="592" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0sbn7hf_di" bpmnElement="Association_0sbn7hf">
+        <di:waypoint x="356" y="137" />
+        <di:waypoint x="385" y="104" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1lmh70l_di" bpmnElement="Association_1lmh70l">
+        <di:waypoint x="516" y="137" />
+        <di:waypoint x="544" y="105" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

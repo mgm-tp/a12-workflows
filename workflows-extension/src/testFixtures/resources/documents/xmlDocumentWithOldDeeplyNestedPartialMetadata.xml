@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SimplePersonWithDeeplyNestedResolvedMetadata_DM>
+    <person>
+        <name>John</name>
+        <level2>
+            <level3>
+                <a12wf>
+                    <processDefinition>
+                        <key>ProcessDefinitionKey</key>
+                        <name>ProcessDefinitionName</name>
+                    </processDefinition>
+                    <process>
+                        <id>530d14f2-107f-11ec-8308-803253632ada</id>
+                        <businessKey>BusinessKey</businessKey>
+                        <initiator>initiator</initiator>
+                    </process>
+                </a12wf>
+            </level3>
+        </level2>
+    </person>
+</SimplePersonWithDeeplyNestedResolvedMetadata_DM>

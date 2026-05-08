@@ -1,0 +1,21 @@
+{
+  "id": "1",
+  "A12WF": {
+    "ProcessDefinition": {
+      "Key": "a",
+      "Name": "b"
+    },
+    "TaskDefinition": {
+      "Key": "c",
+      "Name": "d"
+    },
+    "Process": {
+      "ID": "e",
+      "BusinessKey": "theBusinessKey"
+    }
+  },
+  "person": {
+    "name": "John",
+    "email": "john@mgm.com"
+  }
+}

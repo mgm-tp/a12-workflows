@@ -1,0 +1,14 @@
+plugins {
+    id 'java-library'
+    id 'base'
+}
+
+apply plugin: "org.jetbrains.kotlin.jvm"
+
+dependencies {
+    api libs.slf4j.api
+}
+
+jar {
+    archiveClassifier.set("")
+}

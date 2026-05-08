@@ -1,0 +1,30 @@
+{
+  "id": "1",
+  "A12WF": {
+    "ProcessDefinition": {
+      "Key": "ProcessDefinitionKey",
+      "Name": "ProcessDefinitionName"
+    },
+    "TaskDefinition": {
+      "Key": "TaskDefinitionKey",
+      "Name": "TaskDefinitionName",
+      "FormKey": "FormKey"
+    },
+    "Process": {
+      "ID": "530d14f2-107f-11ec-8308-803253632ada",
+      "BusinessKey": "BusinessKey",
+      "Initiator": "initiator"
+    },
+    "Task": {
+      "ID": "530d14f2-107f-11ec-8308-803253632adb",
+      "CreationDate": "2022-02-11T09:20:00",
+      "DueDate": "2022-02-20",
+      "Assignee": "oldAssignee",
+      "someCustomField": "foo"
+    },
+    "WorkflowsInternalDocumentStatus": "EMPTY"
+  },
+  "person": {
+    "name": "John"
+  }
+}

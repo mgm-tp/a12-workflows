@@ -1,0 +1,79 @@
+import org.gradle.internal.os.OperatingSystem
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+apply plugin: "maven-publish"
+apply plugin: "org.jetbrains.kotlin.jvm"
+
+test {
+    useJUnitPlatform()
+}
+
+java {
+    sourceCompatibility(JavaVersion.VERSION_21)
+    targetCompatibility(JavaVersion.VERSION_21)
+}
+
+dependencies {
+    // Testing
+    testImplementation libs.bundles.testingCatalog.unittest
+    testImplementation project(":workflows-engine")
+    testImplementation libs.bundles.kotlin
+    testImplementation libs.json.standard
+}
+
+tasks.withType(KotlinCompile).configureEach {
+    compilerOptions {
+        freeCompilerArgs.addAll("-Xjsr305=strict","-java-parameters")
+        jvmTarget.set(JvmTarget.JVM_21)
+    }
+}
+
+def installCustomLintRulesPlugin = tasks.register("installCustomLintRulesPlugin", Exec) { Exec exec ->
+
+    workingDir = file("src/main/resources/plugins/a12wf-camunda-modeler-custom-linter-rules-plugin")
+
+    inputs.dir(exec.workingDir.path)
+    outputs.files("${exec.workingDir.path}/package-lock.json")
+    outputs.dirs(
+            "${exec.workingDir.path}/node_modules",
+            "${exec.workingDir.path}/dist"
+    )
+
+    if (OperatingSystem.current().isWindows()) {
+        commandLine 'cmd', '/c', 'npm install && npm run all'
+    } else {
+        commandLine 'bash', '-c', 'npm install && npm run all'
+    }
+}
+
+tasks.register("assembleCamundaModelerResources", Zip) {
+    group("build")
+    dependsOn(installCustomLintRulesPlugin)
+
+    archiveBaseName.set("workflows_engine_modeler_extensions")
+    archiveExtension.set("zip")
+
+    destinationDirectory.set(file("$buildDir/libs/"))
+
+    from("src/main/resources") {
+        include "plugins/a12wf-camunda-modeler-custom-linter-rules-plugin/dist/**",
+                "plugins/a12wf-camunda-modeler-custom-linter-rules-plugin/index.js",
+                "element-templates/**",
+                "flags.json"
+
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+        includeEmptyDirs = false
+    }
+}
+
+publishing {
+    publications {
+        camundaModelerResourcesDistribution(MavenPublication) {
+            artifact assembleCamundaModelerResources
+        }
+    }
+}
+
+tasks.build.dependsOn(assembleCamundaModelerResources)
+tasks.processResources.dependsOn(installCustomLintRulesPlugin)

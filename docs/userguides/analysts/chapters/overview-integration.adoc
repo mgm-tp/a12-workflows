@@ -1,0 +1,644 @@
+////
+SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
+Copyright (c) 2012-2026 mgm technology partners GmbH
+Dual License
+This source file is part of the mgm A12 Platform and available under a choice of two different licenses:
+1. Open-Source License – EUPL v1.2
+You may redistribute and/or modify this file under the terms of the European Union Public License, version 1.2 - see https://eupl.eu/.
+2. Commercial License
+Alternatively, you may obtain a commercial license from mgm technology partners GmbH, that permits use of this software under different terms (including support and maintenance services).
+
+Please contact a12-license@mgm-tp.com for more information.
+
+You must select and comply with exactly one of the above license options.
+
+Warranty Disclaimer (applies to either option)
+THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
+////
+= Overview of Integration Possibilities
+
+Successful modeling and integration of Workspaces that make use of Workflows includes a number of extra considerations compared to a standard CRUD use-case:
+
+* Correct configuration of your application
+* Valid BPMN Model(s)
+* Document Models used in a Task must be able to store process metadata
+** Field Values used in the Process must be correctly annotated
+* Form Model actions must be configured to move the process token accordingly
+* Overview Model actions must be configured to start process as well as creating new Documents
+
+== Configuring your Application
+
+[[preview-app-setup]]
+=== Preview App
+
+To use the preview app to model a workflow, a _workspace_ must be set up.
+You can review the `with-workflows` workspace as an example.
+
+A workspace for workflows must include the following in the `workspace.json`:
+
+* `"enableWorkflows": true`
+* Email server configuration, if you want to use the <<anchor-provided-delegates,`sendEmailDelegate`>>
+
+A `workspace.json` may look as follows:
+
+[source,json]
+----
+{
+  "activeTheme": "flat",
+  "workspaceTitle": "My Workflows Workspace",
+  "enableWorkflows": true,
+  "themes": [],
+  "environmentVariables": {
+    "preview-app-workflows": {
+      "MGMTP_A12_WORKFLOWS_ENGINE_DELEGATES_EMAIL_HOST": "add-email.host",
+      "MGMTP_A12_WORKFLOWS_ENGINE_DELEGATES_EMAIL_USER": "add-user",
+      "MGMTP_A12_WORKFLOWS_ENGINE_DELEGATES_EMAIL_PASSWORD": "add-password",
+      "MGMTP_A12_WORKFLOWS_ENGINE_DELEGATES_EMAIL_FROM": "add-sender-email-address",
+      "MGMTP_A12_WORKFLOWS_ENGINE_DELEGATES_EMAIL_PORT": "587",
+      "MGMTP_A12_WORKFLOWS_ENGINE_DELEGATES_EMAIL_STARTTLS_ENABLED": "true",
+      "MGMTP_A12_WORKFLOWS_ENGINE_DELEGATES_EMAIL_LOGIN_ENABLED": "true",
+      "MGMTP_A12_WORKFLOWS_ENGINE_DELEGATES_EMAIL_KEEP_ALIVE_TIMEOUT": "300"
+    }
+  }
+}
+----
+
+[[project-template-setup]]
+=== Project Template
+Please make sure to use the
+link:/docs/PROJECT_TEMPLATE/project-template-documentation/index.html#_workflows_2[Workflows Variant]
+of the Project Template.
+
+[[BPMN-introduction]]
+== Integration of BPMN Models
+
+The official Camunda website provides an overview of https://camunda.com/de/bpmn/bpmn-2-0-symbol-reference/[supported BPMN elements].
+
+[NOTE]
+====
+The Camunda 7 and CIB 7 documentation are currently similar. Camunda's documentation offers more information about some modeling aspect as well as we still use the Camunda Modeler.
+The term Camunda in this documentation refers the Camunda Modeler. CIB 7 is the actual process engine that processes the modeled BPMN models.
+====
+
+In principle, A12WF supports all BPMN elements that Camunda supports.
+<<anchor-provided-element-templates,_Element Templates_>> have been added to the Camunda Modeler that you can download with the A12 installer from
+link:https://geta12.com/#/releases/installer[geta12.com].
+These templates minimize the risk of modeling errors when integrating BPMN Models in your application.
+
+If you face an issue in your modeling, refer to troubleshooting with the <<anchor-bpmn-troubleshooting, CIB 7 Cockpit>>.
+
+[[Modeling-limitations]]
+=== Current BPMN Limitations
+
+==== Parallel Tasks
+
+[WARNING]
+====
+Parallel _Tasks_ cannot reference the same document.
+
+In other words, a document can only be referenced by one _User Task_ at a time.
+====
+
+==== Signal Events
+
+WARNING: Signal Events cannot be triggered via user interactions.
+
+[[anchor-cbe]]
+==== Conditional Boundary Events
+
+A12 Workflows generally supports using _Conditional (Boundary) Events_ (see also link:https://docs.cibseven.org/manual/{cibsevenVersion}/reference/bpmn20/events/conditional-events/[CIB 7 Manual: Conditional Events]).
+
+_Conditional (Boundary) Events_ may listen to process variables from document fields annotated with *availableInProcessAs* (see <<anchor-cbr-synchronize-values>>). However, be aware of the pitfalls below.
+
+===== Pitfalls
+
+. When ending a _User Task_ via any _Boundary Event_, please be aware that the UI will not be reloaded out of the box, as it does when completing a task via the `proceed` form event.
+
+. _Conditional Boundary Events_ should react to external data changes only. In other words, changes made by a user while working on the user task should not trigger the _Conditional Boundary Event_.
+** The reason is that completing a task via the UI also causes a data change. If this task completion triggers the boundary event, the engine will try to complete the task which was already deleted by the _Conditional Boundary Event_, causing flaky errors (race conditions).
+
+NOTE: Camunda Modeler versions <5.12.0 has a bug which prevents setting event types for conditional events. If affected, please upgrade to a more recent A12 Installer version.
+
+[[anchor-element-templates]]
+=== Camunda Element Templates
+
+Camunda provides the possibility to create _Element Templates_ which provide tailored views on BPMN elements.
+
+By linking one these _Element Templates_, the properties panel for that element is adapted so that the modeler has a made-to-measure view of the settings that need to be made.
+
+[NOTE]
+====
+Workflows provides <<anchor-provided-element-templates,_Element Templates_>> to support model integration.
+
+These Templates include tailored views and simple validation of the settings.
+====
+
+For instance, an _Element Template_ for a _Service Task_ calling a certain delegate would show only the relevant properties for that delegate:
+
+* The reference to the delegate is pre-set
+* The input parameter names  are pre-defined
+
+The modeler only needs to provide the input values.
+In certain cases, the input value is validated.
+For example, if an expression must be entered to reference a process variable, the input is validated to ensure the correct syntax is used.
+
+_Element Templates_ greatly improve the integration of models by saving time and reducing errors by manual inputs.
+
+NOTE: General information about Camunda _Element Templates_ can be found in link:https://docs.camunda.io/docs/components/modeler/desktop-modeler/element-templates/about-templates/[Camunda Docs: Element Templates].
+
+[[anchor-provided-element-templates]]
+==== Provided Element Templates
+
+The Camunda Modeler which comes with the A12 Installer includes _Element Templates_ for:
+
+. all our <<anchor-provided-delegates, delegates>>,
+. the two supported user tasks,
+.. <<user-task-new-doc>>
+.. <<user-task-existing-doc>>
+. and <<message-event-template,Message Throw Events>>.
+
+NOTE: The Camunda documentation includes information on both Camunda 7 and Camunda 8. Please be aware of the differences between these versions when referring to the documentation.
+
+==== Custom Element Templates
+
+To create custom element templates, please refer to:
+
+* link:https://docs.camunda.io/docs/components/modeler/desktop-modeler/element-templates/configuring-templates/[Camunda Docs: Element Template Configuration]
+* link:https://docs.camunda.io/docs/components/modeler/desktop-modeler/element-templates/c7-defining-templates/[Camunda Docs: Element Template Definition]
+* link:https://docs.camunda.io/docs/components/modeler/desktop-modeler/element-templates/using-templates/[Camunda Docs: Applying Element Templates]
+
+[[anchor-user-tasks]]
+=== User Tasks
+
+There are two cases that are currently supported with the <<anchor-provided-element-templates,_Element Templates_>>:
+
+* A _User Task_ creates a new document.
+* A _User Task_ works on an existing document.
+
+[[anchor-service-tasks]]
+=== Service Tasks
+
+_Service Tasks_ run code without human intervention.
+
+Typically, they trigger one of the <<anchor-provided-delegates, provided delegates>>.
+These delegates are predefined automations for _Service Tasks_.
+
+The settings for the following delegates can be made using the <<anchor-provided-element-templates,_Element Templates_>> provided.
+
+For more details about the usage of delegates, please check
+link:https://docs.cibseven.org/manual/{cibsevenVersion}/user-guide/process-engine/delegation-code/[CIB 7 docs].
+
+[NOTE]
+====
+Projects can implement custom delegates and _Element Templates_.
+====
+
+[[anchor-provided-delegates]]
+.Provided Delegates
+[cols="5,4,2,9",options="header",]
+|===
+|Template | Inputs | Outputs | Description
+
+|<<set-status-delegate-template>>
+|`documentReference, +
+pathToField, +
+[repetitions, ] +
+newValue`
+| -
+|Update the status (optionally, with the given repetitions) in the given document.
+
+|<<sync-available-fields-delegate-template>>
+|`documentReferences`
+| -
+|Fetches the current values of `availableInProcessAs`-annotated fields of the given documents as process variables.
+
+|<<send-email-delegate-template>>
+|`recipients, +
+[cc, ] +
+subject, +
+message`
+| -
+|Sends an email to one or more recipients.
+
+|<<create-document-delegate-template>> 
+|`documentModelName`
+|`newDocRef`
+|Creates a new empty document of the given document model.
+
+|<<create-relationship-link-delegate-template>>
+| `relationshipModel, +
+sourceRole, +
+sourceDocRef, +
+targetRole, +
+targetDocRef`
+|`newLinkId`
+|Creates a link between the two given documents.
+
+|<<delete-relationship-link-delegate-template>>
+|`id, +
+relationshipModel, +
+sourceRole, +
+sourceDocRef, +
+targetRole, +
+targetDocRef`
+| -
+|Deletes the link with the given ID between the two given documents.
+
+|<<relink-document-delegate-template>>
+|`id, +
+relationshipModel, +
+sourceRole, +
+sourceDocRef, +
+targetRole, +
+targetDocRef`
+|`newLinkId`
+|  Replace the current link with a new link, having a new ID.
+
+|===
+
+[NOTE]
+====
+The inputs and outputs listed in <<anchor-provided-delegates>> are correctly applied when using the <<anchor-provided-element-templates,_Element Templates_>> provided.
+
+The delegates may be used without the templates by adding the input and output variables to the service task manually.
+====
+
+[[anchor-bpmn-errors]]
+=== BPMN Errors
+
+In CIB 7, you can use _Error Events_ to react to errors that occur in a process, which are called BPMN Errors (see also link:https://docs.cibseven.org/manual/{cibsevenVersion}/reference/bpmn20/events/error-events/[CIB 7 Docs on BPMN Errors]).
+
+We also provide a few custom BPMN Errors which can occur in some of our delegates.
+You can react to them by using _Error Boundary Events_ on the respective _Service Task_.
+For this _Boundary Event_, create a new global error reference, give it a name, and set the code property to the respective BPMN Error code.
+
+.Example for an ErrorBoundaryEvent
+image::assets/images/error-boundary-event-example.png[Example for an ErrorBoundaryEvent]
+
+.Error Codes for Specific Delegates
+[width="100%",cols="25%,30%,45%",options="header",]
+|===
+|BPMN Error Code | Related Delegates | Description
+|SendEmailError|`sendEmailDelegate`|This error is thrown when an email could not be sent via the delegate, e.g. because the mail server was not reached.
+|RelationshipLinkageError|`createRelationshipLinkDelegate`, +
+`deleteRelationshipLinkDelegate`, +
+`relinkDocumentDelegate`|This error is thrown when a relationship link could not be created, modified or deleted, e.g. because the given relationship model was not found.
+|LinkLimitReachedError|`createRelationshipLinkDelegate`|This error is thrown in case the new link would break the upper bound, see also link:/docs/overall/relationships_for_bas/index.html#_relationship_model_editor[Relationship Model Documentation].
+|===
+
+[[asnychronous-continuations]]
+=== Asynchronous Continuations
+
+On most BPMN elements, you will find `Asynchronous continuations` in the properties panel.
+
+These represent a *"savepoint"* in the process.
+If an error occurs, CIB 7 will revert to the last "savepoint".
+
+NOTE: User tasks are savepoints by default. Service tasks are not.
+
+.Property Panel With Asynchronous Continuation Before
+image::assets/images/bpmn-asynchronous-before.png[Property panel with asynchronous continuation before]
+
+Asynchronous continuations:: Savepoints can be set to `Before` or `After`:
++
+* `Asynchronous before`
+** Sets a "savepoint" before the element.
+** Example: if a _Gateway_ is "asynchronous before", CIB 7 cannot roll back to any element before the _Gateway_ even if its evaluation fails.
+* `Asynchronous after`
+** Sets a "savepoint" after the element.
+** Example: if a _Service Task_ is "asynchronous after", CIB 7 cannot fall back past this point and this service task will not be repeated.
+
+[NOTE]
+====
+If a _User Task_ does not have an asynchronous continuation specified, CIB 7 can fall back into the wait state of that user task if a subsequent step fails.
+====
+
+[TIP]
+====
+As a modeler, you should always keep `exclusive` checked.
+
+Asynchronous continuations modeled using one of the provided <<anchor-provided-element-templates,_Element Templates_>> are set to `exclusive`.
+====
+
+
+
+[[anchor-occupied-process-variable-names]]
+=== Occupied Process Variable Names
+
+The following process variable names are fixed and therefore shouldn't be used as output or input variable name in _User Tasks_ or _Service Tasks_:
+
+* `newDocRef`
+* `initiator`
+* `documentReference`
+* `newLinkId`
+* Names of delegate inputs (see <<anchor-provided-delegates,Provided Delegates>>)
+
+== Document Models
+
+[[anchor-metadata-include]]
+=== Metadata Include
+
+NOTE: Workflows metadata is currently maintained separately from _Document Metadata_.
+
+You must add link:assets/files/WorkflowsMetadata_DM.json[`WorkflowsMetadata_DM.json`] as an include in all documents models that are used in a workflow. The include can be on any level but must be called exactly `A12WF`.
+
+At runtime, this metadata connects a document to a _User Task_ of a running process instance.
+
+The metadata is manipulated every time a _User Task_ is created, assigned, completed, or aborted.
+
+The metadata mainly contains the following information:
+
+* The name of the process model,
+* the process instance ID,
+* the business key for this process instance,
+* the initiator, who started this process instance,
+* the name and the id of the current _User Task_,
+* the assignee of the current _User Task_,
+* the name of the _Form Model_ linked to a _User Task_.
+
+[CAUTION]
+====
+The String data used in Workflows metadata will be validated to ensure that the characters used are included in the link:/docs/sme/sme-dm-ba-docs/index.html#txt:reference:supported-characters[Supported Characters] defined in the Document Model.
+
+Modeling a restricted set of Supported Characters can lead to formal validation errors when adding or updating the Workflows Metadata which prevents the Document from being saved.
+====
+
+[[anchor-cbr-context-based-validation-rules]]
+=== Context-Based Validation Rules
+
+In order to allow successful validation of "intermediate documents" that are built up in a process, modelers must write *_context-based validation rules_*.
+The idea is that, in different stages of a process, different validation rules should become active.
+
+[CAUTION]
+====
+Full validation is performed on all documents by default, including when working on a task or completing a task.
+====
+
+[TIP]
+====
+To reduce modeling effort, the status should be an enumeration and _link:/docs/sme/sme-dm-ba-docs/index.html#_enumeration_categories[categories,role=internal]_ can be used to group multiple enumeration values into one category.
+
+This way, you can define "stages of validation", where each category represents one such stage.
+In each stage, different validation rules apply.
+====
+
+==== Example
+
+Consider a simple model with three fields:
+
+.Simple Model
+[%header, cols="1,1,2a"]
+|===
+|Field|Data Type|Data Type Constraints
+|Name|String|-
+|DateOfBirth|Date|-
+|Status|Enumeration|
+Category = "RuleCategory"
+
+[%header, cols="1,1"]
+!===
+!Enumeration Value!RuleCategory
+!StartingStatus!Start
+!NameMustBeFilled!BothRules
+!DateOfBirthMustBeFilled!BothRules
+!===
+
+|===
+
+The "Status" Field can take three values as shown in the table above.
+
+Let's add the following Validation Rules:
+
+.Rule Modeled in Simple Model
+[%header, cols="1,1,2a"]
+|===
+|Rule|Error Field|Error Condition
+|NameIsFilled
+|Name
+|`[Status -> RuleCategory] == "BothRules" AND FieldNotFilled(Name)`
+|DateOfBirthIsFilled
+|DateOfBirth
+|`[Status] == "DateOfBirthMustBeFilled" AND FieldNotFilled(DateOfBirth)`
+|===
+
+In the process shown in <<bpmn-status-based-validation>>, the following Context-Based Validation occurs:
+
+. The Status is set to "NameMustBeFilled".
+. The User completes the Name in the User Task "Enter Name".
+.. If the Name is left empty, the Rule "NameIsFilled" fires as the RuleCategory of "NameMustBeFilled" == "BothRules".
+.. If the Date of Birth is left empty, no rule fires.
+. The Status is set to "DateOfBirthMustBeFilled".
+.. If the Name is left empty, the Rule "NameIsFilled" fires as the RuleCategory of "DateOfBirthMustBeFilled" == "BothRules".
+.. If the Date of Birth is left empty, the Rule "DateOfBirthIsFilled" fires.
+
+[[bpmn-status-based-validation]]
+.Different Validation Rules Triggered Through Context Changes
+image::assets/images/bpmn-status-based-validation.png[Different Validation Rules Triggered Through Context Changes]
+
+[[anchor-cbr-synchronize-values]]
+=== Synchronize Field Values
+
+Field values can be synchronized from a document to its corresponding _User Task_ in CIB 7.
+
+To do this, you need to annotate the desired fields with `*availableInProcessAs*` and provide the desired _Process Variable_ name.
+
+With automatic synchronization enabled, synchronization takes place whenever the document payload changes. It does _not_ trigger if only A12 Workflows metadata is modified. So among others, synchronization happens when...
+
+* a _User Task_ is saved.
+* a _User Task_ is completed via the `proceed` event.
+* a _User Task_ is assigned to a user.
+* the document is changed externally, e.g., via code.
+
+NOTE: Only fields can be synchronized to CIB 7 for the time being. For repeated fields, the last found value will be synchronized.
+
+[[anchor-form-model]]
+== Form Models
+
+A Workflows process can load a specific Form Model for a specific User Task.
+When a heterogeneous subType Document is used, a Form Model can also be modeled for each specific subType.
+
+[[anchor-supported-event-form]]
+[%header, cols="1,1,3"]
+.Supported Events in Form Models
+|===
+|Event|Action Type|Purpose
+|<<anchor-proceed-event,`proceed`>>|Button|Completes the current user task.
+|<<anchor-send-message-event,`sendMessage`>>|Button|Triggers a _Message Event_ in CIB 7.
+|===
+
+[[anchor-overview-models]]
+== Overview Models
+
+Overviews in the context of A12 Workflows represent *task lists*.
+
+A task list can show tasks of one or more process models.
+A heterogeneous task list overview may also be modeled.
+
+An entry in a task list is a currently active _User Task_ in a currently running _Process Instance_.
+
+The overview model *must reference a document model which includes our `WorkflowsMetadata_DM.json`*.
+
+WARNING: We don't deliver an overview component out of the box, so *the following depends on the project's overview implementation*.
+However, *it describes the most common situation*.
+
+[[anchor-supported-event-overview]]
+[%header, cols="1,1,3"]
+.Supported Events in Overview Models
+|===
+|Event|Action Type|Purpose
+|<<start-process-overview,`startProcess_<PROCESS_ID>`>>|Button|Starts a new instance of process model `<PROCESS_ID>`.
+
+(Must match the process ID in the BPMN model)
+|<<start-process-overview-heterogen,`startProcess_<PROCESS_ID>_<SUBTYPE_NAME>`>>|Button|Starts a new instance of process model `<PROCESS_ID>` with the subtype name `<SUBTYPE_NAME>`.
+|<<assign-task-user,`claim`>>|Row Action|Assigns a task to the current user.
+
+`.../A12WF/Task/Assignee` will be set to the current username.
+|===
+
+[WARNING]
+====
+The following Events are *not* supported in task lists:
+
+* `add`
+* `delete`
+====
+
+[[anchor-cbr-app-model]]
+== Application Models
+
+[[anchor-overview-scene]]
+=== Overview Scene
+
+To model an activity that shows a _task overview_, you must take care of the following:
+
+. You must add `"view": "TaskList"` (as before) to the activity descriptor in the SME.
+. You must add `"model": "<YOUR_PROCESS_DOCUMENT_MODEL_NAME>`, e.g. `"model": "DomainOrder"`.
+** When working with CDMs, the root Document Model must be referenced.
+. You must call the containing _flow_ exactly `"TaskFlow"`.
+
+image::assets/images/Appmodel-example.png[Example Application Model]
+
+[start=4]
+. In the `VIEW_ADD` directive, make sure the name matches the name of the registered overview component.
+** In the Preview App, it is `OverviewEngine`, if you haven't defined a custom React component for registering custom event handlers.
+** If you decide to define a custom task overview component, as described in the link:/docs/workflows/dev-docs/index.html#anchor-cbr-integration-step-by-step[Integration Step-by-Step Guide], then the name in the VIEW_ADD` directive must match the view name in your view provider.
+
+[[anchor-form-scenes]]
+=== Form Scenes
+
+Generally, you should _not_ model scenes for forms because we generate these Application Model fragments at runtime.
+
+The only exceptions to this are if you want to model a heterogeneous _task overview_ or one for a CDM, since these scenes are not generated.
+
+==== Heterogeneous Task Overviews
+
+Heterogeneous _task overviews_ show tasks of different process models which refer to subtype document models of the same supertype document model.
+
+For more information on heterogeneity modeling in A12, see link:/docs/overall/heterogeneity/index.html[Modeling Heterogeneous Data]
+& link:/docs/overall/modeling_tutorial_heterogeneity/index.html[Tutorial for Heterogeneity Modeling].
+
+In this case, you must add the scenes for your subtype document models to the `TaskFlow` in your appmodel.
+The match conditions for these scenes must be set as follows:
+
+[width="100%",cols="30%,20%,50%",options="header",]
+|===
+|Match Condition Key | Property | Value
+|instance | is set | true
+|model | must equal | <YOUR_SUPERTYPE_DOCUMENT_MODEL_NAME>
+|formKey | must equal | <YOUR_FORM_MODEL_NAME_BEING_THE_USER_TASK_FORM_KEY>
+|===
+
+image::assets/images/heterogeneous_scene_match_conditions_example.png[Example Match Conditions for a heterogeneous Form Scene]
+
+To this scene you must add a scene change for _On Enter_ having the following properties:
+
+[width="100%",cols="40%,60%",options="header",]
+|===
+|Property | Value
+|Type | VIEW_ADD
+|Name | FormEngine
+|Constraints Type | MasterDetail
+|Model Type | Form
+|Model Name | <YOUR_FORM_MODEL_NAME>
+|===
+
+image::assets/images/heterogeneous_scene_view_add_example.png[Example Scene Change for a Form Scene]
+
+[[anchor-cdm-task-overviews]]
+==== CDM Task Overviews
+
+The form scenes for showing a CDM-based form in _task overviews_ can be modeled with the following match conditions:
+
+[width="100%",cols="30%,20%,50%",options="header",]
+|===
+|Match Condition Key | Property | Value
+|instance | is set | true
+|model | must equal | <YOUR_ROOT_DOCUMENT_MODEL_NAME>
+|view | must equal | TaskList
+|===
+
+image::assets/images/cdm_scene_match_conditions_example.png[Example Match Conditions for a CDM-based Form Scene]
+
+To this scene you must add a scene change for _On Enter_ having the following properties:
+
+[width="100%",cols="40%,60%",options="header",]
+|===
+|Property | Value
+|Type | VIEW_ADD
+|Name | FormEngine
+|Model Type | Form
+|Model Name | <YOUR_CDM_BASED_FORM_MODEL_NAME>
+|===
+
+image::assets/images/cdm_scene_view_add_example.png[Example Scene Change for a Form Scene]
+
+You must model the Form Scenes for Child Activities similarly.
+For more information, see link:/docs/OVERALL/relationships_for_bas/index.html#_setup_of_master_detail_module_with_heterogeneous_child_activity[CDM Child Activity Form Scenes,role=internal].
+
+=== Example
+
+See link:assets/files/vacation-appmodel.json[vacation-appmodel.json] as an example.
+
+[[anchor-RBAC-modeling]]
+== RBAC Modeling
+
+NOTE: RBAC = role-based access control.
+
+While modelers can achieve _certain_ CRUD use cases using RBAC, this model-based authorization mechanism is not suitable for workflows-related use cases.
+
+=== Limitations of RBAC Modeling
+
+* RBAC only enables access rules on model level
+* You cannot show proper task lists
+** Example: if a user is supposed to see their own contract, they can see all contracts
+
+[NOTE]
+====
+Use cases relevant for workflows (e.g. "I can see only my own vacation requests in the task list") can be achieved with ABAC (attribute-based access control).
+ABAC is currently not model-based.
+====
+
+[[anchor-cdm-integration]]
+== CDM Integration
+
+Workflows supports opening CDM-based forms from a _task overview_.
+
+Let's assume we have the following models to work with:
+
+* Document Model `Team_DM` as root Document Model of the CDM
+* Document Model `Employee_DM`
+* Relationship Model `TeamEmployee_RM` defining the relationship between `Team_DM` and `Employee_DM`
+** A team can have up to 10 employees
+** An employee can only be in one team
+* Composed Document Model `TeamEmployee_CDM`
+
+WARNING: The root Document Model must include our <<anchor-metadata-include,Workflows Metadata>>.
+
+The following steps describe how to set up Overview Model, Form Model and App Model:
+
+* In the link:/docs/OVERALL/relationships_for_bas/index.html#_simple_composed_data[CDM,role=internal] `TeamEmployee_CDM`, make sure that the root Document Model for the annotation field `cdm.queryRoot` in the CDM's model settings is defined correctly. In our example this would be `cdm.queryRoot: Team_DM`.
+* Create an link:/docs/OVERALL/relationships_for_bas/index.html#_cdms_and_regular_overviews_or_trees[Overview Model,role=internal] that references the CDM. In our example this would be `TeamPerson_CDM`.
+* Create a link:/docs/OVERALL/relationships_for_bas/index.html#_modeling_a_form_model_for_a_cdm[Form Model referencing the CDM,role=internal]. In our example, the form model can be called `TeamEmployee_CFM` and would reference `TeamPerson_CDM`.
+* Create an link:/docs/OVERALL/relationships_for_bas/index.html#appmodel_link[App Model for CDMs,role=internal].
+** For Workflows, you must <<anchor-overview-scene,adjust the Overview Scene>>.
+** You must also model the <<anchor-cdm-task-overviews,Form Scenes for CDM task overviews>>.

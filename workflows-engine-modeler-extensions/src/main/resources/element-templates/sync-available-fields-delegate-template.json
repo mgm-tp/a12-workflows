@@ -1,0 +1,77 @@
+[
+  {
+    "$schema": "https://unpkg.com/@camunda/element-templates-json-schema/resources/schema.json",
+    "name": "Sync Available Fields Delegate Template",
+    "id": "syncAvailableFieldsDelegateTemplate",
+    "description": "Choose this if you want to update the process variable values for annotated document fields, e.g. sync the current value of the field 'FullName' to the process variable 'personName'.",
+    "version": 1,
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "elementType": {
+      "value": "bpmn:ServiceTask"
+    },
+    "groups": [
+      {
+        "id": "implementation",
+        "label": "Delegate Implementation"
+      },
+      {
+        "id": "inputs",
+        "label": "Delegate Inputs"
+      },
+      {
+        "id": "async",
+        "label": "Async Properties"
+      }
+    ],
+    "properties": [
+      {
+        "label": "Implementation Type",
+        "type": "String",
+        "group": "implementation",
+        "value": "${syncAvailableFieldsDelegate}",
+        "editable": false,
+        "binding": {
+          "type": "property",
+          "name": "camunda:delegateExpression"
+        }
+      },
+      {
+        "label": "Document Reference/s",
+        "type": "String",
+        "description": "Insert an expression for your process variable storing the reference for the document which you want to sync (can also be a list), e.g. ${firstDocRef},${secondDocRef}",
+        "group": "inputs",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "documentReferences"
+        },
+        "constraints": {
+          "notEmpty": true,
+          "pattern": {
+            "value": "\\${.+}(,\\${.+}).*$|^\\${.+}$",
+            "message": "Must be an expression of type ${yourDocRef} or ${firstDocRef},${secondDocRef}"
+          }
+        }
+      },
+      {
+        "label": "Async before?",
+        "type": "Boolean",
+        "group": "async",
+        "binding": {
+          "type": "property",
+          "name": "camunda:asyncBefore"
+        }
+      },
+      {
+        "label": "Async after?",
+        "type": "Boolean",
+        "group": "async",
+        "binding": {
+          "type": "property",
+          "name": "camunda:asyncAfter"
+        }
+      }
+    ]
+  }
+]

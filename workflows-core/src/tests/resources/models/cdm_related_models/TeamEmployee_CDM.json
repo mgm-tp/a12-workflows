@@ -1,0 +1,104 @@
+{
+  "header": {
+    "id": "TeamEmployee_CDM",
+    "modelType": "document",
+    "modelVersion": "28.3.0",
+    "locales": [
+      {
+        "code": "en"
+      },
+      {
+        "code": "de"
+      }
+    ],
+    "labels": [],
+    "annotations": [
+      {
+        "name": "cdm.queryRoot",
+        "value": "Team_DM"
+      },
+      {
+        "name": "roles",
+        "value": "admin"
+      }
+    ],
+    "modelReferences": [
+      {
+        "alias": "Team_DM",
+        "modelType": "document",
+        "purpose": "include",
+        "reference": "Team_DM"
+      },
+      {
+        "alias": "Employee_DM",
+        "modelType": "document",
+        "purpose": "include",
+        "reference": "Employee_DM"
+      }
+    ]
+  },
+  "content": {
+    "modelInfo": {
+      "name": "TeamEmployee_CDM",
+      "immutable": false,
+      "joinedModelsInfo": "TeamEmployee_CDM-document-meta-data+Add"
+    },
+    "modelConfig": {
+      "timeZone": "UTC",
+      "decimalSeparator": ".",
+      "conditionLanguage": {
+        "code": "en_US"
+      }
+    },
+    "modelRoot": {
+      "rootGroups": [
+        {
+          "type": "Group",
+          "id": "include_edfb9",
+          "name": "Team",
+          "Group": {
+            "repeatability": 1,
+            "modelAlias": "Team_DM"
+          }
+        },
+        {
+          "type": "Group",
+          "id": "group_1ea83",
+          "name": "TeamEmployee_RM",
+          "annotations": [
+            {
+              "name": "cdm.relationship",
+              "value": "TeamEmployee_RM"
+            },
+            {
+              "name": "cdm.sourceRole",
+              "value": "Team"
+            },
+            {
+              "name": "cdm.targetRole",
+              "value": "Employee"
+            },
+            {
+              "name": "cdm.targetDocumentModel",
+              "value": "Employee_DM"
+            }
+          ],
+          "Group": {
+            "repeatability": 10,
+            "elements": [
+              {
+                "type": "Group",
+                "id": "include_171ed",
+                "name": "Employee",
+                "Group": {
+                  "repeatability": 1,
+                  "modelAlias": "Employee_DM"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,91 @@
+////
+SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
+Copyright (c) 2012-2026 mgm technology partners GmbH
+Dual License
+This source file is part of the mgm A12 Platform and available under a choice of two different licenses:
+1. Open-Source License – EUPL v1.2
+You may redistribute and/or modify this file under the terms of the European Union Public License, version 1.2 - see https://eupl.eu/.
+2. Commercial License
+Alternatively, you may obtain a commercial license from mgm technology partners GmbH, that permits use of this software under different terms (including support and maintenance services).
+
+Please contact a12-license@mgm-tp.com for more information.
+
+You must select and comply with exactly one of the above license options.
+
+Warranty Disclaimer (applies to either option)
+THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
+////
+[NOTE]
+====
+For modeling related information, please refer to our link:/docs/workflows/ba-docs/index.html[Workflow Modeling Documentation].
+====
+
+== Architecture Overview
+
+The Workflows architecture is based on CIB 7 and an extension of Data Services.
+
+image::assets/images/architecture-overview.png[Architecture,align="center"]
+
+[[anchor-basic-ideas]]
+= Basic Ideas
+
+* The documents are solely stored in Data Services and not in CIB 7.
+** CIB 7 stores only *references* to documents ("docRefs") and knows nothing about the data format, storage or models.
+* Data Services is the entrypoint for all requests from the client.
+** Workflows is an opt-in extension of Data Services which registers workflows-related JSON-RPC operations.
+* Communication between Data Services and CIB 7 is currently *synchronous* by default.
+** You can configure <<anchor-asynchronous-mode,*asynchronous mode*>> to enable asynchronous communication from Data Services to CIB 7.
+
+= How It Works
+
+We provide <<anchor-cbr-artifacts,several artifacts>> but in short:
+
+* *Server side:* our extension registers new JSON-RPC operations in Data Services for workflows-specific functionality.
+* *Client side:* our client-side library connects to these JSON-RPC operations.
+
+*As examples, consider the following use cases:*
+
+== Start Process
+
+. The client sends a `START_PROCESS` JSON-RPC request to Data Services.
+. Our extension handles this request.
+. For this operation, no document changes are to be done.
+. The start process request is forwarded to CIB 7 and thus starting a new process of an existing process model.
+
+== Assign Task
+
+. The client sends an `ASSIGN_TASK` JSON-RPC request to Data Services.
+. Our extension handles this request.
+. The assignee field in our metadata on the document is updated
+. The assign request is forwarded to CIB 7.
+. CIB 7 sets the assignee as well.
+
+== Loading a Task List
+
+. The client sends a `LIST_DOCUMENTS` JSON-RPC request to Data Services.
+.. Under the hood, we add a filter to the query so that only documents currently referenced by a user task are returned
+. Data Services handles this request as per usual.
+
+See also our <<anchor-cbr-workflows-extension, list of workflows-specific operations>>.
+
+= Benefits
+
+* Loose coupling between CIB 7 and Data Services:
+** CIB 7 knows nothing about models or documents (except that it expects workflows metadata).
+** No need to deploy Document Models to CIB 7.
+* CIB 7 does not store documents, only Document References:
+** No data duplication.
+** Simpler data migration.
+* Data Services has access to relevant process metadata (everything in link:/docs/workflows/ba-docs/index.html#anchor-metadata-include[`WorkflowsMetadata_DM.json`]):
+** Metadata is available in authorization rules.
+** Metadata is available in events and extension points which provide the document.
+* Support for external attachments and relationships.
+
+[[anchor-cbr-limitations]]
+= Current Limitations
+
+* No eventual consistency guarantees yet for communication between CIB 7 and Data Services.
+* Document Models used for workflows *still need metadata as include for now* and must be exactly named *A12WF*:
+** A document can only be referenced by a single _User Task_ at a time (because metadata is populated directly in the document).
+** Thus, parallel _User Tasks_ _cannot_ reference the same document.
+* CIB 7 must be protected in production because it does not integrate UAA authorization.

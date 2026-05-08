@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                  xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+                  xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_17xcle8"
+                  targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.15.1">
+    <bpmn:collaboration id="Collaboration_0t18213">
+        <bpmn:documentation>Process element description</bpmn:documentation>
+        <bpmn:participant id="Participant_0cyjnnu" name="SendMessageProcess" processRef="SendMessageProcess">
+            <bpmn:documentation>Participant element description</bpmn:documentation>
+        </bpmn:participant>
+    </bpmn:collaboration>
+    <bpmn:process id="SendMessageProcess" name="SendMessageProcess" isExecutable="true">
+        <bpmn:documentation>Participant process description</bpmn:documentation>
+        <bpmn:laneSet id="LaneSet_0fe9qkc"/>
+        <bpmn:endEvent id="EndEvent_085qhxc">
+            <bpmn:incoming>Flow_0eyleor</bpmn:incoming>
+        </bpmn:endEvent>
+        <bpmn:startEvent id="StartEvent_1" camunda:formKey="StartFormKey">
+            <bpmn:extensionElements>
+                <camunda:executionListener event="start">
+                    <camunda:script scriptFormat="groovy">println(execution.getVariables())</camunda:script>
+                </camunda:executionListener>
+            </bpmn:extensionElements>
+            <bpmn:outgoing>SequenceFlow_0wkq744</bpmn:outgoing>
+        </bpmn:startEvent>
+        <bpmn:sequenceFlow id="SequenceFlow_0wkq744" sourceRef="StartEvent_1" targetRef="TaskA"/>
+        <bpmn:sequenceFlow id="SequenceFlow_02b581d" sourceRef="TaskA" targetRef="FillApplicantInfoForTaskB"/>
+        <bpmn:userTask id="TaskA" name="TaskA" camunda:candidateUsers="admin,roleA">
+            <bpmn:extensionElements>
+                <camunda:inputOutput>
+                    <camunda:inputParameter name="documentReference">${taskAdocRef}</camunda:inputParameter>
+                </camunda:inputOutput>
+            </bpmn:extensionElements>
+            <bpmn:incoming>SequenceFlow_0wkq744</bpmn:incoming>
+            <bpmn:outgoing>SequenceFlow_02b581d</bpmn:outgoing>
+        </bpmn:userTask>
+        <bpmn:userTask id="FillApplicantInfoForTaskB" name="TaskB" camunda:candidateGroups="barkeeper">
+            <bpmn:extensionElements>
+                <camunda:properties>
+                    <camunda:property name="taskDocument" value="processDocument"/>
+                </camunda:properties>
+                <camunda:inputOutput>
+                    <camunda:inputParameter name="documentReference">${NewCustomerDocRef}</camunda:inputParameter>
+                </camunda:inputOutput>
+            </bpmn:extensionElements>
+            <bpmn:incoming>SequenceFlow_02b581d</bpmn:incoming>
+            <bpmn:outgoing>Flow_0eyleor</bpmn:outgoing>
+        </bpmn:userTask>
+        <bpmn:sequenceFlow id="Flow_0eyleor" sourceRef="FillApplicantInfoForTaskB" targetRef="EndEvent_085qhxc"/>
+        <bpmn:boundaryEvent id="Event_039x4dj" attachedToRef="TaskA">
+            <bpmn:outgoing>Flow_0kap04m</bpmn:outgoing>
+            <bpmn:messageEventDefinition id="MessageEventDefinition_0zoaxjy" messageRef="Message_335at48"/>
+        </bpmn:boundaryEvent>
+        <bpmn:endEvent id="Event_0lcu1fy">
+            <bpmn:incoming>Flow_0kap04m</bpmn:incoming>
+        </bpmn:endEvent>
+        <bpmn:sequenceFlow id="Flow_0kap04m" sourceRef="Event_039x4dj" targetRef="Event_0lcu1fy"/>
+    </bpmn:process>
+    <bpmn:message id="Message_335at48" name="CANCEL_ORDER_MESSAGE"/>
+    <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+        <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0t18213">
+            <bpmndi:BPMNShape id="Participant_0cyjnnu_di" bpmnElement="Participant_0cyjnnu" isHorizontal="true">
+                <dc:Bounds x="159" y="80" width="1201" height="220"/>
+                <bpmndi:BPMNLabel/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="EndEvent_085qhxc_di" bpmnElement="EndEvent_085qhxc">
+                <dc:Bounds x="1012" y="165" width="36" height="36"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+                <dc:Bounds x="462" y="165" width="36" height="36"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="UserTask_0c3016n_di" bpmnElement="TaskA">
+                <dc:Bounds x="580" y="143" width="100" height="80"/>
+                <bpmndi:BPMNLabel/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="UserTask_0m6zyg6_di" bpmnElement="FillApplicantInfoForTaskB">
+                <dc:Bounds x="810" y="143" width="100" height="80"/>
+                <bpmndi:BPMNLabel/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="BPMNShape_1ceg5kv" bpmnElement="Event_0lcu1fy">
+                <dc:Bounds x="792" y="252" width="36" height="36"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="Event_1e31tng_di" bpmnElement="Event_039x4dj">
+                <dc:Bounds x="602" y="205" width="36" height="36"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="SequenceFlow_0wkq744_di" bpmnElement="SequenceFlow_0wkq744">
+                <di:waypoint x="498" y="183"/>
+                <di:waypoint x="580" y="183"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="SequenceFlow_02b581d_di" bpmnElement="SequenceFlow_02b581d">
+                <di:waypoint x="680" y="183"/>
+                <di:waypoint x="810" y="183"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="Flow_0eyleor_di" bpmnElement="Flow_0eyleor">
+                <di:waypoint x="910" y="183"/>
+                <di:waypoint x="1012" y="183"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="Flow_0kap04m_di" bpmnElement="Flow_0kap04m">
+                <di:waypoint x="620" y="241"/>
+                <di:waypoint x="620" y="270"/>
+                <di:waypoint x="792" y="270"/>
+            </bpmndi:BPMNEdge>
+        </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+</bpmn:definitions>

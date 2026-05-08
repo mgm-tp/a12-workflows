@@ -1,0 +1,179 @@
+{
+  "header": {
+    "id": "Employee_FM",
+    "modelType": "form",
+    "modelVersion": "37.3.0",
+    "locales": [
+      {
+        "code": "en"
+      },
+      {
+        "code": "de"
+      }
+    ],
+    "labels": [
+      {
+        "locale": "en",
+        "text": "Employee"
+      },
+      {
+        "locale": "de",
+        "text": "Mitarbeiter"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "bindingConfiguration",
+        "value": "[{\"type\":\"relationship\",\"details\":{\"name\":\"TeamEmployeeDropdown\",\"metaInformation\":{\"version\":\"1.0.0\"},\"relationshipName\":\"TeamEmployee_RM\",\"targetRole\":\"Team\",\"components\":[{\"name\":\"DropDownSelection\",\"models\":[{\"name\":\"TeamEmployee_Team_AvailableItems_OM\",\"use\":\"candidate\"},{\"name\":\"TeamEmployee_Team_SelectedItems_OM\",\"use\":\"link\"}]}]},\"elementId\":\"customscreenelement_21e94\"}]"
+      },
+      {
+        "name": "roles",
+        "value": "tester,reviewer"
+      }
+    ],
+    "modelReferences": [
+      {
+        "alias": "Employee_DM",
+        "modelType": "document",
+        "purpose": "data binding",
+        "reference": "Employee_DM"
+      },
+      {
+        "modelType": "overview",
+        "purpose": "bindingReference",
+        "reference": "TeamEmployee_Team_AvailableItems_OM"
+      },
+      {
+        "modelType": "overview",
+        "purpose": "bindingReference",
+        "reference": "TeamEmployee_Team_SelectedItems_OM"
+      }
+    ]
+  },
+  "content": {
+    "subHeaderBox": {
+      "id": "subHeaderBox1"
+    },
+    "footerBox": {
+      "id": "footerBox1",
+      "majorButtons": {
+        "button": [
+          {
+            "type": "EVENT",
+            "id": "button_c7379",
+            "name": "Cancel",
+            "buttonStyling": {
+              "label": {
+                "type": "Multilingual",
+                "multilingualText": {
+                  "text": [
+                    {
+                      "locale": "en",
+                      "text": "Cancel"
+                    },
+                    {
+                      "locale": "de",
+                      "text": "Abbrechen"
+                    }
+                  ]
+                }
+              }
+            },
+            "event": "event_cancel",
+            "scope": "HIDDEN_IN_READONLY_MODE"
+          },
+          {
+            "type": "EVENT",
+            "id": "button_254aa",
+            "name": "Save",
+            "buttonStyling": {
+              "label": {
+                "type": "Multilingual",
+                "multilingualText": {
+                  "text": [
+                    {
+                      "locale": "en",
+                      "text": "Save"
+                    },
+                    {
+                      "locale": "de",
+                      "text": "Speichern"
+                    }
+                  ]
+                }
+              },
+              "priority": "PRIMARY"
+            },
+            "event": "event_submit",
+            "validation": "full",
+            "scope": "HIDDEN_IN_READONLY_MODE"
+          }
+        ]
+      }
+    },
+    "screens": [
+      {
+        "id": "screen_be2ae",
+        "name": "Screen 1",
+        "screenElements": [
+          {
+            "type": "ControlGrid",
+            "id": "controlgrid_be00c",
+            "name": "CG1",
+            "title": {
+              "type": "Multilingual",
+              "multilingualText": {
+                "text": [
+                  {
+                    "locale": "en",
+                    "text": "Employee"
+                  },
+                  {
+                    "locale": "de",
+                    "text": "Mitarbeiter"
+                  }
+                ]
+              }
+            },
+            "row": [
+              {
+                "type": "Row",
+                "id": "row_744f0",
+                "cell": [
+                  {
+                    "type": "Control",
+                    "id": "control_d549e",
+                    "elementRef": "field_99c3b"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "CustomScreenElement",
+            "id": "customscreenelement_21e94",
+            "name": "TeamEmployeeDropdown",
+            "title": {
+              "type": "Multilingual",
+              "multilingualText": {
+                "text": [
+                  {
+                    "locale": "en",
+                    "text": "TeamEmployeeDropdown"
+                  },
+                  {
+                    "locale": "de",
+                    "text": "TeamEmployeeDropdown"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "fieldConfiguration": {},
+    "groupConfiguration": {},
+    "defaults": {}
+  }
+}

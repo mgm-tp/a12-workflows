@@ -1,0 +1,168 @@
+{
+  "header": {
+    "id": "Team_FM",
+    "modelType": "form",
+    "modelVersion": "37.3.0",
+    "locales": [
+      {
+        "code": "en"
+      },
+      {
+        "code": "de"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "bindingConfiguration",
+        "value": "[{\"type\":\"relationship\",\"details\":{\"name\":\"TeamEmployeeDualPane\",\"metaInformation\":{\"version\":\"1.0.0\"},\"relationshipName\":\"TeamEmployee_RM\",\"targetRole\":\"Employee\",\"components\":[{\"name\":\"DualPaneSelection\",\"props\":{\"availableItemsTable\":{\"label\":[{\"locale\":\"en\",\"text\":\"Available Employees\"},{\"locale\":\"de\",\"text\":\"Verfügbare Mitarbeiter\"}]},\"selectedItemsTable\":{\"label\":[{\"locale\":\"en\",\"text\":\"Selected Employees\"},{\"locale\":\"de\",\"text\":\"Ausgewählte Mitarbeiter\"}]}},\"models\":[{\"name\":\"TeamEmployee_Employee_AvailableItems_OM\",\"use\":\"candidate\"},{\"name\":\"TeamEmployee_Employee_SelectedItems_OM\",\"use\":\"link\"}]}]},\"elementId\":\"customscreenelement_c7699\"}]"
+      },
+      {
+        "name": "roles",
+        "value": "tester,reviewer"
+      }
+    ],
+    "modelReferences": [
+      {
+        "alias": "Team_DM",
+        "modelType": "document",
+        "purpose": "data binding",
+        "reference": "Team_DM"
+      },
+      {
+        "modelType": "overview",
+        "purpose": "bindingReference",
+        "reference": "TeamEmployee_Employee_AvailableItems_OM"
+      },
+      {
+        "modelType": "overview",
+        "purpose": "bindingReference",
+        "reference": "TeamEmployee_Employee_SelectedItems_OM"
+      }
+    ]
+  },
+  "content": {
+    "subHeaderBox": {
+      "id": "subHeaderBox1"
+    },
+    "footerBox": {
+      "id": "footerBox1",
+      "majorButtons": {
+        "button": [
+          {
+            "type": "EVENT",
+            "id": "button_ee6c5",
+            "name": "Cancel",
+            "buttonStyling": {
+              "label": {
+                "type": "Multilingual",
+                "multilingualText": {
+                  "text": [
+                    {
+                      "locale": "en",
+                      "text": "Cancel"
+                    },
+                    {
+                      "locale": "de",
+                      "text": "Abbrechen"
+                    }
+                  ]
+                }
+              }
+            },
+            "event": "event_cancel",
+            "scope": "HIDDEN_IN_READONLY_MODE"
+          },
+          {
+            "type": "EVENT",
+            "id": "button_f25e9",
+            "name": "Save",
+            "buttonStyling": {
+              "label": {
+                "type": "Multilingual",
+                "multilingualText": {
+                  "text": [
+                    {
+                      "locale": "en",
+                      "text": "Save"
+                    },
+                    {
+                      "locale": "de",
+                      "text": "Speichern"
+                    }
+                  ]
+                }
+              },
+              "priority": "PRIMARY"
+            },
+            "event": "event_submit",
+            "scope": "HIDDEN_IN_READONLY_MODE"
+          }
+        ]
+      }
+    },
+    "screens": [
+      {
+        "id": "screen_6051b",
+        "name": "Screen 1",
+        "screenElements": [
+          {
+            "type": "ControlGrid",
+            "id": "controlgrid_ecb0c",
+            "name": "CG1",
+            "title": {
+              "type": "Multilingual",
+              "multilingualText": {
+                "text": [
+                  {
+                    "locale": "en",
+                    "text": "Team"
+                  },
+                  {
+                    "locale": "de",
+                    "text": "Team"
+                  }
+                ]
+              }
+            },
+            "row": [
+              {
+                "type": "Row",
+                "id": "row_19432",
+                "cell": [
+                  {
+                    "type": "Control",
+                    "id": "control_5c818",
+                    "elementRef": "field_c9ad3"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "CustomScreenElement",
+            "id": "customscreenelement_c7699",
+            "name": "TeamEmployeeDualPane",
+            "title": {
+              "type": "Multilingual",
+              "multilingualText": {
+                "text": [
+                  {
+                    "locale": "en",
+                    "text": "TeamEmployeeDualPane"
+                  },
+                  {
+                    "locale": "de",
+                    "text": "TeamEmployeeDualPane"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "fieldConfiguration": {},
+    "groupConfiguration": {},
+    "defaults": {}
+  }
+}

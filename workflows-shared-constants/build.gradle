@@ -1,0 +1,27 @@
+plugins {
+    id 'java-library'
+    id 'base'
+    id 'jvm-test-suite'
+}
+
+apply plugin: "org.jetbrains.kotlin.jvm"
+
+testing {
+    suites {
+        configureEach {
+            useJUnitJupiter()
+        }
+
+        test {
+            dependencies {
+                implementation.bundle libs.bundles.testingCatalog.unittest
+            }
+        }
+    }
+}
+
+jar {
+    archiveClassifier.set("")
+
+    include "com/**"
+}

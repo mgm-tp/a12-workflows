@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress XmlUnusedNamespaceDeclaration -->
+<jaxb:bindings xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+               xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               jaxb:extensionBindingPrefixes="xjc inheritance" version="3.0"
+               xsi:schemaLocation="http://www.mgm-tp.com/a12/migration/config/v1 ./MigratorConfig.xsd">
+	<jaxb:bindings>
+		<jaxb:globalBindings generateIsSetMethod="true" optionalProperty="isSet">
+			<xjc:serializable uid="1"/>
+			<xjc:simple/>
+		</jaxb:globalBindings>
+	</jaxb:bindings>
+
+	<jaxb:bindings schemaLocation="MigratorConfig.xsd" node="/xs:schema">
+		<jaxb:schemaBindings>
+			<jaxb:package name="com.mgmtp.a12.model.workflows.migration.config.types"/>
+		</jaxb:schemaBindings>
+	</jaxb:bindings>
+
+</jaxb:bindings>

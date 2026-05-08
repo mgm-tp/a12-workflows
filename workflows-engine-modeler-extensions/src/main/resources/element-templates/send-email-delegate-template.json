@@ -1,0 +1,112 @@
+[
+  {
+    "$schema": "https://unpkg.com/@camunda/element-templates-json-schema/resources/schema.json",
+    "name": "Send Email Delegate Template",
+    "id": "sendEmailDelegateTemplate",
+    "description": "Choose this if you want to send an email.",
+    "version": 1,
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "elementType": {
+      "value": "bpmn:ServiceTask"
+    },
+    "groups": [
+      {
+        "id": "implementation",
+        "label": "Delegate Implementation"
+      },
+      {
+        "id": "inputs",
+        "label": "Delegate Inputs"
+      },
+      {
+        "id": "async",
+        "label": "Async Properties"
+      }
+    ],
+    "properties": [
+      {
+        "label": "Implementation Type",
+        "type": "String",
+        "group": "implementation",
+        "value": "${sendEmailDelegate}",
+        "editable": false,
+        "binding": {
+          "type": "property",
+          "name": "camunda:delegateExpression"
+        }
+      },
+      {
+        "label": "Recipients",
+        "description": "The recipients' email addresses (multiple addresses can be separated by comma, e.g. test@test.com, example@test.com)",
+        "type": "String",
+        "group": "inputs",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "recipients"
+        },
+        "constraints": {
+          "notEmpty": true
+        }
+      },
+      {
+        "label": "Subject",
+        "type": "String",
+        "group": "inputs",
+        "description": "The subject of the email, e.g. Order Confirmation",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "subject"
+        },
+        "constraints": {
+          "notEmpty": true
+        }
+      },
+      {
+        "label": "Message",
+        "type": "String",
+        "group": "inputs",
+        "description": "The message body of the email, e.g. Your order has been confirmed",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "message"
+        },
+        "constraints": {
+          "notEmpty": true
+        }
+      },
+      {
+        "label": "Cc (Optional)",
+        "type": "String",
+        "group": "inputs",
+        "description": "The email addresses which should be in cc (multiple addresses can be separated by comma, e.g. test@test.com, example@test.com)",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "cc"
+        },
+        "constraints": {
+          "notEmpty": false
+        }
+      },
+      {
+        "label": "Async before?",
+        "type": "Boolean",
+        "group": "async",
+        "binding": {
+          "type": "property",
+          "name": "camunda:asyncBefore"
+        }
+      },
+      {
+        "label": "Async after?",
+        "type": "Boolean",
+        "group": "async",
+        "binding": {
+          "type": "property",
+          "name": "camunda:asyncAfter"
+        }
+      }
+    ]
+  }
+]

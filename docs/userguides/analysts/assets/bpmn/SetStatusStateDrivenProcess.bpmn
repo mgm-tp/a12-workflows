@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_13mn4mn" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.24.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
+  <bpmn:collaboration id="Collaboration_002jnqi">
+    <bpmn:participant id="mainPart" name="Business Process" processRef="stateDrivenMainProcess" />
+    <bpmn:participant id="statePart" name="State Diagram" processRef="stateDrivenStatusProcess" />
+    <bpmn:messageFlow id="Flow_056ja6g" sourceRef="Event_1opon4u" targetRef="Event_1eyeqlh" />
+    <bpmn:messageFlow id="Flow_0dyf2z2" sourceRef="Event_1wwa97h" targetRef="Event_01hcnpt" />
+    <bpmn:messageFlow id="Flow_1005epv" sourceRef="Event_07b466m" targetRef="Event_10m76a7" />
+    <bpmn:messageFlow id="Flow_0t55be3" sourceRef="Event_1os130r" targetRef="Event_0l153xd" />
+    <bpmn:textAnnotation id="TextAnnotation_0fazvpz">
+      <bpmn:text>Each Catch Event calls the SetStatusDelegate inside an execution listener</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1vdfc7w" associationDirection="None" sourceRef="Event_10m76a7" targetRef="TextAnnotation_0fazvpz" />
+  </bpmn:collaboration>
+  <bpmn:process id="stateDrivenMainProcess" name="stateDrivenMainProcess" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1lfk3fg</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:intermediateThrowEvent id="Event_07b466m" name="Set initial status" camunda:modelerTemplate="messageThrowEventWithVariable" camunda:modelerTemplateVersion="2">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="messageName">STATUS_INITIAL</camunda:inputParameter>
+          <camunda:inputParameter name="businessKey">${execution.businessKey}</camunda:inputParameter>
+          <camunda:inputParameter name="allVariables">${execution.getVariables()}</camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="groovy">execution.getProcessEngineServices().getRuntimeService().createMessageCorrelation(messageName).processInstanceBusinessKey(businessKey).setVariables(allVariables).correlate()</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1lfk3fg</bpmn:incoming>
+      <bpmn:outgoing>Flow_05iurvt</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0h6j4ct" messageRef="Message_1evam0g" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:intermediateThrowEvent id="Event_1opon4u" name="Set in progress status" camunda:modelerTemplate="messageThrowEventWithVariable" camunda:modelerTemplateVersion="2">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="messageName">STATUS_IN_PROGRESS</camunda:inputParameter>
+          <camunda:inputParameter name="businessKey">${execution.businessKey}</camunda:inputParameter>
+          <camunda:inputParameter name="allVariables">${execution.getVariables()}</camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="groovy">execution.getProcessEngineServices().getRuntimeService().createMessageCorrelation(messageName).processInstanceBusinessKey(businessKey).setVariables(allVariables).correlate()</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1neemip</bpmn:incoming>
+      <bpmn:outgoing>Flow_0to6vjh</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1aih3jz" messageRef="Message_1gj9rrq" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:exclusiveGateway id="Gateway_1i196xv" name="Which status to set?" default="Flow_1hhfw4w">
+      <bpmn:incoming>Flow_12wm0p7</bpmn:incoming>
+      <bpmn:outgoing>Flow_1o2yld3</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1hhfw4w</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:intermediateThrowEvent id="Event_1wwa97h" name="Set accept status" camunda:modelerTemplate="messageThrowEventWithVariable" camunda:modelerTemplateVersion="2">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="messageName">STATUS_ACCEPTED</camunda:inputParameter>
+          <camunda:inputParameter name="businessKey">${execution.businessKey}</camunda:inputParameter>
+          <camunda:inputParameter name="allVariables">${execution.getVariables()}</camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="groovy">execution.getProcessEngineServices().getRuntimeService().createMessageCorrelation(messageName).processInstanceBusinessKey(businessKey).setVariables(allVariables).correlate()</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1hhfw4w</bpmn:incoming>
+      <bpmn:outgoing>Flow_0x4evpx</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_12gxysg" messageRef="Message_00d98vm" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:intermediateThrowEvent id="Event_1os130r" name="Set decline status" camunda:modelerTemplate="messageThrowEventWithVariable" camunda:modelerTemplateVersion="2">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="messageName">STATUS_DECLINED</camunda:inputParameter>
+          <camunda:inputParameter name="businessKey">${execution.businessKey}</camunda:inputParameter>
+          <camunda:inputParameter name="allVariables">${execution.getVariables()}</camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="groovy">execution.getProcessEngineServices().getRuntimeService().createMessageCorrelation(messageName).processInstanceBusinessKey(businessKey).setVariables(allVariables).correlate()</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1o2yld3</bpmn:incoming>
+      <bpmn:outgoing>Flow_02ctt8c</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1lyrmnf" messageRef="Message_2gaa9f4" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:exclusiveGateway id="Gateway_035l9sv">
+      <bpmn:incoming>Flow_02ctt8c</bpmn:incoming>
+      <bpmn:incoming>Flow_0x4evpx</bpmn:incoming>
+      <bpmn:outgoing>Flow_1jou744</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_05iurvt" sourceRef="Event_07b466m" targetRef="UserTask1" />
+    <bpmn:sequenceFlow id="Flow_1neemip" sourceRef="UserTask1" targetRef="Event_1opon4u" />
+    <bpmn:sequenceFlow id="Flow_0to6vjh" sourceRef="Event_1opon4u" targetRef="UserTask2" />
+    <bpmn:sequenceFlow id="Flow_12wm0p7" sourceRef="UserTask2" targetRef="Gateway_1i196xv" />
+    <bpmn:sequenceFlow id="Flow_1o2yld3" name="Decline" sourceRef="Gateway_1i196xv" targetRef="Event_1os130r">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1hhfw4w" name="Accept" sourceRef="Gateway_1i196xv" targetRef="Event_1wwa97h" />
+    <bpmn:sequenceFlow id="Flow_0x4evpx" sourceRef="Event_1wwa97h" targetRef="Gateway_035l9sv" />
+    <bpmn:sequenceFlow id="Flow_02ctt8c" sourceRef="Event_1os130r" targetRef="Gateway_035l9sv" />
+    <bpmn:sequenceFlow id="Flow_1lfk3fg" sourceRef="StartEvent_1" targetRef="Event_07b466m">
+      <bpmn:extensionElements />
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1jou744" sourceRef="Gateway_035l9sv" targetRef="Event_0zgn5uf" />
+    <bpmn:endEvent id="Event_0zgn5uf">
+      <bpmn:incoming>Flow_1jou744</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="UserTask2" name="Decide something" camunda:modelerTemplate="userTaskWithInputDoc" camunda:modelerTemplateVersion="1" camunda:formKey="someFormKey">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="documentReference">${StatusDocRef}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0to6vjh</bpmn:incoming>
+      <bpmn:outgoing>Flow_12wm0p7</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="UserTask1" name="Do some user task" camunda:modelerTemplate="userTaskWithInputDoc" camunda:modelerTemplateVersion="1" camunda:formKey="someFormKey">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="documentReference">${StatusDocRef}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_05iurvt</bpmn:incoming>
+      <bpmn:outgoing>Flow_1neemip</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmn:process id="stateDrivenStatusProcess" name="stateDrivenStatusProcess" isExecutable="true">
+    <bpmn:extensionElements />
+    <bpmn:startEvent id="Event_17qfi60">
+      <bpmn:extensionElements />
+      <bpmn:outgoing>Flow_19flfkt</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:intermediateCatchEvent id="Event_10m76a7" name="Status set initial">
+      <bpmn:extensionElements>
+        <camunda:executionListener delegateExpression="#{setStatusDelegate}" event="end" />
+        <camunda:inputOutput>
+          <camunda:inputParameter name="pathToField">/status/status</camunda:inputParameter>
+          <camunda:inputParameter name="documentReference">${StatusDocRef}</camunda:inputParameter>
+          <camunda:inputParameter name="newValue">INITIAL</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_19flfkt</bpmn:incoming>
+      <bpmn:outgoing>Flow_09kevzo</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0o6272d" messageRef="Message_1evam0g" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="Event_1eyeqlh" name="Status set in progress">
+      <bpmn:extensionElements>
+        <camunda:executionListener delegateExpression="${setStatusDelegate}" event="start" />
+        <camunda:inputOutput>
+          <camunda:inputParameter name="pathToField">/status/status</camunda:inputParameter>
+          <camunda:inputParameter name="newValue">IN_PROGRESS</camunda:inputParameter>
+          <camunda:inputParameter name="documentReference">${StatusDocRef}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_09kevzo</bpmn:incoming>
+      <bpmn:outgoing>Flow_0vcljne</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_06r1884" messageRef="Message_1gj9rrq" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:endEvent id="Event_05z7nam">
+      <bpmn:incoming>Flow_0kn1412</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:eventBasedGateway id="EventGateway">
+      <bpmn:incoming>Flow_0vcljne</bpmn:incoming>
+      <bpmn:outgoing>Flow_0vxc4ta</bpmn:outgoing>
+      <bpmn:outgoing>Flow_092bpi0</bpmn:outgoing>
+    </bpmn:eventBasedGateway>
+    <bpmn:exclusiveGateway id="Gateway_0prbus5">
+      <bpmn:incoming>Flow_07b3ddu</bpmn:incoming>
+      <bpmn:incoming>Flow_07zviaq</bpmn:incoming>
+      <bpmn:outgoing>Flow_0kn1412</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_19flfkt" sourceRef="Event_17qfi60" targetRef="Event_10m76a7" />
+    <bpmn:sequenceFlow id="Flow_09kevzo" sourceRef="Event_10m76a7" targetRef="Event_1eyeqlh" />
+    <bpmn:sequenceFlow id="Flow_0vcljne" sourceRef="Event_1eyeqlh" targetRef="EventGateway" />
+    <bpmn:sequenceFlow id="Flow_0kn1412" sourceRef="Gateway_0prbus5" targetRef="Event_05z7nam" />
+    <bpmn:sequenceFlow id="Flow_0vxc4ta" sourceRef="EventGateway" targetRef="Event_0l153xd" />
+    <bpmn:sequenceFlow id="Flow_07b3ddu" sourceRef="Event_0l153xd" targetRef="Gateway_0prbus5" />
+    <bpmn:intermediateCatchEvent id="Event_0l153xd" name="Status set declined">
+      <bpmn:extensionElements>
+        <camunda:executionListener delegateExpression="${setStatusDelegate}" event="start" />
+        <camunda:inputOutput>
+          <camunda:inputParameter name="pathToField">/status/status</camunda:inputParameter>
+          <camunda:inputParameter name="newValue">DECLINED</camunda:inputParameter>
+          <camunda:inputParameter name="documentReference">${StatusDocRef}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0vxc4ta</bpmn:incoming>
+      <bpmn:outgoing>Flow_07b3ddu</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1oickjq" messageRef="Message_2gaa9f4" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="Event_01hcnpt" name="Status set accepted">
+      <bpmn:extensionElements>
+        <camunda:executionListener delegateExpression="${setStatusDelegate}" event="start" />
+        <camunda:inputOutput>
+          <camunda:inputParameter name="pathToField">/status/status</camunda:inputParameter>
+          <camunda:inputParameter name="newValue">ACCEPTED</camunda:inputParameter>
+          <camunda:inputParameter name="documentReference">${StatusDocRef}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_092bpi0</bpmn:incoming>
+      <bpmn:outgoing>Flow_07zviaq</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1mz9r7b" messageRef="Message_00d98vm" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_092bpi0" sourceRef="EventGateway" targetRef="Event_01hcnpt" />
+    <bpmn:sequenceFlow id="Flow_07zviaq" sourceRef="Event_01hcnpt" targetRef="Gateway_0prbus5" />
+  </bpmn:process>
+  <bpmn:message id="Message_1evam0g" name="STATUS_INITIAL" />
+  <bpmn:message id="Message_1gj9rrq" name="STATUS_IN_PROGRESS" />
+  <bpmn:message id="Message_2gaa9f4" name="STATUS_DECLINED" />
+  <bpmn:message id="Message_00d98vm" name="STATUS_ACCEPTED" />
+  <bpmn:message id="Message_265udto" name="print" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_002jnqi">
+      <bpmndi:BPMNShape id="Participant_0kyu6s8_di" bpmnElement="mainPart" isHorizontal="true">
+        <dc:Bounds x="129" y="40" width="1187" height="309" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="143" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ydu79p_di" bpmnElement="Event_07b466m">
+        <dc:Bounds x="344" y="143" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="323" y="119" width="78" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0nhl87h_di" bpmnElement="Event_1opon4u">
+        <dc:Bounds x="604" y="143" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="584" y="106" width="75" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1i196xv_di" bpmnElement="Gateway_1i196xv" isMarkerVisible="true">
+        <dc:Bounds x="867" y="136" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="854" y="106" width="76" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0qqdv3z_di" bpmnElement="Event_1wwa97h">
+        <dc:Bounds x="984" y="143" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="959" y="119" width="85" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1qcbkjv_di" bpmnElement="Event_1os130r">
+        <dc:Bounds x="874" y="252" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="838" y="303" width="88" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_035l9sv_di" bpmnElement="Gateway_035l9sv" isMarkerVisible="true">
+        <dc:Bounds x="1047" y="245" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0zgn5uf_di" bpmnElement="Event_0zgn5uf">
+        <dc:Bounds x="1212" y="252" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0blb7fy_di" bpmnElement="UserTask2">
+        <dc:Bounds x="702" y="121" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0p1sths_di" bpmnElement="UserTask1">
+        <dc:Bounds x="442" y="121" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_05iurvt_di" bpmnElement="Flow_05iurvt">
+        <di:waypoint x="380" y="161" />
+        <di:waypoint x="442" y="161" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1neemip_di" bpmnElement="Flow_1neemip">
+        <di:waypoint x="542" y="161" />
+        <di:waypoint x="604" y="161" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0to6vjh_di" bpmnElement="Flow_0to6vjh">
+        <di:waypoint x="640" y="161" />
+        <di:waypoint x="702" y="161" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12wm0p7_di" bpmnElement="Flow_12wm0p7">
+        <di:waypoint x="802" y="161" />
+        <di:waypoint x="867" y="161" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1o2yld3_di" bpmnElement="Flow_1o2yld3">
+        <di:waypoint x="892" y="186" />
+        <di:waypoint x="892" y="252" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="853" y="203" width="38" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1hhfw4w_di" bpmnElement="Flow_1hhfw4w">
+        <di:waypoint x="917" y="161" />
+        <di:waypoint x="984" y="161" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="933" y="163" width="34" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0x4evpx_di" bpmnElement="Flow_0x4evpx">
+        <di:waypoint x="1020" y="161" />
+        <di:waypoint x="1072" y="161" />
+        <di:waypoint x="1072" y="245" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02ctt8c_di" bpmnElement="Flow_02ctt8c">
+        <di:waypoint x="910" y="270" />
+        <di:waypoint x="1047" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lfk3fg_di" bpmnElement="Flow_1lfk3fg">
+        <di:waypoint x="215" y="161" />
+        <di:waypoint x="344" y="161" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1jou744_di" bpmnElement="Flow_1jou744">
+        <di:waypoint x="1097" y="270" />
+        <di:waypoint x="1212" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Participant_0jv2h6m_di" bpmnElement="statePart" isHorizontal="true">
+        <dc:Bounds x="130" y="370" width="1187" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_17qfi60_di" bpmnElement="Event_17qfi60">
+        <dc:Bounds x="193" y="472" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1drkszo_di" bpmnElement="Event_10m76a7">
+        <dc:Bounds x="345" y="472" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="325" y="515" width="78" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1knmczq_di" bpmnElement="Event_1eyeqlh">
+        <dc:Bounds x="605" y="472" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="593" y="515" width="61" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_05z7nam_di" bpmnElement="Event_05z7nam">
+        <dc:Bounds x="1203" y="412" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1q37c1p_di" bpmnElement="EventGateway">
+        <dc:Bounds x="806" y="465" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0prbus5_di" bpmnElement="Gateway_0prbus5" isMarkerVisible="true">
+        <dc:Bounds x="1076" y="405" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0n3nhea" bpmnElement="Event_0l153xd">
+        <dc:Bounds x="874" y="412" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="868" y="455" width="50" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_06pp6nr" bpmnElement="Event_01hcnpt">
+        <dc:Bounds x="984" y="532" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="978" y="575" width="50" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_19flfkt_di" bpmnElement="Flow_19flfkt">
+        <di:waypoint x="229" y="490" />
+        <di:waypoint x="345" y="490" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_09kevzo_di" bpmnElement="Flow_09kevzo">
+        <di:waypoint x="381" y="490" />
+        <di:waypoint x="605" y="490" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vcljne_di" bpmnElement="Flow_0vcljne">
+        <di:waypoint x="641" y="490" />
+        <di:waypoint x="806" y="490" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kn1412_di" bpmnElement="Flow_0kn1412">
+        <di:waypoint x="1126" y="430" />
+        <di:waypoint x="1203" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vxc4ta_di" bpmnElement="Flow_0vxc4ta">
+        <di:waypoint x="831" y="465" />
+        <di:waypoint x="831" y="430" />
+        <di:waypoint x="874" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_07b3ddu_di" bpmnElement="Flow_07b3ddu">
+        <di:waypoint x="910" y="430" />
+        <di:waypoint x="1076" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_092bpi0_di" bpmnElement="Flow_092bpi0">
+        <di:waypoint x="831" y="515" />
+        <di:waypoint x="831" y="550" />
+        <di:waypoint x="984" y="550" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_07zviaq_di" bpmnElement="Flow_07zviaq">
+        <di:waypoint x="1020" y="550" />
+        <di:waypoint x="1101" y="550" />
+        <di:waypoint x="1101" y="455" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1vdfc7w_di" bpmnElement="Association_1vdfc7w">
+        <di:waypoint x="379" y="498" />
+        <di:waypoint x="441" y="530" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_056ja6g_di" bpmnElement="Flow_056ja6g">
+        <di:waypoint x="623" y="179" />
+        <di:waypoint x="623" y="472" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0dyf2z2_di" bpmnElement="Flow_0dyf2z2">
+        <di:waypoint x="1002" y="179" />
+        <di:waypoint x="1002" y="532" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1005epv_di" bpmnElement="Flow_1005epv">
+        <di:waypoint x="363" y="179" />
+        <di:waypoint x="363" y="472" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0t55be3_di" bpmnElement="Flow_0t55be3">
+        <di:waypoint x="892" y="288" />
+        <di:waypoint x="892" y="412" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0fazvpz_di" bpmnElement="TextAnnotation_0fazvpz">
+        <dc:Bounds x="420" y="530" width="150" height="70" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

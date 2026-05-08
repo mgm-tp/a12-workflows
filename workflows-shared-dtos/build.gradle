@@ -1,0 +1,34 @@
+plugins {
+    id 'java-library'
+    id 'base'
+    id 'jvm-test-suite'
+}
+
+apply plugin: "org.jetbrains.kotlin.jvm"
+
+dependencies {
+    api project(":workflows-shared-constants")
+    // Jackson
+    implementation libs.jackson.kotlin
+    api libs.jackson.annotations
+}
+
+testing {
+    suites {
+        configureEach {
+            useJUnitJupiter()
+        }
+
+        test {
+            dependencies {
+                implementation.bundle libs.bundles.testingCatalog.unittest
+            }
+        }
+    }
+}
+
+jar {
+    archiveClassifier.set("")
+
+    include "com/**"
+}

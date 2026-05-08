@@ -1,0 +1,10 @@
+{
+  "method": "SEND_MESSAGE",
+  "params": {
+    "processInstanceId": "abc",
+    "eventName": "EVENT_ACCEPT",
+    "payload": {
+      "variable": "test"
+    }
+  }
+}

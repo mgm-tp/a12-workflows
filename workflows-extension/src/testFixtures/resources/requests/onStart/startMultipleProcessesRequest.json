@@ -1,0 +1,32 @@
+[
+  {
+    "jsonrpc": "2.0",
+    "id": "startProcess",
+    "method": "START_PROCESS",
+    "params": {
+      "processDefinition":  "%s",
+      "businessKey": "%s",
+      "variables": %s
+    }
+  },
+  {
+    "jsonrpc": "2.0",
+    "id": "startProcess",
+    "method": "START_PROCESS",
+    "params": {
+      "processDefinition":  "%s",
+      "businessKey": "%s",
+      "variables": %s
+    }
+  },
+  {
+    "jsonrpc": "2.0",
+    "id": "startProcess",
+    "method": "START_PROCESS",
+    "params": {
+      "processDefinition":  "%s",
+      "businessKey": "%s",
+      "variables": %s
+    }
+  }
+]

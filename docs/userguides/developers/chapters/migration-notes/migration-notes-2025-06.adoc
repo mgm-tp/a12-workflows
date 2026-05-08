@@ -1,0 +1,125 @@
+////
+SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
+Copyright (c) 2012-2026 mgm technology partners GmbH
+Dual License
+This source file is part of the mgm A12 Platform and available under a choice of two different licenses:
+1. Open-Source License – EUPL v1.2
+You may redistribute and/or modify this file under the terms of the European Union Public License, version 1.2 - see https://eupl.eu/.
+2. Commercial License
+Alternatively, you may obtain a commercial license from mgm technology partners GmbH, that permits use of this software under different terms (including support and maintenance services).
+
+Please contact a12-license@mgm-tp.com for more information.
+
+You must select and comply with exactly one of the above license options.
+
+Warranty Disclaimer (applies to either option)
+THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
+////
+[[anchor-migration-2025-06]]
+== 2025.06
+
+=== Breaking Changes
+
+For some breaking changes, we offer OpenRewrite recipes, Codemod transforms, and workflows model migration tool.
+Feel free to check them out as they might help you to upgrade Workflows easier (see <<anchor-automatic-migration, Automatic Migration>>).
+
+==== Overall Changes
+
+* Camunda was replaced by the CIB 7 fork of Camunda 7 (see link:https://cibseven.org/en/[CIB 7 website]) as Camunda is dropping the support for the Camunda 7 Community Edition
+** The module `workflows-camunda` has been renamed to `workflows-engine` to be vendor unrelated.
+** The process engine is basically still the same, and all BPMN and DMN models should work as before.
+** All Camunda dependencies were replaced by their CIB 7 equivalents.
+** If you customize the Camunda engine in your projects with code, you will need to migrate to the corresponding CIB 7 packages.
+** See link:https://docs.cibseven.org/manual/latest/update/camunda/#migration-to-cib-seven-20[CIB 7 migration instructions] from Camunda 7.23 to CIB 7 2.0.
+*** Note that you must first do the minor upgrade from Camunda 7.21 to Camunda 7.23 as mentioned on the linked page.
+*** Migration to CIB 7 webclient is not necessary, because we currently deactivated the CIB 7 UI and only expose the old Camunda UI.
+* Support for Java 17 was dropped. Workflows now only supports Java 21.
+* The module `workflows-shared` was dropped, as it did not fulfill its original purpose anymore. Its contents have been integrated into `workflows-engine` and moved to internal packages. To migrate, you will have to replace the functionality provided by the module. As the affected code is now internal, changes may not be communicated in migration notes in the future.
+** Affected classes:
+*** com.mgmtp.a12.workflows.service.rpc.data.JsonRpcRequestIds
+*** com.mgmtp.a12.workflows.service.rpc.data.JsonRpcRequestParams
+*** com.mgmtp.a12.workflows.service.rpc.DataServicesRpcFacade
+*** com.mgmtp.a12.workflows.service.rpc.DataServicesRpcUtil
+*** com.mgmtp.a12.workflows.service.rpc.JsonRpcRequestBuilder
+*** com.mgmtp.a12.workflows.service.rpc.JsonRpcRequestBuilderFactory
+* The properties `WorkflowsInternalDocumentStatus` and `DueDate` in the data classes `com.mgmtp.a12.workflows.shared.dtos.ProcessMetadata` and `com.mgmtp.a12.workflows.shared.dtos.Task` are deprecated. These properties and their respective fields in our `WorkflowsMetadata_DM.json` will be removed in the next breaking release.
+* The property `InputDocumentModels` in the data class `com.mgmtp.a12.workflows.shared.dtos.ProcessDefinition` has been removed, since it is not used anymore in our new Workflows architecture. Our `WorkflowsMetadata_DM` itself has not been changed.
+* The property `CreationDate` in the data class `com.mgmtp.a12.workflows.shared.dtos.Task` is not nullable anymore, because it is always set in our `CreateMetadataOperation` class. Our `WorkflowsMetadata_DM` itself has not been changed.
+
+* We moved from CommonJS to ESM for our frontend libraries `workflows-core` and `workflows-codemod` as part of an overall A12 effort.
+
+* Version upgrades (A12 wide)
+** Spring Boot 3.4.5
+** Spring Framework 6.2.6
+** Spring Security 6.4.5
+** Typescript 5.8.2
+
+[[anchor-migration-2025-06-workflows-engine]]
+==== Workflows Engine (previously Camunda)
+
+* The executable main class `CamundaApplication` has been renamed to `ProcessEngineApplication`.
+* The `CreateDocumentDelegate` does not validate the created document anymore.
+* JS scripting is not supported natively in CIB 7. We removed the respective dependencies from `workflows-engine`.
+** Groovy scripting remains supported.
+** If you need JS scripting, please see link:https://docs.cibseven.org/manual/1.0/user-guide/process-engine/scripting/#javascript-considerations[the CIB 7 Documentation].
+* The path `/` redirects to the new CIB 7 webapp which is not yet supported by A12 Workflows.
+To access the supported legacy Camunda Cockpit, use the path `/camunda`.
+
+*Configuration Changes*
+
+The following configuration properties have been renamed to be vendor unrelated:
+
+[width="100%",cols="40%,40%",options="header",]
+|===
+|Old property key |New property key
+|mgmtp.a12.workflows.camunda.delegates.email.host|mgmtp.a12.workflows.engine.delegates.email.host
+|mgmtp.a12.workflows.camunda.delegates.email.user|mgmtp.a12.workflows.engine.delegates.email.user
+|mgmtp.a12.workflows.camunda.delegates.email.password|mgmtp.a12.workflows.engine.delegates.email.password
+|mgmtp.a12.workflows.camunda.delegates.email.from|mgmtp.a12.workflows.engine.delegates.email.from
+|mgmtp.a12.workflows.camunda.delegates.email.startTls.enabled|mgmtp.a12.workflows.engine.delegates.email.startTls.enabled
+|mgmtp.a12.workflows.camunda.delegates.email.login.enabled|mgmtp.a12.workflows.engine.delegates.email.login.enabled
+|mgmtp.a12.workflows.camunda.delegates.email.port|mgmtp.a12.workflows.engine.delegates.email.port
+|mgmtp.a12.workflows.camunda.delegates.email.keepAliveTimeout|mgmtp.a12.workflows.engine.delegates.email.keepAliveTimeout
+|mgmtp.a12.workflows.camunda.client.baseUrl|mgmtp.a12.workflows.engine.client.baseUrl
+|mgmtp.a12.workflows.camunda.variables.encryption|mgmtp.a12.workflows.engine.variables.encryption
+|===
+
+
+==== Workflows Engine Modeler Extension
+
+* The link:/docs/workflows/ba-docs/index.html#anchor-provided-element-templates[_Element Templates_] have been updated to use Groovy instead of JS.
+** To migrate, update all _Element Templates_ to the latest version in your process models.
+
+NOTE: The Camunda Modeler enables you to update the applied _Element Template_ when selecting the respective BPMN element in the process model.
+
+==== Workflows Extension
+
+* The property `mgmtp.a12.workflows.extension.set-status-event-publishing.enabled` has been removed.
+** The *SetStatusOperation* used in the *setStatusDelegate* cannot be configured to publish the Data Services events `DocumentBeforeUpdateEvent`, `DocumentAfterRepositoryUpdateEvent`, and `DocumentAfterUpdateEvent` anymore.
+** Remove this property from your application's configuration files.
+* The property `mgmtp.a12.dataservices.query.mode` must be set to `EXCLUSIVE`.
+** If you have this property set to `DISABLED` or `IN_PARALLEL`, update it to `EXCLUSIVE` in your application's configuration files.
+* Data Services removed the spring profile `dataservices-embedded_jms`. Workflows now offers the spring profile `workflows-embedded_jms` to enable embedded Artemis service.
+* *AssignTaskOperation*, *CompleteTaskOperation* and *RemoveMetadataOperation* are now using Data Services' service-level Java API to avoid nested transactions and potentially unexpected rollback behaviour
+** Logging is different now.
+** No `DataServicesDocument` is added to the `OperationContextHolder` any more.
+* The locale parameter for *AssignTaskOperation* and *CompleteTaskOperation* has been removed, as it was only used in dispatched events. To migrate, adjust your calls to these RPC operations accordingly, and adjust your event listeners to not rely on the locale parameter.
+* *RemoveMetadataOperation* no longer triggers validation after removing metadata and saving the document.
+* Error handling for all existing JSON-RPC operations has been improved.
+** The root cause is now visible.
+** Debug log now explicitly states if a JSON-RPC operation succeeded or failed.
+
+==== Workflows Extension Client
+
+* The operation constant `GET_PROCESS_VARIABLE_UPDATES_OPERATION` has been moved to internal package.
+** This constant was marked for internal use only, so ideally there is no migration effort on your part. It is still mentioned here, as it was not officially internal.
+
+==== Workflows Core
+
+* To consolidate with the A12 Project Template, the expected form component name in `workflowsMiddlewares` has been changed from `"FromCRUD"` to `"FormEngine"` (as project template defines it).
+* To simplify code and remove the need for a custom task overview component, WorkflowsFactories module now contains `taskOverviewActionsMiddleware`, which includes the logic for handling the Overview Engine Events `onRowClicked`, `onRowButtonClicked` and `onEventButtonClicked`.
+** Have a look at our <<anchor-cbr-integration-step-by-step,Integration Step-by-Step Guide>>, on how to drop your custom task overview component.
+* `TaskOverviewDataProvider` has been dropped. Instead, use `WorkflowsFactories.createDataLoader()` as input when creating Overview Engine's Data Provider.
+** This Data Loader is able to differentiate between Workflows specific `TaskList` and standard overview, which shows documents not including Workflows Metadata.
+** <<anchor-codemod, Covered by automatic migration>>
+* Actions, Sagas, and middlewares that relate to *AssignTaskOperation* and *CompleteTaskOperation* had the locale parameter removed, see the Workflows Extension migration notes. To migrate, adjust any calls correspondingly.

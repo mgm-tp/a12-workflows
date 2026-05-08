@@ -1,0 +1,29 @@
+{
+  "Employee": {
+    "Name": "John",
+    "A12WF": {
+      "ProcessDefinition": {
+        "Key": "someProcessDefinitionKey",
+        "Name": "someProcessDefinitionName"
+      },
+      "TaskDefinition": {
+        "Key": "someTaskKey",
+        "Name": "someTaskName",
+        "FormKey": "someFormKey"
+      },
+      "Process": {
+        "ID": "someProcessId",
+        "BusinessKey": null,
+        "Initiator": null
+      },
+      "Task": {
+        "ID": "someTaskId",
+        "CreationDate": null,
+        "DueDate": null,
+        "Assignee": null
+      },
+      "WorkflowsInternalDocumentStatus": "NON_EMPTY"
+    }
+  }
+}
+

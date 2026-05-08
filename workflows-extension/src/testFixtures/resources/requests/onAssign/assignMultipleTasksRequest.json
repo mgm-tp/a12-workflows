@@ -1,0 +1,29 @@
+[
+  {
+    "jsonrpc": "2.0",
+    "id": "assignTask_1",
+    "method": "ASSIGN_TASK",
+    "params": {
+      "docRef": "%s",
+      "assignee": "newAssignee_1"
+    }
+  },
+  {
+    "jsonrpc": "2.0",
+    "id": "assignTask_2",
+    "method": "ASSIGN_TASK",
+    "params": {
+      "docRef": "%s",
+      "assignee": "newAssignee_2"
+    }
+  },
+  {
+    "jsonrpc": "2.0",
+    "id": "assignTask_3",
+    "method": "ASSIGN_TASK",
+    "params": {
+      "docRef": "%s",
+      "assignee": "newAssignee_3"
+    }
+  }
+]

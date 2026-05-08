@@ -1,0 +1,46 @@
+# Tools / IDE
+.idea/
+.vscode/
+
+# Build tools
+.gradle/
+.m2/
+.kotlin/
+
+# Build directories
+**/build
+**/out
+**/bin
+**/target
+**/gen
+**/node_modules
+**/lib
+**/.npm
+
+# Log files
+*.log
+*.gz
+*.tmp
+
+# Distributables
+**.jar
+!gradle/wrapper/gradle-wrapper.jar
+
+# H2
+*.db
+
+# Other
+**/*.bak
+.scannerwork/
+*.h2.mv.db
+*.h2.trace.db
+!licenses/**
+
+# Performance test results
+**/results
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Snapshots
+**/*.snap

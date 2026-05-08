@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"
+                  xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0a6umty"
+                  targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0">
+    <bpmn:process id="EncryptionTestProcess" name="Test Encryption" isExecutable="true">
+        <bpmn:startEvent id="StartEvent_1">
+            <bpmn:outgoing>Flow_0tirke9</bpmn:outgoing>
+        </bpmn:startEvent>
+        <bpmn:userTask id="TestingEncryption" name="Testing Encryption" camunda:formKey="TestingEncryption">
+            <bpmn:extensionElements>
+                <camunda:inputOutput>
+                    <camunda:inputParameter name="testVariable">testing encryption</camunda:inputParameter>
+                </camunda:inputOutput>
+            </bpmn:extensionElements>
+            <bpmn:incoming>Flow_0tirke9</bpmn:incoming>
+        </bpmn:userTask>
+        <bpmn:sequenceFlow id="Flow_0tirke9" sourceRef="StartEvent_1" targetRef="TestingEncryption"/>
+    </bpmn:process>
+    <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+        <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="EncryptionTestProcess">
+            <bpmndi:BPMNEdge id="Flow_0tirke9_di" bpmnElement="Flow_0tirke9">
+                <di:waypoint x="215" y="120"/>
+                <di:waypoint x="260" y="120"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+                <dc:Bounds x="179" y="102" width="36" height="36"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="Activity_0a3mige_di" bpmnElement="TestingEncryption">
+                <dc:Bounds x="260" y="80" width="100" height="80"/>
+            </bpmndi:BPMNShape>
+        </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+</bpmn:definitions>

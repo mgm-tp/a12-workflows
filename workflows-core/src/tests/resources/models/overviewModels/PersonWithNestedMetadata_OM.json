@@ -1,0 +1,61 @@
+{
+  "header": {
+    "id": "PersonWithNestedMetadata_OM",
+    "modelType": "overview",
+    "modelVersion": "38.0.0",
+    "locales": [
+      {
+        "code": "en"
+      }
+    ],
+    "labels": [],
+    "annotations": [
+      {
+        "name": "roles",
+        "value": "admin"
+      }
+    ],
+    "modelReferences": [
+      {
+        "purpose": "document-model-for-overview",
+        "modelType": "document",
+        "alias": "DM",
+        "reference": "PersonWithNestedMetadata_DM"
+      }
+    ]
+  },
+  "content": {
+    "configuration": {
+      "enableFilter": false,
+      "showFullTextSearch": false,
+      "pagingSize": 10
+    },
+    "subHeaderBox": {
+      "majorElements": [],
+      "minorElements": []
+    },
+    "footerBox": {
+      "majorElements": [],
+      "minorElements": []
+    },
+    "columns": [
+      {
+        "id": "column-baf5e",
+        "width": 1,
+        "styles": {},
+        "elementRef": "field_d7bb1",
+        "sortable": false
+      },
+      {
+        "id": "column-c8890",
+        "width": 1,
+        "styles": {},
+        "elementRef": "field_f0e81",
+        "sortable": false
+      }
+    ],
+    "rowActionGroup": {
+      "actions": []
+    }
+  }
+}

@@ -1,0 +1,118 @@
+plugins {
+    id 'java-library'
+    id 'base'
+    alias libs.plugins.springboot
+    alias libs.plugins.kotlin.jpa
+    alias libs.plugins.kotlin.jvm
+    alias libs.plugins.kotlin.spring
+    id 'jvm-test-suite'
+}
+
+apply plugin: "org.jetbrains.kotlin.jvm"
+apply plugin: "java-test-fixtures"
+
+dependencies {
+    // Kotlin
+    implementation libs.bundles.kotlin
+
+    // Spring
+    implementation libs.bundles.springboot
+    annotationProcessor libs.spring.boot.config.processor
+    api libs.spring.boot
+
+    // Camunda REST API & Webapp
+    implementation libs.bundles.cibseven.base.app
+    implementation libs.cibseven.postgres
+    implementation libs.cibseven.h2
+    compileOnlyApi libs.cibseven.engine
+
+    // Hibernate
+    implementation libs.hibernate
+
+    // Security patching
+    implementation libs.vulnerabilityOverrides.commons.compress
+    implementation libs.vulnerabilityOverrides.snakeyaml
+    implementation libs.cibseven.fileupload
+
+    // A12 DS Client
+    api libs.a12.dataservices.client.autoconfig
+    api libs.a12.dataservices.domain
+
+    // A12 UAA
+    runtimeOnly libs.a12.uaa.principal.extension.autoconfig
+
+    // Support JDBC database connection
+    implementation libs.jdbc
+
+    // Enable freemarker templating
+    implementation libs.cibseven.freemarker
+
+    // Jackson
+    api libs.jackson.kotlin
+    api libs.jackson.databind
+
+    // Enable connectors
+    implementation libs.cibseven.connectors.all
+    implementation libs.cibseven.plugin.connect
+
+    // Delegate dependencies
+    api libs.vertx
+
+    // Netty DNS resolver for Mac OS
+    runtimeOnly libs.netty.dns.resolver
+
+    // Shared Library
+    implementation project(":workflows-extension-client")
+    api project(":workflows-shared-dtos")
+    api project(":workflows-shared-constants")
+    implementation project(":workflows-shared-logging")
+}
+
+testing {
+    suites {
+        configureEach {
+            useJUnitJupiter()
+        }
+
+        test {
+            targets.configureEach {
+                testTask.configure {
+                    systemProperty('junit.jupiter.execution.parallel.enabled', 'true')
+                    systemProperty 'junit.jupiter.execution.parallel.mode.default', 'same_thread'
+                    systemProperty 'junit.jupiter.execution.parallel.mode.classes.default', 'concurrent'
+                }
+            }
+            dependencies {
+                implementation libs.testingCatalog.spring.boot.test
+                implementation libs.testingCatalog.springmockk
+                implementation libs.testingCatalog.awaitility
+                implementation libs.json.standard
+
+                implementation.bundle libs.bundles.testingCatalog.unittest
+                implementation.bundle libs.bundles.testingCatalog.cibseven
+
+                implementation testFixtures(project())
+                implementation testFixtures(project(":workflows-shared-functions"))
+
+                compileOnly libs.testingCatalog.cibseven.engine
+            }
+        }
+    }
+}
+
+tasks.withType(Test).configureEach {
+    jvmArgs '-Xmx1g'
+
+    classpath += files(sourceSets.named("main").map { it.output }) //This includes the class-files
+}
+
+artifacts {
+    archives bootJar
+    archives jar
+}
+
+jar {
+    enabled = true
+    archiveAppendix = "distribution"
+    archiveClassifier = ''
+}

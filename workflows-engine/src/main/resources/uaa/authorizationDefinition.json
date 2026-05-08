@@ -1,0 +1,189 @@
+{
+  "name": "Data Services Permission Definition",
+  "description": "",
+  "policies": [
+    {
+      "name": "User Has Role Assigned To Model",
+      "description": "Check if model has a role which is assigned to current user.",
+      "target": "",
+      "dataPreload": [
+      ],
+      "rules": [
+        true
+      ]
+    },
+    {
+      "name": "User Right Model Read",
+      "description": "Check if model's role has access right to read models.",
+      "target": "",
+      "dataPreload": [
+      ],
+      "rules": [
+        true
+      ]
+    },
+    {
+      "name": "User Has MODEL_WRITE Right",
+      "description": "User has role assigned to model which has access right to write models.",
+      "target": "",
+      "dataPreload": [
+      ],
+      "rules": [
+        true
+      ]
+    },
+    {
+      "name": "User Has Global Model Read Right",
+      "description": "Check the current user has a role which has access right to read models.",
+      "target": "",
+      "dataPreload": [
+      ],
+      "rules": [
+        true
+      ]
+    },
+    {
+      "name": "User Has Global Model Write Right",
+      "description": "Check the current user has a role which has access right to write models.",
+      "target": "",
+      "dataPreload": [
+      ],
+      "rules": [
+        true
+      ]
+    },
+    {
+      "name": "User Has Global Document Write Right",
+      "description": "Check the current user has a role which has access right to write documents.",
+      "rules": [
+        true
+      ]
+    },
+    {
+      "name": "User Has Global Access To Manage Caches",
+      "description": "Check the current user has a role which has access right to manage caches.",
+      "rules": [
+        true
+      ]
+    },
+    {
+      "name": "User Has The Permission To Execute Queries",
+      "description": "Check that current user has the permission to execute queries. #resource is the DocumentModel name",
+      "rules": [
+        "hasAccessRight('QUERY')"
+      ]
+    }
+  ],
+  "permissions": [
+    {
+      "name": "Model Load Permissions",
+      "description": "Check if model’s role is assigned to the user and has access right to read models. Model is referenced as #resource.",
+      "policy-refs": [
+        "User Right Model Read"
+      ],
+      "policies": [
+      ],
+      "scopes": [
+        "Model Read"
+      ]
+    },
+    {
+      "name": "Model creation permissions",
+      "description": "Check if model’s role is assigned to the user and has access right to write models. Model is referenced as #resource.",
+      "policy-refs": [
+        "User Has MODEL_WRITE Right"
+      ],
+      "scopes": [
+        "Model Write"
+      ]
+    },
+    {
+      "name": "Model Read Global",
+      "description": "Check if any role assigned to the user has access right to read models.",
+      "policy-refs": [
+        "User Has Global Model Read Right"
+      ],
+      "scopes": [
+        "Model Read Global"
+      ]
+    },
+    {
+      "name": "Model Write Global",
+      "description": "Check if any role assigned to the user has access right to write models.",
+      "policy-refs": [
+        "User Has Global Model Write Right"
+      ],
+      "scopes": [
+        "Model Write Global"
+      ]
+    },
+    {
+      "name": "Document Write Access",
+      "description": "Check the current user has a role which has access right to write documents.",
+      "policy-refs": [
+        "User Has Global Document Write Right"
+      ],
+      "scopes": [
+        "Document Write"
+      ]
+    },
+    {
+      "name": "Manage Caches",
+      "description": "Check the current user has a role which has access right to manage caches .",
+      "policy-refs": [
+        "User Has Global Access To Manage Caches"
+      ],
+      "scopes": [
+        "Manage Caches"
+      ]
+    },
+    {
+      "name": "Define access to endpoints",
+      "description": "You can control endpoint security inside this scope. Endpoint is defined by its Class name/method name. Returns always true.",
+      "policies": [
+      ],
+      "policy-refs": [
+      ],
+      "scopes": [
+        "Endpoint"
+      ]
+    },
+    {
+      "name": "Actuator Permission",
+      "description": "You can control actuator by relative URL. Allow all",
+      "policies": [
+      ],
+      "scopes": [
+        "RelativePath"
+      ]
+    },
+    {
+      "name": "Check uploaded attachment",
+      "description": "You can define rules for uploaded file.",
+      "policies": [
+      ],
+      "scopes": [
+        "Attachment Upload"
+      ]
+    },
+    {
+      "name": "Check downloaded staging file",
+      "description": "You can define rules for downloaded staging files.",
+      "policies": [
+      ],
+      "scopes": [
+        "Attachment Staging Download"
+      ]
+    },
+    {
+      "name": "Check query",
+      "description": "You can define permission rules for executing queries.",
+      "policy-refs": [
+        "User Has The Permission To Execute Queries"
+      ],
+        "scopes": [
+          "Query"
+        ]
+    }
+  ]
+}

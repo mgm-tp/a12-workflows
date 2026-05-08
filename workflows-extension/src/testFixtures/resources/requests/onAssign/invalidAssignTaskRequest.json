@@ -1,0 +1,11 @@
+[
+  {
+    "jsonrpc": "2.0",
+    "id": "ASSIGN_TASK",
+    "method": "ASSIGN_TASK",
+    "params": {
+      "docRef": "%s",
+      "WRONG_PARAM": "something"
+    }
+  }
+]

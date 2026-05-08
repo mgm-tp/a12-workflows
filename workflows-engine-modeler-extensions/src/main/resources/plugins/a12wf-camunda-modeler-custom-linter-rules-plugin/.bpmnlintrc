@@ -1,0 +1,13 @@
+{
+  "extends": [
+  ],
+  "rules": {
+    "custom/delegate-expression-correct-pattern": "error",
+    "custom/delegate-expression-old-pattern": "info",
+    "custom/user-task-has-input-or-output": "warn",
+    "custom/service-task-implementation": "warn",
+    "custom/no-empty-service-task-implementation": "error",
+    "custom/user-task-form-key": "warn",
+    "custom/no-deprecated-extension-properties": "warn"
+  }
+}
