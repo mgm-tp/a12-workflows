@@ -15,6 +15,8 @@ You must select and comply with exactly one of the above license options.
 Warranty Disclaimer (applies to either option)
 THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
 ////
+
+
 = Deployment
 
 NOTE: For deployment, please be aware of the link:/docs/build_and_deployment/a12-stack/index.html[Helm A12 Stack].
@@ -52,7 +54,7 @@ CIB 7 allows clustering by distributing the process engine across multiple nodes
 
 image::assets/images/deployment-clustering-cib7-overview.png[Architecture sketch of clustered CIB 7]
 
-NOTE: For details, please refer to the link:https://camunda.com/en/platform-7/performance/[Camunda documentation on performance and scalability,role=external], in particular the section titled "Clustering".
+NOTE: For details, please refer to the link:https://camunda.com/platform-7/performance/[Camunda documentation on performance and scalability,role=external], in particular the section titled "Clustering".
 
 ==== CIB 7 Job Executor
 
@@ -73,27 +75,11 @@ camunda.bpm.generic-properties.properties.jobExecutorDeploymentAware=true
 
 NOTE: The above configuration is equal to setting `<property name="jobExecutorDeploymentAware">true</property>` in XML as shown in the Camunda documentation.
 
-// === Deployment Options
-//
-// ==== Consumers
-//
-// For most projects, embedded consumers should suffice and come out of the box.
-//
-// However, you also have the option to deploy standalone consumers which can be scaled independently.
-// We provide a runnable `workflows-consumer-app` to facilitate this.
-//
-// Note that these two options are the same that Data Services provide for their CDD queue consumers.
-//
-// === Deployment Scripts
-//
-
 == Monitoring
 
 Both CIB 7 and the Workflows Extension (Data Services) provide Micrometer for monitoring.
 
-This goes for our Boot JARs and our vanilla Docker images alike.
-
-NOTE: CIB 7 provides additional monitoring capabilities, see link:https://docs.camunda.io/docs/8.7/components/best-practices/operations/operating-camunda-c7/#monitoring-performance-indicators[Camunda monitoring documentation].
+NOTE: CIB 7 provides additional monitoring capabilities, see link:https://docs.camunda.io/docs/components/best-practices/operations/operating-camunda-c7/#monitoring-performance-indicators[Camunda monitoring documentation].
 
 == Recovery
 
@@ -105,7 +91,7 @@ NOTE: For details, please refer to link:https://docs.cibseven.org/manual/{cibsev
 
 === Backups
 
-Please refer to link:https://docs.camunda.io/docs/8.7/components/best-practices/operations/operating-camunda-c7/#create-backups[Camunda's recommendations regarding backups,role=external].
+Please refer to link:https://docs.camunda.io/docs/components/best-practices/operations/operating-camunda-c7/#create-backups[Camunda's recommendations regarding backups,role=external].
 
 == Auditing
 

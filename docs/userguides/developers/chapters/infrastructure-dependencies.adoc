@@ -15,6 +15,7 @@ You must select and comply with exactly one of the above license options.
 Warranty Disclaimer (applies to either option)
 THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
 ////
+
 [[anchor-infrastructure-dependencies]]
 = Infrastructure Dependencies
 
@@ -26,7 +27,7 @@ In the table below, the infrastructure dependencies required by workflows are li
 
 |CIB7
 |Process orchestration and execution
-|2.0.0
+|2.2.0
 | link:#anchor-cib7-config[Configuration] and link:#anchor-cib7-secure-config[secure setup].
 
 |None

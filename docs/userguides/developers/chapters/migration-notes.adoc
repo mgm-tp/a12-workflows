@@ -15,9 +15,13 @@ You must select and comply with exactly one of the above license options.
 Warranty Disclaimer (applies to either option)
 THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
 ////
+
+
 [[anchor-migration-instructions]]
 = Migration Instructions
 
 CAUTION: Please have a look at link:/docs/overall/migration_guide/index.html[Migration to latest A12] chapter for an explanation of general steps on how to upgrade before starting with the component migration to the latest release line.
+
+include::migration-notes/migration-notes-2026-06.adoc[]
 
 include::migration-notes/migration-notes-2025-06.adoc[]

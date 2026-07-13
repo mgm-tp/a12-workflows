@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
  *
  * Copyright (c) 2012-2026 mgm technology partners GmbH
@@ -23,17 +23,15 @@
  *
  * Warranty Disclaimer (applies to either option)
  * ----------------------------------------------
- * THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND,
+ * THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND,
  * WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
+
 package com.mgmtp.a12.workflows.extension.internal.operation
 
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.node.TextNode
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.mgmtp.a12.dataservices.common.anonymizing.Anonymizer
 import com.mgmtp.a12.dataservices.rpc.RpcException
 import com.mgmtp.a12.workflows.engine.client.internal.ProcessEngineOperationBroker
@@ -59,6 +57,9 @@ import org.springframework.context.ApplicationEventPublisher
 import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.client.RestClientResponseException
+import tools.jackson.databind.JsonNode
+import tools.jackson.databind.node.StringNode
+import tools.jackson.module.kotlin.jacksonObjectMapper
 
 private class StartProcessOperationTest {
 
@@ -98,7 +99,7 @@ private class StartProcessOperationTest {
     fun setup() {
         every { mockAnonymizer.apply(any()) } returns "***"
         every { mockProcessEngineOperationBroker.startProcessInstance(any(), any(), any()) } just Runs
-        every { mockSecurityContext.authentication.principal } returns CURRENT_USER
+        every { mockSecurityContext.authentication!!.principal } returns CURRENT_USER
         SecurityContextHolder.setContext(mockSecurityContext)
     }
 
@@ -128,7 +129,7 @@ private class StartProcessOperationTest {
 
             processDefinitionKeySlot.captured shouldBe PROCESS_DEFINITION_KEY
             businessKeySlot.captured shouldBe BUSINESS_KEY
-            processEngineVariablesSlot.captured["customerDocRef"]?.value shouldBe variables["customerDocRef"].textValue()
+            processEngineVariablesSlot.captured["customerDocRef"]?.value shouldBe variables["customerDocRef"].asString()
             processEngineVariablesSlot.captured["moreDocRefs"]?.value shouldBe listOf("Order/3", "Order/4")
         }
 
@@ -214,10 +215,10 @@ private class StartProcessOperationTest {
         @Test
         fun `should NOT publish any events if variables node has invalid format`() {
             // given
-            val invalidVariablesNode = TextNode("just text, no variable name with value")
+            val invalidVariablesNode = StringNode("just text, no variable name with value")
 
             // when
-            shouldThrow<IllegalArgumentException> { startProcessOperation.rpc(PROCESS_DEFINITION_KEY, BUSINESS_KEY, invalidVariablesNode) }
+            shouldThrow<RpcException> { startProcessOperation.rpc(PROCESS_DEFINITION_KEY, BUSINESS_KEY, invalidVariablesNode) }
 
             // then
             verify { spyMockEventPublisher wasNot Called }

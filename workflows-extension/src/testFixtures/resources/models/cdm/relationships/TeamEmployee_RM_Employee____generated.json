@@ -2,7 +2,7 @@
   "header": {
     "id": "TeamEmployee_RM_SimpleEmployee____generated",
     "modelType": "document",
-    "modelVersion": "28.3.0",
+    "modelVersion": "29.4.0",
     "locales": [
       {
         "code": "en"
@@ -24,7 +24,6 @@
     ],
     "modelReferences": [
       {
-        "alias": "Employee_DM",
         "modelType": "document",
         "purpose": "include",
         "reference": "Employee_DM"
@@ -59,7 +58,9 @@
                 "name": "Employee",
                 "Group": {
                   "repeatability": 1,
-                  "modelAlias": "Employee_DM"
+                  "includeConfig": {
+                    "reference": "Employee_DM"
+                  }
                 }
               }
             ]

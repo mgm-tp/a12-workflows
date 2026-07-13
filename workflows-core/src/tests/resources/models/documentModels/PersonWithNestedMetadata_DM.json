@@ -2,7 +2,7 @@
   "header": {
     "id": "PersonWithNestedMetadata_DM",
     "modelType": "document",
-    "modelVersion": "28.3.0",
+    "modelVersion": "29.4.0",
     "locales": [
       {
         "code": "en"

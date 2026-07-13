@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
  *
  * Copyright (c) 2012-2026 mgm technology partners GmbH
@@ -23,22 +23,23 @@
  *
  * Warranty Disclaimer (applies to either option)
  * ----------------------------------------------
- * THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND,
+ * THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND,
  * WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
+
 package com.mgmtp.a12.workflows.engine.client.internal.dto.process
 
-import com.fasterxml.jackson.module.kotlin.convertValue
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import com.mgmtp.a12.workflows.shared.dtos.MessageDto
 import com.mgmtp.a12.workflows.shared.dtos.ProcessEngineVariable
 import com.mgmtp.a12.workflows.shared.functions.testUtils.readResource
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
+import tools.jackson.module.kotlin.convertValue
+import tools.jackson.module.kotlin.jacksonObjectMapper
+import tools.jackson.module.kotlin.readValue
 
 private class MessageDtoTest {
 

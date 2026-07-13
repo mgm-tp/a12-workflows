@@ -11,12 +11,17 @@ plugins {
 apply plugin: "org.jetbrains.kotlin.jvm"
 apply plugin: "java-test-fixtures"
 
+configurations.configureEach {
+    exclude group: 'org.cibseven.webapp', module: 'cibseven-webclient-web'
+}
+
 dependencies {
     // Kotlin
     implementation libs.bundles.kotlin
 
     // Spring
     implementation libs.bundles.springboot
+    implementation libs.spring.boot.starter.data.jpa
     annotationProcessor libs.spring.boot.config.processor
     api libs.spring.boot
 
@@ -47,8 +52,14 @@ dependencies {
     // Enable freemarker templating
     implementation libs.cibseven.freemarker
 
+    runtimeOnly libs.groovy.jsr223
+
+    // Enable JavaScript scripting (GraalVM JS, JSR-223)
+    runtimeOnly libs.bundles.graaljs
+
     // Jackson
     api libs.jackson.kotlin
+    api libs.jackson.kotlin.two
     api libs.jackson.databind
 
     // Enable connectors
@@ -115,4 +126,8 @@ jar {
     enabled = true
     archiveAppendix = "distribution"
     archiveClassifier = ''
+}
+
+bootJar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }

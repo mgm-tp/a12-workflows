@@ -30,18 +30,14 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { Middleware, MiddlewareAPI } from "redux";
-import { Action } from "typescript-fsa";
+import type { Middleware, MiddlewareAPI } from "redux";
 
-import {
-	Activity,
-	ActivityActions,
-	ActivitySelectors
-} from "@com.mgmtp.a12.client/client-core/lib/core/activity/index.js";
-import { OverviewActivity } from "@com.mgmtp.a12.overviewengine/overviewengine-core/lib/main/client-extensions/index.js";
-import { LoggerFactory } from "@com.mgmtp.a12.utils/utils-logging/index.js";
+import type { Action } from "@com.mgmtp.a12.client/typescript-fsa-redux-5-compat";
+import { Activity, ActivityActions, ActivitySelectors } from "@com.mgmtp.a12.client/client-core";
+import { OverviewActivity } from "@com.mgmtp.a12.overviewengine/overviewengine-core";
+import { LoggerFactory } from "@com.mgmtp.a12.utils/utils-logging";
 
-import { findA12wfObject, isTaskOverview } from "../../utils/internal/common/index.js";
+import { findA12wfObject, isTaskOverview } from "../../utils/internal/common/commonUtils.js";
 
 const replacementActionLogger = LoggerFactory.getLogger("addFormKeyToReplacementAction");
 const pushActionLogger = LoggerFactory.getLogger("addFormKeyToPushAction");

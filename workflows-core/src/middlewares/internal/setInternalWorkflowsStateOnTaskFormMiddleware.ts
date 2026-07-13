@@ -30,12 +30,12 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { Middleware } from "redux";
+import type { Middleware } from "redux";
 
-import { LoggerFactory } from "@com.mgmtp.a12.utils/utils-logging/index.js";
-import { ActivityActions } from "@com.mgmtp.a12.client/client-core/lib/core/activity/index.js";
+import { LoggerFactory } from "@com.mgmtp.a12.utils/utils-logging";
+import { ActivityActions } from "@com.mgmtp.a12.client/client-core";
 
-import { findA12wfObject } from "../../utils/internal/common/index.js";
+import { findA12wfObject } from "../../utils/internal/common/commonUtils.js";
 
 const logger = LoggerFactory.getLogger("setInternalWorkflowsStateOnTaskFormMiddleware");
 

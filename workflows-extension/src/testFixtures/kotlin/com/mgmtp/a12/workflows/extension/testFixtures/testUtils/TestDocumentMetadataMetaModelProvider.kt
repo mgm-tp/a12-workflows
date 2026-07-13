@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
  *
  * Copyright (c) 2012-2026 mgm technology partners GmbH
@@ -23,23 +23,23 @@
  *
  * Warranty Disclaimer (applies to either option)
  * ----------------------------------------------
- * THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND,
+ * THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND,
  * WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
+
 package com.mgmtp.a12.workflows.extension.testFixtures.testUtils
 
-import com.mgmtp.a12.dataservices.model.metadata.DocumentModelMetadataInjectorFactory
 import com.mgmtp.a12.dataservices.model.metadata.internal.DocumentMetadataMetaModelProvider
 import com.mgmtp.a12.dataservices.utils.internal.DocumentModelUtils
 
-class TestDocumentMetadataMetaModelProvider(val documentModelUtils: DocumentModelUtils) : DocumentMetadataMetaModelProvider(documentModelUtils, null) {
+class TestDocumentMetadataMetaModelProvider(documentModelUtils: DocumentModelUtils) : DocumentMetadataMetaModelProvider(documentModelUtils, null) {
 
-    val documentMetadataPath = "/com/mgmtp/a12/platform/model/document-meta-data.json"
+    val documentMetadataPath = "/com/mgmtp/a12/rmc/metadata/document-meta-data.json"
 
-    override fun getModelName(): String = DocumentModelMetadataInjectorFactory.DOCUMENT_META_DATA_MODEL_NAME
+    override fun getModelName(): String = DOCUMENT_META_DATA_MODEL_NAME
 
     override fun getModelPath(): String = documentMetadataPath
 }

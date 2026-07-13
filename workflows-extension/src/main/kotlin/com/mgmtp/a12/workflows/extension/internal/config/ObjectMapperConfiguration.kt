@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
  *
  * Copyright (c) 2012-2026 mgm technology partners GmbH
@@ -23,38 +23,37 @@
  *
  * Warranty Disclaimer (applies to either option)
  * ----------------------------------------------
- * THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND,
+ * THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND,
  * WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
+
 package com.mgmtp.a12.workflows.extension.internal.config
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.module.SimpleModule
-import com.fasterxml.jackson.module.kotlin.kotlinModule
 import com.mgmtp.a12.dataservices.document.internal.KernelDocumentSerializer
 import com.mgmtp.a12.kernel.md.document.apiV2.immutable.DocumentV2
 import org.springframework.beans.factory.annotation.Qualifier
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer
+import org.springframework.boot.jackson.autoconfigure.JsonMapperBuilderCustomizer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
+import tools.jackson.databind.ObjectMapper
+import tools.jackson.databind.json.JsonMapper
+import tools.jackson.databind.module.SimpleModule
 
 @Configuration
 class ObjectMapperConfiguration {
 
     @Bean
     fun objectMapper(
-        @Qualifier("dataServicesJacksonCustomizer") dataServicesJacksonCustomizer: Jackson2ObjectMapperBuilderCustomizer,
-        builder: Jackson2ObjectMapperBuilder,
+        @Qualifier("jackson3Customizer") dataServicesJacksonCustomizer: JsonMapperBuilderCustomizer,
+        builder: JsonMapper.Builder,
         kernelDocumetSerialzer: KernelDocumentSerializer,
     ): ObjectMapper {
         dataServicesJacksonCustomizer.customize(builder)
         return builder
-            .modulesToInstall(kotlinModule())
-            .modulesToInstall(SimpleModule().addSerializer(DocumentV2::class.java, kernelDocumetSerialzer))
-            .build<ObjectMapper>()
+            .addModule(SimpleModule().addSerializer(DocumentV2::class.java, kernelDocumetSerialzer))
+            .build()
     }
 }

@@ -30,10 +30,4 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { startProcessSaga } from "./internal/startProcessSaga.js";
-import { sendMessageSaga } from "./internal/sendMessageSaga.js";
-import { completeTaskSaga } from "./internal/completeTaskSaga.js";
-import { assignTaskSaga } from "./internal/assignTaskSaga.js";
-import { adaptAppModelSaga } from "./internal/adaptAppModelSaga.js";
-
-export const workflowsSagas = [startProcessSaga, sendMessageSaga, completeTaskSaga, assignTaskSaga, adaptAppModelSaga];
+export { workflowsSagas } from "./internal/workflowsSagas.js";

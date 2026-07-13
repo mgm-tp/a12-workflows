@@ -30,18 +30,12 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { Dispatch, Middleware, MiddlewareAPI } from "redux";
-import { AnyAction } from "typescript-fsa";
+import type { Dispatch, Middleware, MiddlewareAPI } from "redux";
 
-import { LoggerFactory } from "@com.mgmtp.a12.utils/utils-logging/index.js";
-import {
-	ActivityActions,
-	ActivityMap,
-	ActivitySelectors
-} from "@com.mgmtp.a12.client/client-core/lib/core/activity/index.js";
-import { Logger } from "@com.mgmtp.a12.utils/utils-logging/api.js";
+import { LoggerFactory, type Logger } from "@com.mgmtp.a12.utils/utils-logging";
+import { ActivityActions, ActivityMap, ActivitySelectors } from "@com.mgmtp.a12.client/client-core";
 
-import { WorkflowsConstants } from "../../utils/constants.js";
+import { WorkflowsConstants } from "../../utils/internal/constants.js";
 import { WorkflowsActions } from "../../actions/index.js";
 
 const reloadAfterCompleteTaskLogger = LoggerFactory.getLogger("reloadTaskOverviewAfterCompleteTaskMiddleware");
@@ -89,7 +83,7 @@ export const reloadTaskOverviewAfterStartProcessMiddleware: Middleware = (api) =
 	return next(action);
 };
 
-function reloadData(api: MiddlewareAPI<Dispatch<AnyAction>>, logger: Logger) {
+function reloadData(api: MiddlewareAPI<Dispatch>, logger: Logger) {
 	const matchingActivities = ActivityMap.toList(ActivitySelectors.activities()(api.getState()))
 		.filter((activity) => WorkflowsConstants.TASK_LIST_VIEW === activity.descriptor.view)
 		.filter((activity) => undefined === activity.descriptor.instance);

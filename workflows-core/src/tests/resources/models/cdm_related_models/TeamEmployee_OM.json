@@ -2,7 +2,7 @@
   "header": {
     "id": "TeamEmployee_OM",
     "modelType": "overview",
-    "modelVersion": "38.0.0",
+    "modelVersion": "39.0.0",
     "locales": [
       {
         "code": "en"
@@ -28,23 +28,6 @@
     ]
   },
   "content": {
-    "configuration": {
-      "enableFilter": true,
-      "multiSelection": {
-        "collapseOption": "collapsible_collapsed",
-        "counterOption": "simple",
-        "clearConfirmation": {
-          "enabled": true
-        }
-      },
-      "showFullTextSearch": true,
-      "pagingSize": 50,
-      "filterConfiguration": {
-        "showFilterButton": true,
-        "showFilterBar": true,
-        "filterMode": "all_columns"
-      }
-    },
     "columns": [
       {
         "id": "column-83f7e",
@@ -68,25 +51,42 @@
         "sortable": false
       }
     ],
+    "rowActionGroup": {},
     "subHeaderBox": {
-      "majorElements": [
+      "leftSlot": [
+        {
+          "type": "multi_selection"
+        }
+      ],
+      "rightSlot": [
         {
           "type": "search"
         },
         {
           "type": "filter"
         }
-      ],
-      "minorElements": [
-        {
-          "type": "multi_selection"
-        }
       ]
     },
-    "rowActionGroup": {},
     "footerBox": {
-      "majorElements": [],
-      "minorElements": []
+      "leftSlot": [],
+      "rightSlot": []
+    },
+    "configuration": {
+      "enableFilter": true,
+      "multiSelection": {
+        "collapseOption": "collapsible_collapsed",
+        "counterOption": "simple",
+        "clearConfirmation": {
+          "enabled": true
+        }
+      },
+      "showFullTextSearch": true,
+      "pagingSize": 50,
+      "filterConfiguration": {
+        "showFilterButton": true,
+        "showFilterBar": true,
+        "filterMode": "all_columns"
+      }
     }
   }
 }

@@ -30,11 +30,10 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { actionCreatorFactory, AnyAction } from "typescript-fsa";
+import { actionCreatorFactory, type AnyAction } from "@com.mgmtp.a12.client/typescript-fsa-redux-5-compat";
+import { Activity } from "@com.mgmtp.a12.client/client-core";
 
-import { Activity } from "@com.mgmtp.a12.client/client-core/lib/core/activity/index.js";
-
-import { DocumentDto } from "../../task/index.js";
+import type { DocumentDto } from "../../task/index.js";
 
 const factory = actionCreatorFactory("Workflows");
 

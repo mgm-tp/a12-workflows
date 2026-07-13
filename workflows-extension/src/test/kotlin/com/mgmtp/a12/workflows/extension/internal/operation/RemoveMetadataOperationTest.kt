@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
  *
  * Copyright (c) 2012-2026 mgm technology partners GmbH
@@ -23,15 +23,15 @@
  *
  * Warranty Disclaimer (applies to either option)
  * ----------------------------------------------
- * THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND,
+ * THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND,
  * WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
+
 package com.mgmtp.a12.workflows.extension.internal.operation
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.mgmtp.a12.dataservices.document.DocumentReference
 import com.mgmtp.a12.dataservices.document.DocumentService
 import com.mgmtp.a12.dataservices.document.persistence.DocumentComputationStrategy
@@ -64,6 +64,7 @@ import org.junit.jupiter.api.Assertions.fail
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import tools.jackson.module.kotlin.jacksonObjectMapper
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.memberFunctions
 import kotlin.reflect.full.valueParameters

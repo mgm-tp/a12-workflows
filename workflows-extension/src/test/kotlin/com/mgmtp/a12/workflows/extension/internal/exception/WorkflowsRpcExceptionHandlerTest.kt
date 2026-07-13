@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
  *
  * Copyright (c) 2012-2026 mgm technology partners GmbH
@@ -23,16 +23,15 @@
  *
  * Warranty Disclaimer (applies to either option)
  * ----------------------------------------------
- * THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND,
+ * THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND,
  * WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
+
 package com.mgmtp.a12.workflows.extension.internal.exception
 
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.mgmtp.a12.contentstore.client.exception.A12ClientException
 import com.mgmtp.a12.dataservices.common.exception.NotFoundException
 import com.mgmtp.a12.dataservices.document.DocumentReference
@@ -45,7 +44,6 @@ import com.mgmtp.a12.workflows.client.internal.operation.InternalOperationConsta
 import com.mgmtp.a12.workflows.client.internal.operation.InternalOperationConstants.GET_PROCESS_VARIABLE_UPDATES_OPERATION
 import com.mgmtp.a12.workflows.client.internal.operation.InternalOperationConstants.REMOVE_METADATA_OPERATION
 import com.mgmtp.a12.workflows.client.internal.operation.InternalOperationConstants.SET_STATUS_OPERATION
-import com.mgmtp.a12.workflows.client.operation.WorkflowsOperationConstants.SEND_MESSAGE_OPERATION
 import com.mgmtp.a12.workflows.client.operation.WorkflowsOperationConstants.START_PROCESS_OPERATION
 import com.mgmtp.a12.workflows.client.operation.WorkflowsOperationConstants.TASK_ASSIGN_OPERATION
 import com.mgmtp.a12.workflows.client.operation.WorkflowsOperationConstants.TASK_COMPLETE_OPERATION
@@ -54,7 +52,6 @@ import com.mgmtp.a12.workflows.extension.internal.exception.constants.WorkflowsE
 import com.mgmtp.a12.workflows.extension.internal.exception.constants.WorkflowsExceptionTitleBase.GET_PROCESS_VARIABLE_UPDATES_ERROR_TITLE
 import com.mgmtp.a12.workflows.extension.internal.exception.constants.WorkflowsExceptionTitleBase.PROCESS_ENGINE_ERROR_TITLE
 import com.mgmtp.a12.workflows.extension.internal.exception.constants.WorkflowsExceptionTitleBase.REMOVE_METADATA_ERROR_TITLE
-import com.mgmtp.a12.workflows.extension.internal.exception.constants.WorkflowsExceptionTitleBase.SEND_MESSAGE_ERROR_TITLE
 import com.mgmtp.a12.workflows.extension.internal.exception.constants.WorkflowsExceptionTitleBase.SET_STATUS_ERROR_TITLE
 import com.mgmtp.a12.workflows.extension.internal.exception.constants.WorkflowsExceptionTitleBase.START_PROCESS_ERROR_TITLE
 import com.mgmtp.a12.workflows.extension.internal.exception.constants.WorkflowsExceptionTitleBase.TASK_ASSIGN_ERROR_TITLE
@@ -65,13 +62,14 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import io.mockk.mockk
-import jakarta.jms.JMSException
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.http.HttpStatus
 import org.springframework.web.client.RestClientException
+import tools.jackson.databind.JsonNode
+import tools.jackson.module.kotlin.jacksonObjectMapper
 import java.util.stream.Stream
 
 private class WorkflowsRpcExceptionHandlerTest {
@@ -97,7 +95,6 @@ private class WorkflowsRpcExceptionHandlerTest {
         val a12ClientException: A12ClientException = mockk(relaxed = true)
         val resourceAccessException = ResourceAccessException("someResourceName", ERROR_MESSAGE)
         val notFoundException = NotFoundException(ERROR_MESSAGE)
-        val jmsException = JMSException(ERROR_MESSAGE)
         val runtimeException = RuntimeException(ERROR_MESSAGE)
 
         @JvmStatic
@@ -111,8 +108,6 @@ private class WorkflowsRpcExceptionHandlerTest {
 
             Arguments.of(TASK_COMPLETE_OPERATION, TASK_COMPLETE_ERROR_TITLE, "A12ClientException", WorkflowsRpcException(a12ClientException, TASK_COMPLETE_OPERATION, docRef = docRef)),
             Arguments.of(TASK_COMPLETE_OPERATION, TASK_COMPLETE_ERROR_TITLE, "NotFoundException", WorkflowsRpcException(notFoundException, TASK_COMPLETE_OPERATION, docRef = docRef)),
-
-            Arguments.of(SEND_MESSAGE_OPERATION, SEND_MESSAGE_ERROR_TITLE, "JMSException", WorkflowsRpcException(jmsException, SEND_MESSAGE_OPERATION)),
 
             Arguments.of(CREATE_DOCUMENT_OPERATION, CREATE_DOCUMENT_ERROR_TITLE, "RuntimeException", WorkflowsRpcException(runtimeException, CREATE_DOCUMENT_OPERATION, documentNode = documentWithMetadataNode)),
 

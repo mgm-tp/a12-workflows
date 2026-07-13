@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
  *
  * Copyright (c) 2012-2026 mgm technology partners GmbH
@@ -23,17 +23,15 @@
  *
  * Warranty Disclaimer (applies to either option)
  * ----------------------------------------------
- * THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND,
+ * THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND,
  * WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
+
 package com.mgmtp.a12.workflows.extension.internal.operation
 
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.node.TextNode
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.mgmtp.a12.dataservices.common.anonymizing.Anonymizer
 import com.mgmtp.a12.dataservices.rpc.RpcException
 import com.mgmtp.a12.workflows.engine.client.internal.ProcessEngineOperationBroker
@@ -59,8 +57,9 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.web.client.RestClientResponseException
-import jakarta.jms.IllegalStateException as JakartaJmsIllegalStateException
-import org.springframework.jms.IllegalStateException as JmsIllegalStateException
+import tools.jackson.databind.JsonNode
+import tools.jackson.databind.node.StringNode
+import tools.jackson.module.kotlin.jacksonObjectMapper
 
 private class SendMessageOperationTest {
 
@@ -82,7 +81,7 @@ private class SendMessageOperationTest {
 
         val payload: JsonNode = jacksonObjectMapper().readTree("""{ "someKey": "someValue" }""")
         val emptyPayload: JsonNode = jacksonObjectMapper().readTree("{}")
-        val invalidPayload = TextNode("just text, no key-value pair")
+        val invalidPayload = StringNode("just text, no key-value pair")
 
         val exceptionResponseAsString: String = jacksonObjectMapper()
             .writeValueAsString(ProcessEngineExceptionResponse("AccessDeniedException", "", -1))
@@ -186,7 +185,7 @@ private class SendMessageOperationTest {
         @Test
         fun `should NOT publish any events if given payload has invalid format`() {
             // when
-            shouldThrow<IllegalArgumentException> {
+            shouldThrow<RpcException> {
                 sendMessageOperation.rpc(MESSAGE_NAME, BUSINESS_KEY, PROCESS_INSTANCE_ID, invalidPayload)
             }
 
@@ -226,25 +225,6 @@ private class SendMessageOperationTest {
 
             verify(exactly = 1) { spyEventPublisher.publishEvent(expectedEvent) }
             verify(exactly = 0) { spyEventPublisher.publishEvent(nonExpectedEvent) }
-        }
-    }
-
-    @Nested
-    @DisplayName("Given JmsException...")
-    inner class GivenJmsException {
-
-        val jmsException =
-            JmsIllegalStateException(JakartaJmsIllegalStateException("some error message"))
-
-        @Test
-        fun `should throw RpcException if request via jms to Process Engine fails`() {
-            // given
-            every { mockProcessEngineOperationBroker.sendMessage(any()) } throws jmsException
-
-            // when/then
-            shouldThrow<RpcException> {
-                sendMessageOperation.rpc(MESSAGE_NAME, BUSINESS_KEY, PROCESS_INSTANCE_ID, payload)
-            }
         }
     }
 }

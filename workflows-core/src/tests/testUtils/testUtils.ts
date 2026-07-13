@@ -37,13 +37,12 @@ import Path from "node:path";
 
 import { configureStore } from "redux-mock-store";
 
-import { Activity } from "@com.mgmtp.a12.client/client-core/lib/core/activity/index.js";
-import { FormEngineActions } from "@com.mgmtp.a12.formengine/formengine-core/lib/client-extensions/index.js";
-import { ModelPath } from "@com.mgmtp.a12.base/base-model-api/lib/main/model/index.js";
-import { DocumentModel } from "@com.mgmtp.a12.kernel/kernel-md-facade/lib/main/js/api.js";
-import { DocumentModelSerializerImpl } from "@com.mgmtp.a12.kernel/kernel-md-facade/lib/main/js/internal/DocumentModelSerializerImpl.js";
+import { Activity } from "@com.mgmtp.a12.client/client-core";
+import { Events, FormEngineActions } from "@com.mgmtp.a12.formengine/formengine-core";
+import { ModelPath } from "@com.mgmtp.a12.base/base-model-api";
+import { DocumentModel, DocumentServiceFactory } from "@com.mgmtp.a12.kernel/kernel-md-facade";
 
-import FormEngineEventActions = FormEngineActions.FormEngineEventActions;
+type FormEngineEventActions = FormEngineActions.FormEngineEventActions;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getStore(middlewares: any, initialState: object) {
@@ -111,18 +110,13 @@ function createDataHolder(options: Partial<Activity.DataHolder>): Activity.DataH
 export function createEventButtonPayload(
 	activityId: string,
 	eventName: string,
-	type: string,
 	buttonPath: ModelPath = [{ elementName: "" }]
 ): FormEngineEventActions {
 	return {
-		engineEvent: {
-			type: type,
-			payload: {
-				name: eventName,
-				validate: false,
-				buttonPath: buttonPath
-			}
-		},
+		engineEvent: Events.eventButton({
+			name: eventName,
+			buttonPath: buttonPath
+		}),
 		activityId: activityId
 	};
 }
@@ -136,6 +130,6 @@ export function readFile(relativeFilePath: string): string {
 }
 
 export function deserializeDocumentModel(documentModelString: string): DocumentModel {
-	const documentModelSerializerImpl = new DocumentModelSerializerImpl();
+	const documentModelSerializerImpl = new DocumentServiceFactory().getDocumentModelSerializer();
 	return documentModelSerializerImpl.deserialize(documentModelString);
 }

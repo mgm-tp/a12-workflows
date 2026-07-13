@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
  *
  * Copyright (c) 2012-2026 mgm technology partners GmbH
@@ -23,12 +23,13 @@
  *
  * Warranty Disclaimer (applies to either option)
  * ----------------------------------------------
- * THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND,
+ * THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND,
  * WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
+
 package com.mgmtp.a12.workflows.engine.internal.serialization
 
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -37,7 +38,7 @@ import org.springframework.context.ApplicationEventPublisher
 import java.io.IOException
 
 data class ProcessVariableBeforeSerializationEvent(var variable: String)
-data class ProcessVariableBeforeDeserializationEvent(var variable: String)
+data class ProcessVariableAfterDeserializationEvent(var variable: String)
 
 class EventingVariableSerializer(
     private val eventPublisher: ApplicationEventPublisher,
@@ -53,7 +54,7 @@ class EventingVariableSerializer(
 
     override fun deserializeFromByteArray(bytes: ByteArray?, objectTypeName: String?): Any {
         val variable = super.deserializeFromByteArray(bytes, objectTypeName)
-        val event = ProcessVariableBeforeDeserializationEvent(variable as String)
+        val event = ProcessVariableAfterDeserializationEvent(variable as String)
         eventPublisher.publishEvent(event)
 
         try {

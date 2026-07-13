@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
  *
  * Copyright (c) 2012-2026 mgm technology partners GmbH
@@ -23,16 +23,15 @@
  *
  * Warranty Disclaimer (applies to either option)
  * ----------------------------------------------
- * THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND,
+ * THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND,
  * WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
+
 package com.mgmtp.a12.workflows.engine.internal.utils.service.rpc
 
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.mgmtp.a12.dataservices.client.rpc.RequestBuilderFactory
 import com.mgmtp.a12.dataservices.client.rpc.RpcOperationsClient
 import com.mgmtp.a12.dataservices.document.DocumentReference
@@ -50,6 +49,8 @@ import com.mgmtp.a12.workflows.shared.internal.constants.JsonRpcRequestQueryPara
 import io.kotest.matchers.shouldBe
 import io.mockk.mockk
 import org.junit.jupiter.api.Test
+import tools.jackson.databind.JsonNode
+import tools.jackson.module.kotlin.jacksonObjectMapper
 
 private class JsonRpcRequestBuilderTest {
 

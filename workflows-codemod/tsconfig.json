@@ -10,9 +10,7 @@
 	"compilerOptions": {
 		"rootDir": "./src",
 		"outDir": "./lib",
-		"declarationMap": true,
 		"preserveWatchOutput": true,
-		"noEmitOnError": true,
 		"skipLibCheck": true,
         "types": ["vitest/globals"]
 	}

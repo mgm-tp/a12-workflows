@@ -30,8 +30,7 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { AuthenticationState, AuthenticationType } from "@com.mgmtp.a12.uaa/uaa-authentication-client/lib/index.js";
-import { UaaLoggedInSlice } from "@com.mgmtp.a12.uaa/uaa-authentication-client/lib/internal/selectors.js";
+import { AuthenticationState, AuthenticationType, UaaSelectors } from "@com.mgmtp.a12.uaa/uaa-authentication-client";
 
 import { claimMiddleware } from "../../../middlewares/internal/claimMiddleware.js";
 import { WorkflowsActions } from "../../../actions/index.js";
@@ -53,7 +52,7 @@ const INITIAL_STATE_WITH_EMPTY_USERNAME = {
 		},
 		state: AuthenticationState.AUTHENTICATED,
 		authenticationType: AuthenticationType.LOCAL
-	} satisfies UaaLoggedInSlice
+	} satisfies UaaSelectors.UaaLoggedInSlice
 };
 
 const INITIAL_STATE_WITH_UAA_SLICE = {
@@ -65,7 +64,7 @@ const INITIAL_STATE_WITH_UAA_SLICE = {
 		},
 		state: AuthenticationState.AUTHENTICATED,
 		authenticationType: AuthenticationType.LOCAL
-	} satisfies UaaLoggedInSlice
+	} satisfies UaaSelectors.UaaLoggedInSlice
 };
 
 const claimRequestAction = WorkflowsActions.claimRequested({ docRef: "someDocRef" });

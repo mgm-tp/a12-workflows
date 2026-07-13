@@ -30,14 +30,16 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
+import { vi } from "vitest";
 import { expectSaga } from "redux-saga-test-plan";
 
 import {
 	ApplicationModel,
 	ModelActions,
-	ModelSelectors
-} from "@com.mgmtp.a12.client/client-core/lib/core/model/index.js";
-import { Activity, ActivitySelectors } from "@com.mgmtp.a12.client/client-core/lib/core/activity/index.js";
+	ModelSelectors,
+	Activity,
+	ActivitySelectors
+} from "@com.mgmtp.a12.client/client-core";
 
 import { adaptAppModelSaga } from "../../sagas/internal/adaptAppModelSaga.js";
 import { WorkflowsActions } from "../../actions/index.js";
@@ -45,7 +47,7 @@ import { WorkflowsActions } from "../../actions/index.js";
 import { createActivity, readFile } from "../testUtils/testUtils.js";
 import { testCanHandle } from "../testUtils/commonTests.js";
 
-import LoadingState = Activity.LoadingState;
+type LoadingState = Activity.LoadingState;
 
 const saga = adaptAppModelSaga;
 

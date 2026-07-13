@@ -39,6 +39,7 @@ export default defineConfig({
         root: "src",
         include: ["tests/**/*.test.ts"],
         exclude: ["**/resources/**", "**/testUtils/**", "**/testData/**"],
+        testTimeout: 200000,
         coverage: {
             provider: "v8",
             reportsDirectory: "../../build/reports/frontend_coverage/workflows-core",

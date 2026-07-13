@@ -30,13 +30,11 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { Action, AnyAction } from "typescript-fsa";
-import { SagaIterator } from "redux-saga";
-import { call, put } from "typed-redux-saga";
+import { call, put, type SagaGenerator } from "typed-redux-saga";
 
-import { Activity } from "@com.mgmtp.a12.client/client-core/lib/core/activity/index.js";
-import { ApplicationSaga } from "@com.mgmtp.a12.client/client-core/lib/core/application/index.js";
-import { LoggerFactory } from "@com.mgmtp.a12.utils/utils-logging/index.js";
+import type { Action, AnyAction } from "@com.mgmtp.a12.client/typescript-fsa-redux-5-compat";
+import { Activity, type ApplicationSaga } from "@com.mgmtp.a12.client/client-core";
+import { LoggerFactory } from "@com.mgmtp.a12.utils/utils-logging";
 
 import { WorkflowsActions } from "../../actions/index.js";
 import { RequestBuilder } from "../../utils/index.js";
@@ -48,7 +46,7 @@ export const startProcessSaga: ApplicationSaga.Descriptor = {
 	canHandle: (_: Activity.Descriptor, action: AnyAction) => {
 		return WorkflowsActions.startProcess.started.match(action);
 	},
-	handle: function* (action: Action<WorkflowsActions.StartProcessPayload>): SagaIterator<void> {
+	handle: function* (action: Action<WorkflowsActions.StartProcessPayload>): SagaGenerator<void> {
 		logger.info("Handling matched Workflows/START_PROCESS_STARTED action");
 		logger.log(`Triggered by action: `, action);
 		const { processDefinition, businessKey, variables } = action.payload;

@@ -2,7 +2,7 @@
   "header": {
     "id": "TeamEmployee_CDM",
     "modelType": "document",
-    "modelVersion": "28.3.0",
+    "modelVersion": "29.4.0",
     "locales": [
       {
         "code": "en"
@@ -24,15 +24,23 @@
     ],
     "modelReferences": [
       {
-        "alias": "Team_DM",
         "modelType": "document",
         "purpose": "include",
         "reference": "Team_DM"
       },
       {
-        "alias": "Employee_DM",
         "modelType": "document",
         "purpose": "include",
+        "reference": "Employee_DM"
+      },
+      {
+        "modelType": "document",
+        "purpose": "composedData",
+        "reference": "Team_DM"
+      },
+      {
+        "modelType": "document",
+        "purpose": "composedData",
         "reference": "Employee_DM"
       }
     ]
@@ -58,7 +66,9 @@
           "name": "Team",
           "Group": {
             "repeatability": 1,
-            "modelAlias": "Team_DM"
+            "includeConfig": {
+              "reference": "Team_DM"
+            }
           }
         },
         {
@@ -92,7 +102,9 @@
                 "name": "Employee",
                 "Group": {
                   "repeatability": 1,
-                  "modelAlias": "Employee_DM"
+                  "includeConfig": {
+                    "reference": "Employee_DM"
+                  }
                 }
               }
             ]

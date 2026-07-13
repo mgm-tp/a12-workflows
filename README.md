@@ -32,7 +32,7 @@ each artifact are of the form `com.mgmtp.a12.workflows:<artifact>:<version>`.
 
 - To use the workflows-core frontend library, import the artifact `@com.mgmtp.a12.workflows/workflows-core` into your
  A12 frontend via the dependency inclusion mechanism of your build tool.
-- Follow further instructions in the [Workflows Core documentation](https://geta12.com/#/docs/2025.06/ext2/workflows/dev-docs%23_workflows_core) to set up the frontend integration.
+- Follow further instructions in the [Workflows Core documentation](https://geta12.com/#/docs/2026.06/ext2/workflows/dev-docs%23_workflows_core) to set up the frontend integration.
 
 ##### Workflows Dataservices Extension
 - To use the Dataservices extension, import the artifact `com.mgmtp.a12.workflows:workflows-extension:<version>` into your
@@ -50,8 +50,8 @@ and run the recipes as necessary from the `@com.mgmtp.a12.workflows/workflows-co
 
 | Tool           | Version    | Note                                                       |
 |----------------|------------|------------------------------------------------------------|
-| Adoptium JDK   | `^21`      | For compiling and running you should use JAVA 21 or higher |
-| Gradle         | `^8.5`     | Gradle version might be latest available                   |
+| Adoptium JDK   | `^25`      | For compiling and running you should use JAVA 21 or higher |
+| Gradle         | `^9`       | Gradle version might be latest available                   |
 | Node           | `^22.10.0` |                                                            |
 | npm            | `^10.9.0`  |                                                            |
 

@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
  *
  * Copyright (c) 2012-2026 mgm technology partners GmbH
@@ -23,21 +23,23 @@
  *
  * Warranty Disclaimer (applies to either option)
  * ----------------------------------------------
- * THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND,
+ * THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND,
  * WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
+
 package com.mgmtp.a12.workflows.extension.internal.operation
 
 import com.googlecode.jsonrpc4j.JsonRpcParam
 import com.mgmtp.a12.dataservices.document.DocumentReference
+import com.mgmtp.a12.dataservices.document.DocumentReferenceResult
 import com.mgmtp.a12.dataservices.document.DocumentService
 import com.mgmtp.a12.dataservices.document.persistence.DocumentComputationStrategy
 import com.mgmtp.a12.dataservices.document.persistence.DocumentValidationStrategy
 import com.mgmtp.a12.dataservices.model.ModelService
-import com.mgmtp.a12.dataservices.model.document.persistence.internal.DocumentModelLoader
+import com.mgmtp.a12.dataservices.model.document.persistence.DocumentModelLoader
 import com.mgmtp.a12.dataservices.rpc.RemoteOperation
 import com.mgmtp.a12.kernel.md.document.apiV2.DocumentPointer
 import com.mgmtp.a12.kernel.md.document.apiV2.immutable.DocumentV2
@@ -108,11 +110,11 @@ class CreateMetadataOperation(
             || hasUAAPermission('CreateMetadata')
     """,
     )
-    @Transactional
+    @Transactional("dsTransactionManager")
     fun rpc(
         @DecisionContext("docRef") @Nullable @JsonRpcParam("docRef") docRef: DocumentReference?,
         @DecisionContext("metadata") @JsonRpcParam("metadata") metadata: ProcessMetadata,
-    ): DocumentReference {
+    ): DocumentReferenceResult {
         try {
             logger().info(
                 "{} called with parameters [docRef={}]",
@@ -126,7 +128,7 @@ class CreateMetadataOperation(
             } else {
                 updateExistingDocumentWithMetadata(docRef, metadata)
             }
-            return outputDocRef.also {
+            return DocumentReferenceResult(outputDocRef).also {
                 logger().debug("{} is completed.", CREATE_METADATA_OPERATION)
             }
         } catch (de: DocumentAlreadyReferencedException) {

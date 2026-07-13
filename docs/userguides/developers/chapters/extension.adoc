@@ -15,6 +15,8 @@ You must select and comply with exactly one of the above license options.
 Warranty Disclaimer (applies to either option)
 THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
 ////
+
+
 [[anchor-workflows-extension]]
 = Workflows Extension
 
@@ -31,10 +33,6 @@ For the Workflows Extension itself, we offer the following configuration options
 |===
 | Configuration Property | Default Value | Remarks
 |`mgmtp.a12.workflows.automatic-synchronization.enabled` | false | Synchronize A12 document fields to CIB 7 automatically. Alternatively, you may disable this and use the link:/docs/workflows/ba-docs/index.html#anchor-provided-delegates[`syncAvailableFieldsDelegate`] to control when data is synced (e.g. for performance reasons).
-
-|`mgmtp.a12.workflows.extension.asynchronous-mode.enabled` | false | Enable *asynchronous* communication from Data Services to CIB 7 (see <<anchor-asynchronous-mode, *asynchronous* mode>>).
-
-|`mgmtp.a12.workflows.extension.asynchronous-mode.consumers.embedded.enabled` | - | Enables embedded queue consumers. Given no value, embedded consumers are enabled. This must not be set to `false` because embedded is currently the only supported mode.
 |===
 
 === Object Mapper Configuration
@@ -46,23 +44,6 @@ WARNING: Please avoid overriding the object mapper bean. If you do have to, reme
 == Configuration Profiles
 
 We offer the following configuration profiles for the Workflows extension.
-
-[[anchor-profile-async-mode]]
-=== Enable Async Mode
-
-Enables asynchronous mode for the Workflows extension
-
-==== Profile Name
-[source]
-----
-workflows-async
-----
-==== Profile Contents
-
-[source]
-----
-mgmtp.a12.workflows.extension.asynchronous-mode.enabled=true
-----
 
 [[anchor-auto-sync-profile]]
 === Enable Automatic Synchronization
@@ -81,62 +62,10 @@ workflows-automatic-sync
 mgmtp.a12.workflows.automatic-synchronization.enabled=true
 ----
 
-[[anchor-embedded-jms]]
-=== Enable Embedded JMS Broker
-
-Enables an embedded Artemis JMS Broker for async mode.
-
-NOTE: This profile only makes sense in combination with async mode.
-
-==== Profile Name
-[source]
-----
-workflows-embedded_jms
-----
-==== Profile Contents
-
-[source]
-----
-spring.artemis.mode=embedded
-spring.artemis.embedded.enabled=true
-----
-
-[[anchor-external-jms]]
-=== Enable External JMS Broker
-
-Configures a connection to an external Artemis JMS Broker for async mode.
-
-NOTE: This profile only makes sense in combination with async mode.
-
-==== Profile Name
-[source]
-----
-workflows-external_jms
-----
-==== Profile Contents
-
-[source]
-----
-spring.artemis.mode=native
-spring.artemis.embedded.enabled=false
-----
-
-==== What You Must Configure
-
-[source]
-----
-spring.artemis.user=USERNAME
-spring.artemis.password=PASSWORD
-spring.artemis.broker-url=tcp://HOST:61616
-----
-
-
 [[anchor-workflows-extension-events]]
 == Events
 
 We publish the following Spring events to hook into our RPC operations.
-
-WARNING: In <<anchor-asynchronous-mode,async mode>>, the only difference between "before" and "after" events is that a corresponding command has been persisted in the _outbox_ (in the sense of the _outbox pattern_). In other words, even in "after" events, CIB 7 may not have received any request yet.
 
 === `TaskBeforeAssignEvent`
 
@@ -370,123 +299,3 @@ requestBuilderFactory
     .build()
 ----
 
-[[anchor-asynchronous-mode]]
-== Asynchronous Mode (Experimental)
-
-=== Background: Synchronous Mode
-
-CIB 7 stores only _Document References_ ("docRefs"), no actual documents. Data Services is the single source of truth for all documents.
-
-In sync mode, the <<anchor-cbr-workflows-extension,JSON-RPC operations from our Workflows Extension>> manipulate the documents in Data Services and send a request to CIB 7 synchronously, i.e., in the same transaction.
-
-Thus, the changes in Data Services are only committed after the transaction in CIB 7 has been committed.
-
-.In rare cases, using *synchronous* mode can lead to data inconsistencies between Data Services and CIB 7.
-[%collapsible]
-====
-There are two cases where inconsistencies may arise:
-
-. The Workflows Extension calls Data Services API to modify a document. This succeeds and the Workflows Extension calls the CIB 7 REST API. During this request, an exception due to a network problem occurs. The changes in Data Services are rolled back. However, despite network issues, the call to the CIB 7 API was still successful. In this case, the changes in CIB 7 are committed while the changes in the Data Services are rolled back.
-. CIB 7 was successful and persisted the changes to its database. A network error occurs while CIB 7 sends its response back to Workflows Extension. Workflows Extension doesn't get a response from CIB 7 and hence assumes that CIB 7 failed, resulting in Data Services rolling back the changes it made.
-
-image:assets/images/transaction_failure_cases_in_synchronous_mode.png[Transaction failure cases in synchronous mode]
-====
-
-=== Enabling Asynchronous Mode
-
-*Asynchronous mode* can be enabled via the <<anchor-profile-async-mode,`workflows-async`>> profile. See also <<anchor-workflows-extension-config, Workflows Extension Configuration>>.
-
-Asynchronous mode is based on the _outbox pattern_, which will be explained in detail below.
-
-NOTE: The `businessKey` is necessary to use the *asynchronous* mode.
-
-=== Step-by-Step Comparison Between Synchronous and Asynchronous Communication
-
-In async mode, transactions are committed in Data Services before CIB 7 knows about the request. You can imagine it as "CIB 7 (state) follows Data Services (state)".
-
-Let's look at the `COMPLETE_TASK` JSON-RPC operation.
-
-To be successful, this operation must successfully call Data Services Java API and CIB 7 REST API.
-
-*In synchronous mode...*
-
-. In the `COMPLETE_TASK` operation, Data Services Java API is called synchronously to remove metadata from the document.
-. Data Services removes the metadata in the document (but this is not yet committed).
-. The CIB 7 REST API is invoked to complete the task.
-. CIB 7 completes the task and commits the changes in its database.
-. CIB 7 sends a success response to Data Services. Only after this, the Data Services transaction is committed.
-
-image:assets/images/synchronous-communication.png[Synchronous Communication].
-
-*In asynchronous mode*, we have two transactions...
-
-*First transaction:*
-
-. In the `COMPLETE_TASK` operation, Data Services Java API is called synchronously to remove metadata from the document.
-. Data Services removes the metadata in the document.
-. _Within the same transaction_, an outbox command (technically a JMS message) containing the necessary data to complete a task is persisted.
-
-[NOTE]
-====
-*Outbox pattern*
-
-* This is the main trick of this _outbox pattern_. Either both operations (modify document and write outbox command) are persisted, or none.
-* Technically, we implement outbox commands as JMS messages.
-** We reuse the Artemis JMS queue provided by Data Services.
-* We use a single queue named `WORKFLOWS_OUTBOX_QUEUE`. All outbox commands are persisted in this queue.
-* Here, the message is of type `CompleteTaskOutboxCommand`, which encapsulates the `taskId` and the `businessKey`.
-* Messages _with the same businessKey_ are processed in the same order they came in. This is necessary because a different order may lead to invalid operations.
-** This is achieved using Artemis _message groups_.
-
-image:assets/images/diagram_queue_messagegroup_consumer.png[Relationship between queue, message group and consumer].
-====
-
-*Second transaction:*
-
-. The consumer consumes the message by pulling it out of the queue.
-** A consumer is associated with a link:https://activemq.apache.org/message-groups.html[message group].
-. The consumer invokes the CIB 7 operation to complete the task.
-. CIB 7 tries to complete the task.
-. If CIB 7 successfully completes the task, a positive JSON-RPC response is sent to the consumer and the consumer deletes the message from the queue.
-. If CIB 7 fails to complete the task, a failure response is sent to the consumer and the message _will not be removed_ from the queue. The consumer will try again later.
-
-image:assets/images/asynchronous-communication.png[Asynchronous Communication].
-
-=== Advantages and Disadvantages of Asynchronous Mode
-
-==== Advantages
-
-* *Eventual consistency* can be achieved because messages are persisted in a JMS queue and only deleted if the respective operation was successful. So messages will be received even if some network errors may occur.
-* With multiple consumers, high availability and load balancing can be achieved.
-
-==== Disadvantages
-
-* The update of the UI is still an issue in *asynchronous* mode. For now projects have to handle the UI update themselves.
-
-=== Consumer Scaling
-
-It is highly recommended to enable scaling of your consumers, as the consumers are bottlenecked by CIB 7 responses, which can take arbitrarily long depending on your process.
-
-To scale your consumers, set the properties
-
-* `spring.jms.listener.min-concurrency` and/or
-* `spring.jms.listener.max-concurrency`
-
-to appropriate values.
-
-These values will depend on your actual process, the amount of service tasks between async breakpoints in your process, and of course the number of concurrent users for your application, so you will have to experiment with these values.
-
-If you cannot overwrite these values for whatever reason, you can register your own `DefaultJmsListenerContainerFactory` with something like this:
-
-[source,java]
-----
-class CustomFactory: DefaultJmsListenerContainerFactory(){
-    override fun initializeContainer(container: DefaultMessageListenerContainer) {
-        super.initializeContainer(container)
-        if (container.destinationName == WORKFLOWS_OUTBOX_QUEUE) {
-            container.minConcurrentConsumers = ...
-            container.maxConcurrentConsumers = ...
-        }
-    }
-}
-----

@@ -6,7 +6,6 @@ buildscript {
 
 plugins {
     alias libs.plugins.kotlin.jvm
-    alias libs.plugins.artifact.publish
     id 'com.mgmtp.a12.workflows.conventions.kotlin'
 }
 
@@ -21,6 +20,7 @@ dependencies {
 
     testImplementation libs.testingCatalog.junit5
     testRuntimeOnly libs.testingCatalog.junit5.engine
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher"
     testImplementation libs.bundles.testingCatalog.xmlunit
     testImplementation libs.bundles.testingCatalog.unittest
 

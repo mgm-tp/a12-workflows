@@ -30,22 +30,21 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import {
-	Activity,
-	ActivityActions,
-	ActivitySelectors
-} from "@com.mgmtp.a12.client/client-core/lib/core/activity/index.js";
+import { vi } from "vitest";
+
+import { Activity, ActivityActions, ActivitySelectors } from "@com.mgmtp.a12.client/client-core";
 
 import {
 	addFormKeyToPushAction,
 	addFormKeyToReplacementAction
 } from "../../../middlewares/internal/addFormKeyToDescriptor.js";
 import { createActivity, getStore } from "../../testUtils/testUtils.js";
-import { WorkflowsConstants } from "../../../utils/constants.js";
+import { WorkflowsConstants } from "../../../utils/internal/constants.js";
 
-import PushPayload = ActivityActions.PushPayload;
+type PushPayload = ActivityActions.PushPayload;
 import TASK_LIST_VIEW = WorkflowsConstants.TASK_LIST_VIEW;
-import CancelRequestedPayload = ActivityActions.CancelRequestedPayload;
+
+type CancelRequestedPayload = ActivityActions.CancelRequestedPayload;
 
 const DOCUMENT_MODEL = "Person_DM";
 const DOCUMENT_MODEL_INSTANCE = `${DOCUMENT_MODEL}/1`;

@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
  *
  * Copyright (c) 2012-2026 mgm technology partners GmbH
@@ -23,15 +23,15 @@
  *
  * Warranty Disclaimer (applies to either option)
  * ----------------------------------------------
- * THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND,
+ * THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND,
  * WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
+
 package com.mgmtp.a12.workflows.engine.internal.delegates.relationship
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.mgmtp.a12.dataservices.client.rpc.RequestBuilderFactory
 import com.mgmtp.a12.dataservices.client.rpc.RpcOperationsClient
 import com.mgmtp.a12.dataservices.document.DocumentReference
@@ -48,6 +48,7 @@ import com.mgmtp.a12.workflows.engine.internal.data.LinkTestData.TARGET_DOC_MODE
 import com.mgmtp.a12.workflows.engine.internal.data.LinkTestData.TARGET_ROLE
 import com.mgmtp.a12.workflows.engine.internal.utils.service.rpc.JsonRpcRequestBuilderFactory
 import com.mgmtp.a12.workflows.engine.internal.utils.service.rpc.data.JsonRpcRequestIds
+import io.kotest.assertions.json.shouldEqualJson
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.every
@@ -56,6 +57,7 @@ import io.mockk.slot
 import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import tools.jackson.module.kotlin.jacksonObjectMapper
 
 private class RelationshipLinkServiceTest {
 
@@ -97,12 +99,15 @@ private class RelationshipLinkServiceTest {
         val sourceDocRef = linkEntitySource.docRef
         val targetDocRef = linkEntityTarget.docRef
 
-        jacksonObjectMapper().writeValueAsString(result.params) shouldBe expectedRequestParameters(
+        val actualJson = jacksonObjectMapper().writeValueAsString(result.params)
+        val expectedJson = expectedRequestParameters(
             sourceDocRef.split("/")[0],
             sourceDocRef.toString(),
             targetDocRef.split("/")[0],
             targetDocRef.toString(),
         )
+
+        actualJson shouldEqualJson expectedJson
     }
 
     fun expectedRequestParameters(
@@ -130,5 +135,5 @@ private class RelationshipLinkServiceTest {
                          "position": "TOP"
                     }        
             }
-    """.trimIndent().replace("\\s".toRegex(), "")
+    """.trimIndent()
 }

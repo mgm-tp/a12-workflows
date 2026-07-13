@@ -30,7 +30,7 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { ActivityActions } from "@com.mgmtp.a12.client/client-core/lib/core/activity/index.js";
+import { ActivityActions } from "@com.mgmtp.a12.client/client-core";
 
 import { setInternalWorkflowsStateOnTaskFormMiddleware } from "../../../middlewares/internal/setInternalWorkflowsStateOnTaskFormMiddleware.js";
 import { getStore } from "../../testUtils/testUtils.js";

@@ -5,7 +5,6 @@
   ],
   "compilerOptions": {
     "composite": true,
-    "skipLibCheck": true,
-    "allowJs": false
+    "skipLibCheck": true
   }
 }

@@ -30,19 +30,18 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { Middleware } from "redux";
+import type { Middleware } from "redux";
 
-import { ActivityReducers } from "@com.mgmtp.a12.client/client-core/lib/core/activity/index.js";
-import { ApplicationSaga, Module } from "@com.mgmtp.a12.client/client-core/lib/core/application/index.js";
-import { OverviewEngineDataLoader } from "@com.mgmtp.a12.overviewengine/overviewengine-core/lib/main/client-extensions/index.js";
+import { ActivityReducers, type ApplicationSaga, type Module } from "@com.mgmtp.a12.client/client-core";
+import type { OverviewEngineDataLoader } from "@com.mgmtp.a12.overviewengine/overviewengine-core";
 
 import {
-	WorkflowsMiddlewareInclusions,
-	WorkflowsMiddlewareOptions,
+	type WorkflowsMiddlewareInclusions,
+	type WorkflowsMiddlewareOptions,
 	workflowsMiddlewares
 } from "../../middlewares/index.js";
 import { workflowsSagas } from "../../sagas/index.js";
-import { workflowsDataLoader } from "../../data/workflowsDataLoader.js";
+import { workflowsDataLoader } from "../../data/index.js";
 
 export namespace WorkflowsFactories {
 	export function createModule(): Module {

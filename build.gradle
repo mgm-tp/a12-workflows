@@ -5,8 +5,6 @@ plugins {
 // Include LICENSE, NOTICE, and THIRD_PARTY_NOTICES in all Jar artifacts produced by Kotlin
 // subprojects. Files are staged under a META-INF/ layout first so their source-relative paths
 // (e.g. "META-INF/LICENSE") match the "META-INF/**" include pattern that some Jar tasks use.
-// THIRD_PARTY_NOTICES is optional: fileTree() on a non-existent directory is an empty tree,
-// so the build succeeds before the folder exists.
 subprojects {
     plugins.withType(JavaPlugin).tap {
         configureEach {
@@ -16,7 +14,8 @@ subprojects {
             def stageLicenseFiles = tasks.register("stageLicenseFiles", Copy) {
                 from(root.file("LICENSE")) { into("META-INF") }
                 from(root.file("NOTICE")) { into("META-INF") }
-                from(root.fileTree("THIRD_PARTY_NOTICES")) { into("META-INF/THIRD_PARTY_NOTICES") }
+                from(root.file("THIRD_PARTY_NOTICES")) { into("META-INF") }
+                from(root.fileTree("licenses")) { into("META-INF/licenses") }
                 into(stagingDir)
             }
 

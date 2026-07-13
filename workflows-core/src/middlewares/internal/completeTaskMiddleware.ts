@@ -30,14 +30,12 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { Middleware } from "redux";
+import type { Middleware } from "redux";
 
-import { FormEngineActions } from "@com.mgmtp.a12.formengine/formengine-core/lib/client-extensions/index.js";
-import { CddState } from "@com.mgmtp.a12.relationshipengine/relationshipengine-core/lib/internal/cdm/cdd/core/cddState.js";
-import { Events } from "@com.mgmtp.a12.formengine/formengine-core/lib/back-end/store/index.js";
-import { Activity, ActivitySelectors } from "@com.mgmtp.a12.client/client-core/lib/core/activity/index.js";
-import { FormActivity } from "@com.mgmtp.a12.formengine/formengine-core/lib/client-extensions/index.js";
-import { LoggerFactory } from "@com.mgmtp.a12.utils/utils-logging/index.js";
+import { FormEngineActions, Events, FormActivity } from "@com.mgmtp.a12.formengine/formengine-core";
+import type { CddState } from "@com.mgmtp.a12.relationshipengine/relationshipengine-core";
+import { Activity, ActivitySelectors } from "@com.mgmtp.a12.client/client-core";
+import { LoggerFactory } from "@com.mgmtp.a12.utils/utils-logging";
 
 import { WorkflowsActions } from "../../actions/index.js";
 import { WorkflowsEvents } from "../../events/index.js";

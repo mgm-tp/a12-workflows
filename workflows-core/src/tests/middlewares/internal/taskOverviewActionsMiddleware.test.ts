@@ -30,20 +30,22 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { OverviewEngineActions } from "@com.mgmtp.a12.overviewengine/overviewengine-core/lib/main/client-extensions/index.js";
-import { Events } from "@com.mgmtp.a12.overviewengine/overviewengine-core/lib/main/store/index.js";
-import { Activity, ActivitySelectors } from "@com.mgmtp.a12.client/client-core/lib/core/activity/index.js";
+import { vi } from "vitest";
+
+import { OverviewEngineActions, Events } from "@com.mgmtp.a12.overviewengine/overviewengine-core";
+import { Activity, ActivitySelectors } from "@com.mgmtp.a12.client/client-core";
 
 import { createActivity, getStore } from "../../testUtils/testUtils.js";
 import { WorkflowsEvents } from "../../../events/index.js";
 import { WorkflowsActions } from "../../../actions/index.js";
-import { WorkflowsConstants } from "../../../utils/constants.js";
+import { WorkflowsConstants } from "../../../utils/internal/constants.js";
 import { taskOverviewActionsMiddleware } from "../../../middlewares/internal/taskOverviewActionsMiddleware.js";
 
 import TASK_LIST_VIEW = WorkflowsConstants.TASK_LIST_VIEW;
-import EventButtonClickedPayload = Events.EventButtonClickedPayload;
-import RowButtonClickedPayload = Events.RowButtonClickedPayload;
-import RowClickedPayload = Events.RowClickedPayload;
+
+type EventButtonClickedPayload = Events.EventButtonClickedPayload;
+type RowButtonClickedPayload = Events.RowButtonClickedPayload;
+type RowClickedPayload = Events.RowClickedPayload;
 
 const ACTIVITY_ID = "someTaskListActivityId";
 const MIDDLEWARES = [taskOverviewActionsMiddleware];

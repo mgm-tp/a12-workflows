@@ -30,11 +30,12 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
+import { vi } from "vitest";
 import { expectSaga } from "redux-saga-test-plan";
 
-import { ConnectorLocator, RestServerConnector } from "@com.mgmtp.a12.utils/utils-connector/lib/main/index.js";
-import { LocaleSelectors } from "@com.mgmtp.a12.client/client-core/lib/core/locale/index.js";
-import { Locale } from "@com.mgmtp.a12.utils/utils-localization/lib/main/index.js";
+import { ConnectorLocator, RestServerConnector } from "@com.mgmtp.a12.utils/utils-connector";
+import { LocaleSelectors } from "@com.mgmtp.a12.client/client-core";
+import { Locale } from "@com.mgmtp.a12.utils/utils-localization";
 
 import { RequestBuilder } from "../../utils/index.js";
 import { TaskJsonRpc2Request } from "../../task/index.js";
@@ -42,7 +43,7 @@ import { dispatchJsonRpcRequest } from "../../utils/internal/requests/requestUti
 
 import { readFile } from "../testUtils/testUtils.js";
 
-import CompleteJsonRpc2Request = TaskJsonRpc2Request.CompleteJsonRpc2Request;
+type CompleteJsonRpc2Request = TaskJsonRpc2Request.CompleteJsonRpc2Request;
 
 const completeTaskRequestString = readFile("../resources/requests/jsonrpc_complete_task_request.json");
 const completeTaskRequestObject: CompleteJsonRpc2Request = JSON.parse(completeTaskRequestString);

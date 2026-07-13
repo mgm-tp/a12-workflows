@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
  *
  * Copyright (c) 2012-2026 mgm technology partners GmbH
@@ -23,16 +23,16 @@
  *
  * Warranty Disclaimer (applies to either option)
  * ----------------------------------------------
- * THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND,
+ * THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND,
  * WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
+
 package com.mgmtp.a12.workflows.extension.internal.operation
 
 // Aliases needed or else it gets mixed up with IllegalStateException from Kotlin
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.mgmtp.a12.dataservices.common.anonymizing.Anonymizer
 import com.mgmtp.a12.dataservices.common.exception.NotFoundException
 import com.mgmtp.a12.dataservices.document.DocumentReference
@@ -71,9 +71,8 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.web.client.RestClientResponseException
+import tools.jackson.module.kotlin.jacksonObjectMapper
 import java.util.stream.Stream
-import jakarta.jms.IllegalStateException as JakartaJmsIllegalStateException
-import org.springframework.jms.IllegalStateException as JmsIllegalStateException
 
 private class AssignTaskOperationTest {
 
@@ -317,25 +316,6 @@ private class AssignTaskOperationTest {
 
             verify(exactly = 1) { spyEventPublisher.publishEvent(expectedEvent) }
             verify(exactly = 0) { spyEventPublisher.publishEvent(nonExpectedEvent) }
-        }
-    }
-
-    @Nested
-    @DisplayName("Given JmsException...")
-    inner class GivenJmsException {
-
-        val someTaskDocRef = DocumentReference("SomeModel", "1")
-        val jmsException = JmsIllegalStateException(JakartaJmsIllegalStateException("some error message"))
-
-        @Test
-        fun `should throw RpcException if request via jms to Process Engine fails`() {
-            // given
-            every { spyProcessEngineOperationBroker.assign(any(), any(), any()) } throws jmsException
-
-            // when/then
-            shouldThrow<RpcException> {
-                assignTaskOperation.rpc(someTaskDocRef, NEW_ASSIGNEE)
-            }
         }
     }
 

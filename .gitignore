@@ -32,9 +32,9 @@
 # Other
 **/*.bak
 .scannerwork/
+*.txt
 *.h2.mv.db
 *.h2.trace.db
-!licenses/**
 
 # Performance test results
 **/results

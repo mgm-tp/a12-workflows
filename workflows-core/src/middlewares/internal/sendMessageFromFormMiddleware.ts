@@ -30,19 +30,21 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { Middleware } from "redux";
+import type { Middleware } from "redux";
 
-import { FormEngineActions } from "@com.mgmtp.a12.formengine/formengine-core/lib/client-extensions/index.js";
-import { Events } from "@com.mgmtp.a12.formengine/formengine-core/lib/back-end/store/index.js";
-import { LoggerFactory } from "@com.mgmtp.a12.utils/utils-logging/index.js";
-import { findElementByFormModelPath, FormModel } from "@com.mgmtp.a12.formengine/formengine-core/lib/models/index.js";
-import { ModelSelectors } from "@com.mgmtp.a12.client/client-core/lib/core/model/index.js";
-import { isFormModel } from "@com.mgmtp.a12.formengine/formengine-core/lib/models/index.js";
-import { Activity, ActivitySelectors } from "@com.mgmtp.a12.client/client-core/lib/core/activity/index.js";
+import {
+	FormEngineActions,
+	Events,
+	findElementByFormModelPath,
+	isFormModel,
+	isFormModelEventButton
+} from "@com.mgmtp.a12.formengine/formengine-core";
+import { LoggerFactory } from "@com.mgmtp.a12.utils/utils-logging";
+import { Activity, ActivitySelectors, ModelSelectors } from "@com.mgmtp.a12.client/client-core";
 
 import { WorkflowsEvents } from "../../events/index.js";
 import { WorkflowsActions } from "../../actions/index.js";
-import { findA12wfObject } from "../../utils/internal/common/index.js";
+import { findA12wfObject } from "../../utils/internal/common/commonUtils.js";
 
 const logger = LoggerFactory.getLogger("sendMessageFromFormMiddleware");
 
@@ -77,7 +79,7 @@ export const sendMessageFromFormMiddleware: Middleware = (api) => (next) => (act
 			return next(action);
 		}
 
-		if (!FormModel.ButtonType.isEventButton(modelElement)) {
+		if (!isFormModelEventButton(modelElement)) {
 			logger.error(`Form model element at ${buttonPath} is not an event button.`);
 			return next(action);
 		}

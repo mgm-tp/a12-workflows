@@ -30,17 +30,13 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { Middleware } from "redux";
+import type { Middleware } from "redux";
 
-import {
-	ActivityActions,
-	ActivityMap,
-	ActivitySelectors
-} from "@com.mgmtp.a12.client/client-core/lib/core/activity/index.js";
-import { LoggerFactory } from "@com.mgmtp.a12.utils/utils-logging/index.js";
+import { ActivityActions, ActivityMap, ActivitySelectors } from "@com.mgmtp.a12.client/client-core";
+import { LoggerFactory } from "@com.mgmtp.a12.utils/utils-logging";
 
 import { WorkflowsActions } from "../../actions/index.js";
-import { WorkflowsConstants } from "../../utils/constants.js";
+import { WorkflowsConstants } from "../../utils/internal/constants.js";
 
 const logger = LoggerFactory.getLogger("completeTask.closeCurrentFormMiddleware");
 

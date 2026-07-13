@@ -30,22 +30,16 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { AnyAction, Middleware, MiddlewareAPI, Dispatch } from "redux";
+import { type UnknownAction, type Middleware, type MiddlewareAPI, type Dispatch } from "redux";
 import { v4 as uuidv4 } from "uuid";
 
-import { OverviewEngineActions } from "@com.mgmtp.a12.overviewengine/overviewengine-core/lib/main/client-extensions/index.js";
-import { Events } from "@com.mgmtp.a12.overviewengine/overviewengine-core/lib/main/store/index.js";
-import { LoggerFactory } from "@com.mgmtp.a12.utils/utils-logging/lib/factory.js";
-import {
-	Activity,
-	ActivityActions,
-	ActivityMap,
-	ActivitySelectors
-} from "@com.mgmtp.a12.client/client-core/lib/core/activity/index.js";
+import { OverviewEngineActions, Events } from "@com.mgmtp.a12.overviewengine/overviewengine-core";
+import { LoggerFactory } from "@com.mgmtp.a12.utils/utils-logging";
+import { Activity, ActivityActions, ActivityMap, ActivitySelectors } from "@com.mgmtp.a12.client/client-core";
 
 import { WorkflowsEvents } from "../../events/index.js";
 import { WorkflowsActions } from "../../actions/index.js";
-import { WorkflowsConstants } from "../../utils/constants.js";
+import { WorkflowsConstants } from "../../utils/internal/constants.js";
 
 const logger = LoggerFactory.getLogger("taskOverviewActionsMiddleware");
 
@@ -69,7 +63,7 @@ export const taskOverviewActionsMiddleware: Middleware = (api) => (next) => (act
 	return next(action);
 };
 
-function claimTask(api: MiddlewareAPI<Dispatch<AnyAction>, any>, action: any) {
+function claimTask(api: MiddlewareAPI<Dispatch<UnknownAction>, any>, action: any) {
 	logger.info(`Handling matched CLAIM event.`);
 	logger.log(`Triggered by action: ${action}`);
 
@@ -83,7 +77,7 @@ function claimTask(api: MiddlewareAPI<Dispatch<AnyAction>, any>, action: any) {
 	logger.log(`Finished handling CLAIM event`);
 }
 
-function startProcess(api: MiddlewareAPI<Dispatch<AnyAction>, any>, action: any) {
+function startProcess(api: MiddlewareAPI<Dispatch<UnknownAction>, any>, action: any) {
 	logger.info(`Handling matched START_PROCESS event.`);
 	logger.log(`Triggered by action: ${action}`);
 
@@ -112,7 +106,7 @@ function startProcess(api: MiddlewareAPI<Dispatch<AnyAction>, any>, action: any)
 	logger.log(`Finished handling START_PROCESS event`);
 }
 
-function openForm(api: MiddlewareAPI<Dispatch<AnyAction>, any>, action: any) {
+function openForm(api: MiddlewareAPI<Dispatch<UnknownAction>, any>, action: any) {
 	const allActivities = ActivitySelectors.activities()(api.getState());
 
 	const currentFormActivity: Activity | undefined = ActivityMap.toList(allActivities)

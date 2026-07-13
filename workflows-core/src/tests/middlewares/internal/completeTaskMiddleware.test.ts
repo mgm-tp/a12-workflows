@@ -30,17 +30,18 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { Action } from "typescript-fsa";
+import { vi } from "vitest";
 
-import { FormEngineActions } from "@com.mgmtp.a12.formengine/formengine-core/lib/client-extensions/index.js";
-import { Activity, ActivitySelectors } from "@com.mgmtp.a12.client/client-core/lib/core/activity/index.js";
+import type { Action } from "@com.mgmtp.a12.client/typescript-fsa-redux-5-compat";
+import { FormEngineActions } from "@com.mgmtp.a12.formengine/formengine-core";
+import { Activity, ActivitySelectors } from "@com.mgmtp.a12.client/client-core";
 
 import { completeTaskMiddleware } from "../../../middlewares/internal/completeTaskMiddleware.js";
 import { createActivity, createEventButtonPayload, getStore } from "../../testUtils/testUtils.js";
 import { WorkflowsEvents } from "../../../events/index.js";
 import { WorkflowsActions } from "../../../actions/index.js";
 
-import DataHolderDescriptor = Activity.DataHolderDescriptor;
+type DataHolderDescriptor = Activity.DataHolderDescriptor;
 import DataHolder = Activity.DataHolder;
 
 let taskFormActivity: Activity;
@@ -51,11 +52,7 @@ const DOC_REF = "someDocRef";
 const MIDDLEWARES = [completeTaskMiddleware];
 const INITIAL_STATE = { name: "getState" };
 
-const completeTaskFromEngineEventAction = createEventButtonPayload(
-	ACTIVITY_ID,
-	WorkflowsEvents.COMPLETE_TASK,
-	"form-engine/event/EVENT_BUTTON"
-);
+const completeTaskFromEngineEventAction = createEventButtonPayload(ACTIVITY_ID, WorkflowsEvents.COMPLETE_TASK);
 
 vi.spyOn(ActivitySelectors, "activityById").mockReturnValue(() => {
 	return taskFormActivity;

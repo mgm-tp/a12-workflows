@@ -30,14 +30,14 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { Middleware } from "redux";
+import type { Middleware } from "redux";
 
-import { ActivityActions, ActivitySelectors } from "@com.mgmtp.a12.client/client-core/lib/core/activity/index.js";
-import { LoggerFactory } from "@com.mgmtp.a12.utils/utils-logging/index.js";
+import { ActivityActions, ActivitySelectors } from "@com.mgmtp.a12.client/client-core";
+import { LoggerFactory } from "@com.mgmtp.a12.utils/utils-logging";
 
 import { WorkflowsActions } from "../../actions/index.js";
-import { isTaskOverview } from "../../utils/internal/common/index.js";
-import { WorkflowsConstants } from "../../utils/constants.js";
+import { isTaskOverview } from "../../utils/internal/common/commonUtils.js";
+import { WorkflowsConstants } from "../../utils/internal/constants.js";
 
 const adaptAppModel = WorkflowsActions.adaptAppModel;
 

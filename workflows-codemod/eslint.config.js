@@ -7,11 +7,11 @@
  */
 
 import notice from "eslint-plugin-notice";
+
 import {reactRecommended} from "@com.mgmtp.a12.devtools/eslint-config";
 
-
 export default [
-    ...reactRecommended,
+	...reactRecommended,
 	{
 		plugins: {
 			notice

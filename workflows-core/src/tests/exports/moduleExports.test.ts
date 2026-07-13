@@ -30,7 +30,7 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-vi.setConfig({ testTimeout: 300000 });
+import { describe, it, expect } from "vitest";
 
 /**
  * This test suite verifies that all exports from the workflows-core module
@@ -185,7 +185,7 @@ describe("Module Exports - All exports should be accessible from module root", (
 			const module = await import("../../index.js");
 			const { workflowsDataLoader } = module;
 
-			expect(typeof workflowsDataLoader.provideData).toBe("function");
+			expect(typeof workflowsDataLoader.buildRequests).toBe("function");
 		});
 	});
 
@@ -309,7 +309,7 @@ describe("Module Exports - All exports should be accessible from module root", (
 		});
 
 		it("should verify workflowsDataLoader is consistent", async () => {
-			const dataModule = await import("../../data/workflowsDataLoader.js");
+			const dataModule = await import("../../data/index.js");
 			const indexModule = await import("../../index.js");
 
 			expect(indexModule.workflowsDataLoader).toBe(dataModule.workflowsDataLoader);

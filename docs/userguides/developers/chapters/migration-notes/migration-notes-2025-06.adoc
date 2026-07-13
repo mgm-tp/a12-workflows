@@ -15,6 +15,8 @@ You must select and comply with exactly one of the above license options.
 Warranty Disclaimer (applies to either option)
 THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
 ////
+
+
 [[anchor-migration-2025-06]]
 == 2025.06
 
@@ -58,6 +60,7 @@ Feel free to check them out as they might help you to upgrade Workflows easier (
 ==== Workflows Engine (previously Camunda)
 
 * The executable main class `CamundaApplication` has been renamed to `ProcessEngineApplication`.
+* The event `ProcessVariableBeforeDeserializationEvent` has been renamed to `ProcessVariableAfterDeserializationEvent`, as the Java deserialization has already been performed when the event is published.
 * The `CreateDocumentDelegate` does not validate the created document anymore.
 * JS scripting is not supported natively in CIB 7. We removed the respective dependencies from `workflows-engine`.
 ** Groovy scripting remains supported.
@@ -96,9 +99,6 @@ NOTE: The Camunda Modeler enables you to update the applied _Element Template_ w
 
 * The property `mgmtp.a12.workflows.extension.set-status-event-publishing.enabled` has been removed.
 ** The *SetStatusOperation* used in the *setStatusDelegate* cannot be configured to publish the Data Services events `DocumentBeforeUpdateEvent`, `DocumentAfterRepositoryUpdateEvent`, and `DocumentAfterUpdateEvent` anymore.
-** Remove this property from your application's configuration files.
-* The property `mgmtp.a12.dataservices.query.mode` must be set to `EXCLUSIVE`.
-** If you have this property set to `DISABLED` or `IN_PARALLEL`, update it to `EXCLUSIVE` in your application's configuration files.
 * Data Services removed the spring profile `dataservices-embedded_jms`. Workflows now offers the spring profile `workflows-embedded_jms` to enable embedded Artemis service.
 * *AssignTaskOperation*, *CompleteTaskOperation* and *RemoveMetadataOperation* are now using Data Services' service-level Java API to avoid nested transactions and potentially unexpected rollback behaviour
 ** Logging is different now.

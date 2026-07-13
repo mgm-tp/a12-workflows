@@ -2,7 +2,7 @@
   "header": {
     "id": "Team_DM",
     "modelType": "document",
-    "modelVersion": "28.3.0",
+    "modelVersion": "29.4.0",
     "locales": [
       {
         "code": "en"
@@ -29,7 +29,6 @@
     ],
     "modelReferences": [
       {
-        "alias": "WorkflowsMetadata_DM",
         "modelType": "document",
         "purpose": "include",
         "reference": "WorkflowsMetadata_DM"
@@ -84,7 +83,9 @@
                 "name": "A12WF",
                 "Group": {
                   "repeatability": 1,
-                  "modelAlias": "WorkflowsMetadata_DM"
+                  "includeConfig": {
+                    "reference": "WorkflowsMetadata_DM"
+                  }
                 }
               }
             ]

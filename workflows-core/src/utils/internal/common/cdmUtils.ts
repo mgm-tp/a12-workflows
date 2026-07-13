@@ -30,13 +30,11 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { call, put, SagaGenerator } from "typed-redux-saga";
+import { call, put, type SagaGenerator } from "typed-redux-saga";
 
-import { DocumentModel } from "@com.mgmtp.a12.kernel/kernel-md-facade/lib/main/js/api.js";
-import { ActivityActions } from "@com.mgmtp.a12.client/client-core/lib/core/activity/index.js";
-import { Selector, StoreSagas } from "@com.mgmtp.a12.client/client-core/lib/core/store/index.js";
-import { Model as ModelApi } from "@com.mgmtp.a12.base/base-model-api/lib/main/model/index.js";
-import { ModelSelectors } from "@com.mgmtp.a12.client/client-core/lib/core/model/index.js";
+import { DocumentModel } from "@com.mgmtp.a12.kernel/kernel-md-facade";
+import { ActivityActions, type Selector, StoreSagas, ModelSelectors } from "@com.mgmtp.a12.client/client-core";
+import type { Model as ModelApi } from "@com.mgmtp.a12.base/base-model-api";
 
 export namespace CdmUtils {
 	export const CDM_ANNOTATION_NAME = "cdm.queryRoot";

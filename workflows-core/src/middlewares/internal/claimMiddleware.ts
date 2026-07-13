@@ -30,10 +30,10 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { Middleware } from "redux";
+import type { Middleware } from "redux";
 
-import { LoggerFactory } from "@com.mgmtp.a12.utils/utils-logging/index.js";
-import { UaaSelectors } from "@com.mgmtp.a12.uaa/uaa-authentication-client/lib/index.js";
+import { LoggerFactory } from "@com.mgmtp.a12.utils/utils-logging";
+import { UaaSelectors } from "@com.mgmtp.a12.uaa/uaa-authentication-client";
 
 import { WorkflowsActions } from "../../actions/index.js";
 

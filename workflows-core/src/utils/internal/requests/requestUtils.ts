@@ -30,16 +30,16 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { call, SagaGenerator, select } from "typed-redux-saga";
+import { call, type SagaGenerator, select } from "typed-redux-saga";
 
+import { ConnectorLocator, type RestRequestPayload, RestServerConnector } from "@com.mgmtp.a12.utils/utils-connector";
 import {
-	ConnectorLocator,
-	RestRequestPayload,
-	RestServerConnector
-} from "@com.mgmtp.a12.utils/utils-connector/lib/main/index.js";
-import { JsonRpc2Request, JsonRpc2Response, JsonRpc2ResponseOK } from "@com.mgmtp.a12.dataservices/dataservices-access";
+	JsonRpc2Request,
+	JsonRpc2Response,
+	type JsonRpc2ResponseOK
+} from "@com.mgmtp.a12.dataservices/dataservices-access";
 import { LoggerFactory } from "@com.mgmtp.a12.utils/utils-logging";
-import { LocaleSelectors } from "@com.mgmtp.a12.client/client-core/lib/core/locale/index.js";
+import { LocaleSelectors } from "@com.mgmtp.a12.client/client-core";
 
 const logger = LoggerFactory.getLogger("requestUtils");
 

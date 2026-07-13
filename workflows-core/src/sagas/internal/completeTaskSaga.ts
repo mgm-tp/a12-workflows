@@ -30,14 +30,19 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { Action, AnyAction } from "typescript-fsa";
-import { SagaIterator } from "redux-saga";
-import { call, put, select, take } from "typed-redux-saga";
+import type { SagaIterator } from "redux-saga";
+import { call, put, type SagaGenerator, select, take } from "typed-redux-saga";
 
-import { Activity, ActivityActions } from "@com.mgmtp.a12.client/client-core/lib/core/activity/index.js";
-import { ApplicationActions, ApplicationSaga } from "@com.mgmtp.a12.client/client-core/lib/core/application/index.js";
-import { LoggerFactory } from "@com.mgmtp.a12.utils/utils-logging/index.js";
-import { Model, ModelSelectors } from "@com.mgmtp.a12.client/client-core/lib/core/model/index.js";
+import type { Action, AnyAction } from "@com.mgmtp.a12.client/typescript-fsa-redux-5-compat";
+import {
+	Activity,
+	ActivityActions,
+	ApplicationActions,
+	type ApplicationSaga,
+	Model,
+	ModelSelectors
+} from "@com.mgmtp.a12.client/client-core";
+import { LoggerFactory } from "@com.mgmtp.a12.utils/utils-logging";
 
 import { WorkflowsActions } from "../../actions/index.js";
 import { RequestBuilder } from "../../utils/index.js";
@@ -50,7 +55,7 @@ export const completeTaskSaga: ApplicationSaga.Descriptor = {
 	canHandle: (_: Activity.Descriptor, action: AnyAction) => {
 		return WorkflowsActions.completeTask.started.match(action);
 	},
-	handle: function* (action: Action<WorkflowsActions.CompleteTaskPayload>): SagaIterator<void> {
+	handle: function* (action: Action<WorkflowsActions.CompleteTaskPayload>): SagaGenerator<void> {
 		logger.info("Handling matched Workflows/COMPLETE_TASK_STARTED action");
 		logger.log(`Triggered by action: ${action}`);
 		const { docRef, document } = action.payload;

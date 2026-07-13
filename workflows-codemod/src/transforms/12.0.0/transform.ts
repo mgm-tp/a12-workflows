@@ -30,7 +30,7 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { API, Collection, FileInfo, JSCodeshift } from "jscodeshift";
+import type { API, Collection, FileInfo, JSCodeshift } from "jscodeshift";
 
 export default function transformer(file: FileInfo, { jscodeshift: j }: API) {
 	const source = j(file.source);

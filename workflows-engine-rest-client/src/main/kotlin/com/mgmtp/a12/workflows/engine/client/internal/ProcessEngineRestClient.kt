@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
  *
  * Copyright (c) 2012-2026 mgm technology partners GmbH
@@ -23,16 +23,15 @@
  *
  * Warranty Disclaimer (applies to either option)
  * ----------------------------------------------
- * THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND,
+ * THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND,
  * WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
+
 package com.mgmtp.a12.workflows.engine.client.internal
 
-import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.mgmtp.a12.connector.rest.RestGetConnector
 import com.mgmtp.a12.connector.rest.RestPostConnector
 import com.mgmtp.a12.connector.rest.RestServerRequest
@@ -46,6 +45,8 @@ import com.mgmtp.a12.workflows.shared.dtos.MessageDto
 import com.mgmtp.a12.workflows.shared.dtos.ProcessEngineVariable
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Component
+import tools.jackson.core.type.TypeReference
+import tools.jackson.databind.ObjectMapper
 
 /**
  * REST implementation of ProcessEngineClient which uses HTTP client to issue HTTP request to server.

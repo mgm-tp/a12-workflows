@@ -30,14 +30,13 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
+import { vi } from "vitest";
 import * as matchers from "redux-saga-test-plan/matchers.js";
 import { select } from "redux-saga-test-plan/matchers.js";
 import { expectSaga } from "redux-saga-test-plan";
 
-import { ModelSelectors } from "@com.mgmtp.a12.client/client-core/lib/core/model/index.js";
-import { DocumentServiceFactory } from "@com.mgmtp.a12.kernel/kernel-md-facade/lib/main/js/index.js";
-import { ApplicationActions } from "@com.mgmtp.a12.client/client-core/lib/core/application/index.js";
-import { ActivityActions } from "@com.mgmtp.a12.client/client-core/lib/core/activity/index.js";
+import { ModelSelectors, ApplicationActions, ActivityActions } from "@com.mgmtp.a12.client/client-core";
+import { DocumentServiceFactory } from "@com.mgmtp.a12.kernel/kernel-md-facade";
 
 import { completeTaskSaga } from "../../sagas/internal/completeTaskSaga.js";
 import { WorkflowsActions } from "../../actions/index.js";

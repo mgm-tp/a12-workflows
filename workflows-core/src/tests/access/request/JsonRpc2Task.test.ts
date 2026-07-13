@@ -30,7 +30,7 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { JsonRpc2Request } from "@com.mgmtp.a12.dataservices/dataservices-access/lib/json-rpc/index.js";
+import { JsonRpc2Request } from "@com.mgmtp.a12.dataservices/dataservices-access";
 
 import { TaskJsonRpc2Request } from "../../../task/index.js";
 import { readFile } from "../../testUtils/testUtils.js";

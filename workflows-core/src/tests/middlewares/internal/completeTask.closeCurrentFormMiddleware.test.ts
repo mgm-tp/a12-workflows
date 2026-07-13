@@ -30,22 +30,21 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { configureStore } from "redux-mock-store";
+import { vi } from "vitest";
+import { legacy_createStore as createStore, applyMiddleware } from "redux";
+import type { Middleware, UnknownAction } from "redux";
 
-import {
-	Activity,
-	ActivityActions,
-	ActivitySelectors
-} from "@com.mgmtp.a12.client/client-core/lib/core/activity/index.js";
+import { Activity, ActivityActions, ActivitySelectors } from "@com.mgmtp.a12.client/client-core";
 
 import { WorkflowsActions } from "../../../actions/index.js";
 import { closeCurrentFormAfterTaskCompleteMiddleware } from "../../../middlewares/internal/completeTask.closeCurrentFormMiddleware.js";
 import { createActivity } from "../../testUtils/testUtils.js";
-import { WorkflowsConstants } from "../../../utils/constants.js";
+import { WorkflowsConstants } from "../../../utils/internal/constants.js";
 
 import DataHolder = Activity.DataHolder;
-import DataHolderDescriptor = Activity.DataHolderDescriptor;
 import TASK_LIST_VIEW = WorkflowsConstants.TASK_LIST_VIEW;
+
+type DataHolderDescriptor = Activity.DataHolderDescriptor;
 
 const ACTIVITY_ID = "someActivityId";
 const DOC_REF = "someDocRef";
@@ -82,11 +81,18 @@ const taskFormActivity = createActivity({
 });
 
 function getStore() {
-	const middlewares = [closeCurrentFormAfterTaskCompleteMiddleware];
-	const mockStore = configureStore(middlewares);
-	configureStore();
+	const capturedActions: UnknownAction[] = [];
+	const captureMiddleware: Middleware = () => (next) => (action) => {
+		capturedActions.push(action as UnknownAction);
+		return next(action);
+	};
 	const initialState = { name: "getState" };
-	return mockStore(initialState);
+	const store = createStore(
+		(state = initialState) => state,
+		initialState,
+		applyMiddleware(closeCurrentFormAfterTaskCompleteMiddleware, captureMiddleware)
+	);
+	return { dispatch: store.dispatch, getActions: () => capturedActions };
 }
 
 vi.spyOn(ActivitySelectors, "activities").mockReturnValue(() => {

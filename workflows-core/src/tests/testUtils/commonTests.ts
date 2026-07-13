@@ -30,12 +30,18 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { actionCreatorFactory, Action, AnyAction, Failure, Success } from "typescript-fsa/lib/index.js";
 import { expectSaga } from "redux-saga-test-plan";
-import { StaticProvider, throwError } from "redux-saga-test-plan/providers.js";
+import { type StaticProvider, throwError } from "redux-saga-test-plan/providers.js";
 import { call } from "redux-saga-test-plan/matchers.js";
 
-import { ApplicationSaga } from "@com.mgmtp.a12.client/client-core/lib/core/application/index.js";
+import {
+	actionCreatorFactory,
+	type Action,
+	type AnyAction,
+	type Failure,
+	type Success
+} from "@com.mgmtp.a12.client/typescript-fsa-redux-5-compat";
+import type { ApplicationSaga } from "@com.mgmtp.a12.client/client-core";
 
 import { dispatchJsonRpcRequest, dispatchJsonRpcRequests } from "../../utils/internal/requests/requestUtils.js";
 

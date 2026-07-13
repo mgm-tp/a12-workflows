@@ -15,6 +15,8 @@ You must select and comply with exactly one of the above license options.
 Warranty Disclaimer (applies to either option)
 THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
 ////
+
+
 [WARNING]
 ====
 Workflows supports CIB 7 only. However the BPMN models are still modeled with the Camunda Modeler.
@@ -121,5 +123,5 @@ NOTE: Some resources are still linked to the Camunda Docs, either because CIB 7 
 * https://camunda.com/bpmn/examples/[BPMN examples (good vs not so good),window=_blank]
 * https://camunda.com/download/modeler/[Camunda Modeler,window=_blank]
 * https://docs.cibseven.org/manual/{cibsevenVersion}/webapps/cockpit/[CIB 7 Cockpit]
-* https://docs.camunda.io/docs/8.7/components/best-practices/development/understanding-transaction-handling-c7/[Camunda Dealing with Exceptions,window=_blank]
+* https://docs.camunda.io/docs/components/best-practices/development/understanding-transaction-handling-c7/#understanding-technical-acid-transactions-in-camunda-7[Camunda Dealing with Exceptions,window=_blank]
 * https://www.researchgate.net/publication/280547761_Refactoring_BPMN_Models_From_'Bad_Smells'_to_Best_Practices_and_Patterns/[From 'Bad Smells' to Best Practices and Patterns,window=_blank]

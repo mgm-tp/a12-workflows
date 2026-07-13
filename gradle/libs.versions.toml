@@ -11,11 +11,12 @@ cibseven-base-app = [
     "cibseven-starter-webapp",
 ]
 
-# Libs Bundles
-artemis = [
-    "artemis-jakarta-server",
-    "spring-boot-starter-artemis",
+graaljs = [
+    "graal-js",
+    "graal-js-scriptengine",
 ]
+
+# Libs Bundles
 jaxb = [
     "jaxb-api",
     "jaxb-runtime",
@@ -78,17 +79,16 @@ springboot = { id = "org.springframework.boot", version.ref = "springBootVersion
 [versions]
 
 # Versions for A12 components
-a12DataServicesVersion = "38.4.0"
-a12KernelVersion = "30.8.1"
-a12UaaVersion = "9.3.2"
-a12UtilsConnectorVersion = "8.2.1"
+a12DataServicesVersion = "39.0.2"
+a12KernelVersion = "31.1.0"
+a12UaaVersion = "10.0.0"
+a12UtilsConnectorVersion = "9.0.1"
 
 # Versions for other libraries
 activationVersion = "1.1.1"
 apacheLoggingVersion = "2.24.3"
-artemisVersion = "2.40.0"  # Aligned with Artemis version from Spring Boot Starter Artemis
 cibsevenH2Version = "2.3.232"
-cibsevenVersion = "2.0.0"
+cibsevenVersion = "2.2.0"
 commonsCliVersion = "1.9.0"
 commonsCompressVersion = "1.27.1"
 commonsCsvVersion = "1.14.0"
@@ -96,9 +96,12 @@ commonsFileuploadVersion = "1.5"
 commonsIoVersion = "2.19.0"
 commonsLang3Version = "3.17.0"
 commonsMath3Version = "3.6.1"
+graalJsVersion = "25.0.3"
+groovyVersion = "3.0.25"
 hibernateVersion = "8.0.2.Final"
-jacksonVersion = "2.20.1"
-jacksonAnnotationsVersion = "2.20"
+jacksonVersion = "3.1.2"
+jackson2Version = "2.21.0"
+jacksonAnnotationsVersion = "2.21"
 jaxbVersion = "4.0.5"
 jaxbApiVersion = "4.0.2"
 jaxenVersion = "2.0.0"
@@ -107,7 +110,7 @@ jdomVersion = "2.0.6.1"
 jimFsVersion = "1.2"
 jsonVersion = "20250107"
 jsonPathVersion = "2.9.0"
-kotlinVersion = "2.1.20"
+kotlinVersion = "2.3.0"
 kotlinterVersion = "5.0.2"
 kotlinCoroutinesVersion = "1.10.2"
 nettyVersion = "4.2.1.Final"
@@ -116,19 +119,21 @@ openapiExtVersion = "0.18.2"
 postgresVersion = "42.7.5"
 slf4jVersion = "2.0.17"
 snakeyamlVersion = "2.4"
-springVersion = "6.2.15"
-springBootVersion = "3.5.9"
+springVersion = "7.0.2"
+springBootVersion = "4.0.1"
 springRestDocsVersion = "3.0.1"
-springSecurityVersion = "6.5.7"
+springSecurityVersion = "7.0.2"
 vertxVersion = "4.5.14"
 xmlBindVersion = "4.0.2"
 
 # Versions for test libraries
 awaitilityVersion = "4.3.0"
-junitVersion = "5.11.3"
+junitVersion = "6.0.1"
+junitPlatformVersion = "1.12.2"
 kotestVersion = "5.9.1"
 mockkVersion = "1.14.2"
 springmockkVersion = "4.0.2"
+testcontainersVersion = "2.0.2"
 xmlunitVersion = "2.10.0"
 
 [libraries]
@@ -158,25 +163,25 @@ cibseven-freemarker = { group = "org.cibseven.template-engines", name = "cibseve
 cibseven-h2 = { group = "com.h2database", name = "h2", version.ref = "cibsevenH2Version" }
 cibseven-plugin-connect = { group = "org.cibseven.bpm", name = "cibseven-engine-plugin-connect", version.ref = "cibsevenVersion" }
 cibseven-postgres = { group = "org.postgresql", name = "postgresql", version.ref = "postgresVersion" }
-cibseven-starter = { group = "org.cibseven.bpm.springboot", name = "cibseven-bpm-spring-boot-starter", version.ref = "cibsevenVersion" }
-cibseven-starter-rest = { group = "org.cibseven.bpm.springboot", name = "cibseven-bpm-spring-boot-starter-rest", version.ref = "cibsevenVersion" }
-cibseven-starter-webapp = { group = "org.cibseven.bpm.springboot", name = "cibseven-bpm-spring-boot-starter-webapp", version.ref = "cibsevenVersion" }
-
+cibseven-starter = { group = "org.cibseven.bpm.springboot", name = "cibseven-bpm-spring-boot-starter-4", version.ref = "cibsevenVersion" }
+cibseven-starter-rest = { group = "org.cibseven.bpm.springboot", name = "cibseven-bpm-spring-boot-starter-rest-4", version.ref = "cibsevenVersion" }
+cibseven-starter-webapp = { group = "org.cibseven.bpm.springboot", name = "cibseven-bpm-spring-boot-starter-webapp-4", version.ref = "cibsevenVersion" }
 # Libraries
 activation = { group = "javax.activation", name = "activation", version.ref = "activationVersion" }
 apacheLogging = { group = "org.apache.logging.log4j", name = "log4j-core", version.ref = "apacheLoggingVersion" }
-artemis-jakarta-server = { group = "org.apache.activemq", name = "artemis-jakarta-server", version.ref = "artemisVersion" }
 commons-cli = { group = "commons-cli", name = "commons-cli", version.ref = "commonsCliVersion" }
 commons-io = { group = "commons-io", name = "commons-io", version.ref = "commonsIoVersion" }
 commons-lang3 = { group = "org.apache.commons", name = "commons-lang3", version.ref = "commonsLang3Version" }
 commonsMath3 = { group = "org.apache.commons", name = "commons-math3", version.ref = "commonsMath3Version" }
 commonsCsv = { group = "org.apache.commons", name = "commons-csv", version.ref = "commonsCsvVersion" }
+graal-js = { group = "org.graalvm.polyglot", name = "js-community", version.ref = "graalJsVersion" }
+graal-js-scriptengine = { group = "org.graalvm.js", name = "js-scriptengine", version.ref = "graalJsVersion" }
+groovy-jsr223 = { group = "org.codehaus.groovy", name = "groovy-jsr223", version.ref = "groovyVersion" }
 hibernate = { group = "org.hibernate.validator", name = "hibernate-validator", version.ref = "hibernateVersion" }
 jackson-annotations = { group = "com.fasterxml.jackson.core", name = "jackson-annotations", version.ref = "jacksonAnnotationsVersion" }
-jackson-databind = { group = "com.fasterxml.jackson.core", name = "jackson-databind", version.ref = "jacksonVersion" }
-jackson-kotlin = { group = "com.fasterxml.jackson.module", name = "jackson-module-kotlin", version.ref = "jacksonVersion" }
-jacksonDatatypeJdk8 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jdk8", version.ref = "jacksonVersion" }
-jacksonDatatypeJsr310 = { group = "com.fasterxml.jackson.datatype", name = "jackson-datatype-jsr310", version.ref = "jacksonVersion" }
+jackson-databind = { group = "tools.jackson.core", name = "jackson-databind", version.ref = "jacksonVersion" }
+jackson-kotlin = { group = "tools.jackson.module", name = "jackson-module-kotlin", version.ref = "jacksonVersion" }
+jackson-kotlin-two = { group = "com.fasterxml.jackson.module", name = "jackson-module-kotlin", version.ref = "jackson2Version" }
 jakarta-xml-bind = { group = "jakarta.xml.bind", name = "jakarta.xml.bind-api", version.ref = "xmlBindVersion" }
 jaxb-api = { group = "jakarta.xml.bind", name = "jakarta.xml.bind-api", version.ref = "jaxbApiVersion" }
 jaxb-core = { group = "org.glassfish.jaxb", name = "jaxb-core", version.ref = "jaxbVersion" }
@@ -200,7 +205,7 @@ slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4jVersi
 slf4j-simple = { group = "org.slf4j", name = "slf4j-simple", version.ref = "slf4jVersion" }
 spring-boot = { group ="org.springframework.boot", name = "spring-boot", version.ref = "springBootVersion" }
 spring-boot-actuator = { group = "org.springframework.boot", name = "spring-boot-starter-actuator", version.ref = "springBootVersion" }
-spring-boot-starter-artemis = { group = "org.springframework.boot", name = "spring-boot-starter-artemis", version.ref = "springBootVersion" }
+spring-boot-starter-data-jpa = { group = "org.springframework.boot", name = "spring-boot-starter-data-jpa", version.ref = "springBootVersion" }
 spring-boot-autoconfigure = { group = "org.springframework.boot", name = "spring-boot-autoconfigure", version.ref = "springBootVersion" }
 spring-boot-config-processor = { group = "org.springframework.boot", name = "spring-boot-configuration-processor", version.ref = "springBootVersion" }
 spring-boot-devtools = { group = "org.springframework.boot", name = "spring-boot-devtools", version.ref = "springBootVersion" }
@@ -235,3 +240,4 @@ testingCatalog-spring-boot-test = { group = "org.springframework.boot", name = "
 testingCatalog-spring-security-test = { group = "org.springframework.security", name = "spring-security-test", version.ref = "springSecurityVersion" }
 testingCatalog-xmlunit-assertj = { group = "org.xmlunit", name = "xmlunit-assertj3", version.ref = "xmlunitVersion" }
 testingCatalog-xmlunit-core = { group = "org.xmlunit", name = "xmlunit-core", version.ref = "xmlunitVersion" }
+testingCatalog-junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher", version.ref = "junitVersion" }

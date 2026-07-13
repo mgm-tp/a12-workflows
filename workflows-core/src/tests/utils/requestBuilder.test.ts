@@ -35,10 +35,10 @@ import { RequestBuilder } from "../../utils/index.js";
 
 import { readFile } from "../testUtils/testUtils.js";
 
-import AssignJsonRpc2Request = TaskJsonRpc2Request.AssignJsonRpc2Request;
-import CompleteJsonRpc2Request = TaskJsonRpc2Request.CompleteJsonRpc2Request;
-import SendMessageJsonRpc2Request = TaskJsonRpc2Request.SendMessageJsonRpc2Request;
-import StartProcessJsonRpc2Request = TaskJsonRpc2Request.StartProcessJsonRpc2Request;
+type AssignJsonRpc2Request = TaskJsonRpc2Request.AssignJsonRpc2Request;
+type CompleteJsonRpc2Request = TaskJsonRpc2Request.CompleteJsonRpc2Request;
+type SendMessageJsonRpc2Request = TaskJsonRpc2Request.SendMessageJsonRpc2Request;
+type StartProcessJsonRpc2Request = TaskJsonRpc2Request.StartProcessJsonRpc2Request;
 
 const assignTaskRequestString = readFile("../resources/requests/jsonrpc_assign_task_request.json");
 

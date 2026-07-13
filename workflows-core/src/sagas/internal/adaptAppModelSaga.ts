@@ -30,33 +30,32 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { put, SagaGenerator, select } from "typed-redux-saga";
-import { Action } from "typescript-fsa";
+import { put, type SagaGenerator, select } from "typed-redux-saga";
 
+import type { Action } from "@com.mgmtp.a12.client/typescript-fsa-redux-5-compat";
 import {
 	Activity,
 	ActivityActions,
-	ActivitySelectors
-} from "@com.mgmtp.a12.client/client-core/lib/core/activity/index.js";
-import { OverviewActivity } from "@com.mgmtp.a12.overviewengine/overviewengine-core/lib/main/client-extensions/index.js";
-import { ApplicationSaga } from "@com.mgmtp.a12.client/client-core/lib/core/application/index.js";
-import {
+	ActivitySelectors,
+	type ApplicationSaga,
 	ApplicationModel,
 	ModelActions,
 	ModelSelectors
-} from "@com.mgmtp.a12.client/client-core/lib/core/model/index.js";
-import { LoggerFactory } from "@com.mgmtp.a12.utils/utils-logging/index.js";
+} from "@com.mgmtp.a12.client/client-core";
+import { OverviewActivity } from "@com.mgmtp.a12.overviewengine/overviewengine-core";
+import { LoggerFactory } from "@com.mgmtp.a12.utils/utils-logging";
 
 import { WorkflowsActions } from "../../actions/index.js";
 import { findFlow } from "../../utils/internal/appmodel/appmodelUtils.js";
-import { findA12wfObject } from "../../utils/internal/common/index.js";
+import { findA12wfObject } from "../../utils/internal/common/commonUtils.js";
 
-import Flow = ApplicationModel.Flow;
+type Flow = ApplicationModel.Flow;
 import DocumentListData = OverviewActivity.Data.DocumentListData;
 import adaptAppModel = WorkflowsActions.adaptAppModel;
-import AdaptAppModelPayload = WorkflowsActions.AdaptAppModelPayload;
-import PushPayload = ActivityActions.PushPayload;
-import Scene = ApplicationModel.Scene;
+
+type AdaptAppModelPayload = WorkflowsActions.AdaptAppModelPayload;
+type PushPayload = ActivityActions.PushPayload;
+type Scene = ApplicationModel.Scene;
 
 const logger = LoggerFactory.getLogger("adaptAppModelSaga");
 

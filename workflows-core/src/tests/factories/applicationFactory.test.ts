@@ -30,9 +30,10 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { Middleware } from "redux";
+import { vi } from "vitest";
+import type { Middleware } from "redux";
 
-import { combineFeatures } from "@com.mgmtp.a12.client/client-core/lib/core/application/index.js";
+import { combineFeatures } from "@com.mgmtp.a12.client/client-core";
 
 import {
 	withWorkflows,

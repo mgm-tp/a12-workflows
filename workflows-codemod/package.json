@@ -8,10 +8,10 @@
         "yargs": "^17.7.2"
     },
     "devDependencies": {
-        "@com.mgmtp.a12.devtools/codemod": "^2.1.0",
-        "@com.mgmtp.a12.devtools/tsconfig": "^1.1.0",
-        "@com.mgmtp.a12.devtools/eslint-config": "^3.1.0",
-        "@com.mgmtp.a12.devtools/prettier-config": "^1.1.0",
+        "@com.mgmtp.a12.devtools/codemod": "^2.2.2",
+        "@com.mgmtp.a12.devtools/build-tools": "^1.1.2",
+        "@com.mgmtp.a12.devtools/eslint-config": "^3.1.2",
+        "@com.mgmtp.a12.devtools/prettier-config": "^1.1.1",
         "@cyclonedx/cyclonedx-npm": "^4.0.1",
         "@hypermod/utils": "^0.6.0",
         "@swc/core": "^1.11.16",
@@ -20,13 +20,12 @@
         "@types/yargs": "^17.0.28",
         "eslint": "^9.22.0",
         "eslint-config-prettier": "^10.1.1",
-        "eslint-plugin-import": "^2.26.0",
         "eslint-plugin-notice": "^1.0.0",
         "jscodeshift": "^17.3.0",
         "mkdirp": "^3.0.1",
         "npm-run-all": "4.1.5",
         "prettier": "^3.5.3",
-        "typescript": "5.8.2"
+        "typescript": "6.0.2"
     },
     "scripts": {
         "clean": "npm cache verify && rimraf ./target ./lib",
@@ -41,8 +40,7 @@
         "test:coverage": "vitest run --coverage",
         "lint": "eslint",
         "lint:fix": "eslint --fix",
-        "format": "prettier --write src",
-        "jest": "node --experimental-vm-modules ../node_modules/jest/bin/jest.js"
+        "format": "prettier --write src"
     },
     "type": "module",
     "sideEffects": false,

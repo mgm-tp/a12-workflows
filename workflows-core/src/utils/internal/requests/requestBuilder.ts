@@ -30,7 +30,7 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { DocumentDto, TaskJsonRpc2Request } from "../../../task/index.js";
+import { type DocumentDto, TaskJsonRpc2Request } from "../../../task/index.js";
 
 export const RequestBuilder = {
 	startProcess(

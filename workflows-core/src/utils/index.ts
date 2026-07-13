@@ -31,4 +31,4 @@
  */
 
 export * from "./internal/requests/requestBuilder.js";
-export * from "./constants.js";
+export * from "./internal/constants.js";

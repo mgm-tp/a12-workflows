@@ -30,7 +30,9 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { ActivityActions, ActivitySelectors } from "@com.mgmtp.a12.client/client-core/lib/core/activity/index.js";
+import { vi } from "vitest";
+
+import { ActivityActions, ActivitySelectors } from "@com.mgmtp.a12.client/client-core";
 
 import {
 	reloadTaskOverviewAfterAssignTaskMiddleware,
@@ -39,7 +41,7 @@ import {
 	reloadTaskOverviewAfterStartProcessMiddleware
 } from "../../../middlewares/internal/reloadTaskOverviewMiddleware.js";
 import { createActivity, getStore } from "../../testUtils/testUtils.js";
-import { WorkflowsConstants } from "../../../utils/constants.js";
+import { WorkflowsConstants } from "../../../utils/internal/constants.js";
 import { WorkflowsActions } from "../../../actions/index.js";
 
 const ACTIVITY_ID = "someOverviewActivityId";

@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
  *
  * Copyright (c) 2012-2026 mgm technology partners GmbH
@@ -23,19 +23,15 @@
  *
  * Warranty Disclaimer (applies to either option)
  * ----------------------------------------------
- * THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND,
+ * THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND,
  * WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
+
 package com.mgmtp.a12.workflows.extension.internal.operation
 
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.node.ObjectNode
-import com.fasterxml.jackson.module.kotlin.convertValue
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.mgmtp.a12.dataservices.document.DataServicesDocument
 import com.mgmtp.a12.dataservices.document.DataServicesDocumentFactory
 import com.mgmtp.a12.dataservices.document.DocumentReference
@@ -47,7 +43,7 @@ import com.mgmtp.a12.dataservices.document.persistence.DocumentComputationStrate
 import com.mgmtp.a12.dataservices.document.persistence.DocumentValidationStrategy
 import com.mgmtp.a12.dataservices.document.persistence.IDocumentRepository
 import com.mgmtp.a12.dataservices.model.ModelService
-import com.mgmtp.a12.dataservices.model.document.persistence.internal.DocumentModelLoader
+import com.mgmtp.a12.dataservices.model.document.persistence.DocumentModelLoader
 import com.mgmtp.a12.dataservices.rpc.RpcException
 import com.mgmtp.a12.dataservices.utils.internal.DocumentModelUtils
 import com.mgmtp.a12.kernel.md.document.apiV2.immutable.DocumentV2
@@ -124,6 +120,11 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.http.HttpStatus
 import org.springframework.web.server.ResponseStatusException
+import tools.jackson.databind.JsonNode
+import tools.jackson.databind.ObjectMapper
+import tools.jackson.databind.node.ObjectNode
+import tools.jackson.module.kotlin.convertValue
+import tools.jackson.module.kotlin.jacksonObjectMapper
 import java.io.InputStreamReader
 import java.time.Instant
 import java.time.LocalDateTime
@@ -268,23 +269,23 @@ private class CreateMetadataOperationTest {
         )
 
         fun assertGroupEqualToJson(group: GroupInstanceV2, other: JsonNode) {
-            group.fieldValue("$PROCESS_DEFINITION/$KEY") shouldBe other.at("/$PROCESS_DEFINITION").findValue(KEY).asText()
-            group.fieldValue("$PROCESS_DEFINITION/$NAME") shouldBe other.at("/$PROCESS_DEFINITION").findValue(NAME).asText()
+            group.fieldValue("$PROCESS_DEFINITION/$KEY") shouldBe other.at("/$PROCESS_DEFINITION").findValue(KEY).asString()
+            group.fieldValue("$PROCESS_DEFINITION/$NAME") shouldBe other.at("/$PROCESS_DEFINITION").findValue(NAME).asString()
 
-            group.fieldValue("$TASK_DEFINITION/$KEY") shouldBe other.at("/$TASK_DEFINITION").findValue(KEY).asText()
-            group.fieldValue("$TASK_DEFINITION/$NAME") shouldBe other.at("/$TASK_DEFINITION").findValue(NAME).asText()
-            group.fieldValue("$TASK_DEFINITION/$FORM_KEY") shouldBe other.at("/$TASK_DEFINITION").findValue(FORM_KEY).asText()
+            group.fieldValue("$TASK_DEFINITION/$KEY") shouldBe other.at("/$TASK_DEFINITION").findValue(KEY).asString()
+            group.fieldValue("$TASK_DEFINITION/$NAME") shouldBe other.at("/$TASK_DEFINITION").findValue(NAME).asString()
+            group.fieldValue("$TASK_DEFINITION/$FORM_KEY") shouldBe other.at("/$TASK_DEFINITION").findValue(FORM_KEY).asString()
 
-            group.fieldValue("$PROCESS/$ID") shouldBe other.at("/$PROCESS").findValue(ID).asText()
-            group.fieldValue("$PROCESS/$BUSINESS_KEY") shouldBe other.at("/$PROCESS").findValue(BUSINESS_KEY).asText()
-            group.fieldValue("$PROCESS/$INITIATOR") shouldBe other.at("/$PROCESS").findValue(INITIATOR).asText()
+            group.fieldValue("$PROCESS/$ID") shouldBe other.at("/$PROCESS").findValue(ID).asString()
+            group.fieldValue("$PROCESS/$BUSINESS_KEY") shouldBe other.at("/$PROCESS").findValue(BUSINESS_KEY).asString()
+            group.fieldValue("$PROCESS/$INITIATOR") shouldBe other.at("/$PROCESS").findValue(INITIATOR).asString()
 
-            group.fieldValue("$TASK/$ID") shouldBe other.at("/$TASK").findValue(ID).asText()
-            group.fieldValue("$TASK/$CREATION_DATE") shouldBe LocalDateTime.parse(other.at("/$TASK").findValue(CREATION_DATE).asText()).atZone(ZoneId.of(timeZone)).toInstant()
+            group.fieldValue("$TASK/$ID") shouldBe other.at("/$TASK").findValue(ID).asString()
+            group.fieldValue("$TASK/$CREATION_DATE") shouldBe LocalDateTime.parse(other.at("/$TASK").findValue(CREATION_DATE).asString()).atZone(ZoneId.of(timeZone)).toInstant()
             group.fieldValue("$TASK/$DUE_DATE") shouldBe null
-            group.fieldValue("$TASK/$ASSIGNEE") shouldBe other.at("/$TASK").findValue(ASSIGNEE).asText()
+            group.fieldValue("$TASK/$ASSIGNEE") shouldBe other.at("/$TASK").findValue(ASSIGNEE).asString()
 
-            group.fieldValue(WORKFLOWS_INTERNAL_DOCUMENT_STATUS) shouldBe other.findValue(WORKFLOWS_INTERNAL_DOCUMENT_STATUS).asText()
+            group.fieldValue(WORKFLOWS_INTERNAL_DOCUMENT_STATUS) shouldBe other.findValue(WORKFLOWS_INTERNAL_DOCUMENT_STATUS).asString()
         }
     }
 

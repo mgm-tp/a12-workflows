@@ -7,4 +7,3 @@ build
 prettier.config.js
 *.json
 webpack.config.js
-header.js

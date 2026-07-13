@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
  *
  * Copyright (c) 2012-2026 mgm technology partners GmbH
@@ -23,17 +23,15 @@
  *
  * Warranty Disclaimer (applies to either option)
  * ----------------------------------------------
- * THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND,
+ * THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND,
  * WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
+
 package com.mgmtp.a12.workflows.extension.internal.operation
 
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.mgmtp.a12.dataservices.document.DocumentService
 import com.mgmtp.a12.dataservices.document.support.DocumentSupport
 import com.mgmtp.a12.dataservices.rpc.RpcException
@@ -48,6 +46,10 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
 import org.junit.jupiter.api.Test
+import tools.jackson.databind.JsonNode
+import tools.jackson.databind.ObjectMapper
+import tools.jackson.module.kotlin.jacksonObjectMapper
+import java.io.Reader
 
 private class CreateDocumentOperationTest {
 
@@ -70,7 +72,8 @@ private class CreateDocumentOperationTest {
     @Test
     fun `should throw RpcException with correct payload if CREATE_DOCUMENT_OPERATION fails`() {
         // given
-        every { mockDocumentSupport.convertJSONToDocument(any(), any()) } throws Exception()
+        every { mockDocumentSupport.convertJSONToDocument(any(), any<JsonNode>()) } throws Exception()
+        every { mockDocumentSupport.convertJSONToDocument(any(), any<Reader>()) } throws Exception()
 
         // when/then
         val exception = shouldThrow<RpcException> {

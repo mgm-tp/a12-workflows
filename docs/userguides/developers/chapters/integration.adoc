@@ -15,6 +15,8 @@ You must select and comply with exactly one of the above license options.
 Warranty Disclaimer (applies to either option)
 THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
 ////
+
+
 = Integration
 
 NOTE: For _migration_ of existing projects, see <<anchor-migration-instructions,migration instructions>>.
@@ -47,14 +49,6 @@ Since _task documents_ are simply A12 documents with a partly fixed structure (m
 
 For details, see <<anchor-workflows-extension, Workflows Extension>>.
 
-==== Workflows Extension Vanilla Image
-
-Coordinates: `*com.mgmtp.a12.workflows/workflows-dataservices-with-extension*`
-
-NOTE: In contrast to our `workflows-extension` JAR, this image includes the Data Services server. Therefore, it can be run directly.
-
-NOTE: This image inherits the <<anchor-workflows-extension-config,default configuration of the Workflows Extension>>.
-
 ==== Workflows Engine Distribution
 
 Coordinates: `*com.mgmtp.a12.workflows:workflows-engine-distribution*`
@@ -63,23 +57,6 @@ This Workflows Engine distribution artifact is the basis for your Workflows Engi
 
 See <<anchor-cib7, CIB 7>> for details.
 
-==== Workflows Engine Vanilla Image
-
-Coordinates: `*com.mgmtp.a12.workflows/workflows-engine*`
-
-NOTE: This image inherits the <<anchor-cib7-config,default configuration of the Workflows Engine Distribution>>.
-
-
-// ==== Workflows Consumers (coming soon)
-//
-// Coordinates: `*com.mgmtp.a12.workflows:workflows-consumer*`
-//
-// The consumers guarantee that operations done in Data Services are (asynchronously) reflected in CIB 7 (_eventual consistency_).
-//
-// For instance, when a task has been completed, the corresponding task document will be updated accordingly in Data Services _atomically within that transaction_.
-// But the task is only really completed in CIB 7 once the consumer forwards the operation to CIB 7 and CIB 7 has processed it successfully.
-//
-// NOTE: We will also provide a standalone runnable JAR as `*com.mgmtp.a12.workflows:workflows-consumer-app*`.
 
 [[anchor-integration-frontend]]
 === Frontend
@@ -247,8 +224,8 @@ The second parameter `middlewareOptions` allows you to exclude the following mid
 ** Your App Model has to be adapted as well: Set `OverviewEngine` as name in the `VIEW_ADD` directive instead of `TaskOverview`. For more information have a look at how to model the link:/docs/workflows/ba-docs/index.html#anchor-overview-scene[Overview Scene].
 ** If you don't want to adapt your App Model, your view provider should return `<OverviewEngineFactories.ViewComponent {...props} key="task-overview" />` as the task overview component.
 * If you have custom event handlers in your task overview, you can delete any default handlers to let our `taskOverviewActionsMiddleware` handle them. You can...
-** *Either* keep a link:/docs/overview_engine/overviewengine-dev-docs/index.html#_component_customization[custom React component] and register custom event handlers there. Then your view provider needs to register this custom component and your App Models must reference its view name for task overviews.
-** *Or* use the link:/docs/overview_engine/overviewengine-dev-docs/index.html#actions[Overview Engine's events] API as we do and move custom event handlers to middleware, then remove your custom overview component.
+** *Either* keep a link:/docs/overview/overviewengine-dev-docs/index.html#_customized_component[custom React component] and register custom event handlers there. Then your view provider needs to register this custom component and your App Models must reference its view name for task overviews.
+** *Or* use the link:/docs/overview/overviewengine-dev-docs/index.html#event-actions[Overview Engine's events] API as we do and move custom event handlers to middleware, then remove your custom overview component.
 * We recommended you to entirely drop your custom task overview component and the respective registering with the view provider. For any other custom event handler we recommend you to move them to a dedicated middleware.
 
 ... for a setup using the Composable Client API

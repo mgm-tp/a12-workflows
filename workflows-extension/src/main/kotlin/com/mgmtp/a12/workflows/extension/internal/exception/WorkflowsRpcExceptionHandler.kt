@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
  *
  * Copyright (c) 2012-2026 mgm technology partners GmbH
@@ -23,15 +23,15 @@
  *
  * Warranty Disclaimer (applies to either option)
  * ----------------------------------------------
- * THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND,
+ * THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND,
  * WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
+
 package com.mgmtp.a12.workflows.extension.internal.exception
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.mgmtp.a12.contentstore.client.exception.A12ClientException
 import com.mgmtp.a12.contentstore.client.exception.RestErrorDetail
 import com.mgmtp.a12.dataservices.common.exception.NotFoundException
@@ -57,7 +57,6 @@ import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.CR
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.CREATE_METADATA_OPERATION_PROCESS_ENGINE_ACCESS_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.GET_PROCESS_VARIABLE_UPDATES_OPERATION_COMMON_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.GET_PROCESS_VARIABLE_UPDATES_OPERATION_PROCESS_ENGINE_ACCESS_EXCEPTION_CODE
-import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.JMS_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.PROCESS_ENGINE_ACCESS_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.REMOVE_METADATA_OPERATION_COMMON_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.REMOVE_METADATA_OPERATION_PROCESS_ENGINE_ACCESS_EXCEPTION_CODE
@@ -65,7 +64,6 @@ import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.RE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.REST_CLIENT_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.SEND_MESSAGE_OPERATION_A12_CLIENT_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.SEND_MESSAGE_OPERATION_COMMON_EXCEPTION_CODE
-import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.SEND_MESSAGE_OPERATION_JMS_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.SEND_MESSAGE_OPERATION_PROCESS_ENGINE_ACCESS_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.SEND_MESSAGE_OPERATION_REST_CLIENT_ACCESS_DENIED_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.SEND_MESSAGE_OPERATION_REST_CLIENT_EXCEPTION_CODE
@@ -73,21 +71,18 @@ import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.SE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.SET_STATUS_OPERATION_PROCESS_ENGINE_ACCESS_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.START_PROCESS_OPERATION_A12_CLIENT_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.START_PROCESS_OPERATION_COMMON_EXCEPTION_CODE
-import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.START_PROCESS_OPERATION_JMS_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.START_PROCESS_OPERATION_PROCESS_ENGINE_ACCESS_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.START_PROCESS_OPERATION_REST_CLIENT_ACCESS_DENIED_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.START_PROCESS_OPERATION_REST_CLIENT_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.TASK_ASSIGN_OPERATION_A12_CLIENT_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.TASK_ASSIGN_OPERATION_COMMON_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.TASK_ASSIGN_OPERATION_DOCUMENT_NOT_FOUND_EXCEPTION_CODE
-import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.TASK_ASSIGN_OPERATION_JMS_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.TASK_ASSIGN_OPERATION_PROCESS_ENGINE_ACCESS_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.TASK_ASSIGN_OPERATION_REST_CLIENT_ACCESS_DENIED_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.TASK_ASSIGN_OPERATION_REST_CLIENT_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.TASK_COMPLETE_OPERATION_A12_CLIENT_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.TASK_COMPLETE_OPERATION_COMMON_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.TASK_COMPLETE_OPERATION_DOCUMENT_NOT_FOUND_EXCEPTION_CODE
-import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.TASK_COMPLETE_OPERATION_JMS_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.TASK_COMPLETE_OPERATION_PROCESS_ENGINE_ACCESS_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.TASK_COMPLETE_OPERATION_REST_CLIENT_ACCESS_DENIED_EXCEPTION_CODE
 import com.mgmtp.a12.workflows.extension.exception.WorkflowsRpcExceptionCodes.TASK_COMPLETE_OPERATION_REST_CLIENT_EXCEPTION_CODE
@@ -108,10 +103,10 @@ import com.mgmtp.a12.workflows.extension.internal.exception.constants.WorkflowsE
 import com.mgmtp.a12.workflows.extension.internal.exception.constants.WorkflowsExceptionTitleBase.TASK_ASSIGN_ERROR_TITLE
 import com.mgmtp.a12.workflows.extension.internal.exception.constants.WorkflowsExceptionTitleBase.TASK_COMPLETE_ERROR_TITLE
 import com.mgmtp.a12.workflows.shared.logging.utils.logger
-import jakarta.jms.JMSException
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClientException
 import org.springframework.web.client.RestClientResponseException
+import tools.jackson.databind.ObjectMapper
 import kotlin.String
 
 data class ProcessEngineExceptionResponse(val type: String, val message: String, val code: Int)
@@ -140,7 +135,6 @@ class WorkflowsRpcExceptionHandler(
         is A12ClientException -> handleA12ClientException(wfre, wfre.cause)
         is ResourceAccessException -> handleResourceAccessException(wfre)
         is NotFoundException -> handleNotFoundException(wfre)
-        is JMSException -> handleJmsException(wfre)
         else -> handleException(wfre)
     }
 
@@ -276,24 +270,6 @@ class WorkflowsRpcExceptionHandler(
         return RpcExceptionSupport.createException(
             exceptionCode,
             rpcExceptionKey,
-            getExceptionTitleForOperationIdAndExceptionType(wfre),
-            wfre.message,
-            wfre.operationId,
-        )
-    }
-
-    private fun handleJmsException(wfre: WorkflowsRpcException): RpcException {
-        val exceptionCode = when (wfre.operationId) {
-            START_PROCESS_OPERATION -> START_PROCESS_OPERATION_JMS_EXCEPTION_CODE
-            TASK_ASSIGN_OPERATION -> TASK_ASSIGN_OPERATION_JMS_EXCEPTION_CODE
-            TASK_COMPLETE_OPERATION -> TASK_COMPLETE_OPERATION_JMS_EXCEPTION_CODE
-            SEND_MESSAGE_OPERATION -> SEND_MESSAGE_OPERATION_JMS_EXCEPTION_CODE
-            else -> JMS_EXCEPTION_CODE
-        }
-
-        return RpcExceptionSupport.createException(
-            exceptionCode,
-            RPC_OPERATION_ERROR_KEY,
             getExceptionTitleForOperationIdAndExceptionType(wfre),
             wfre.message,
             wfre.operationId,

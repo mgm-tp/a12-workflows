@@ -30,25 +30,24 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
+import { vi } from "vitest";
 import { expectSaga } from "redux-saga-test-plan";
-import { SagaGenerator } from "typed-redux-saga";
+import type { SagaGenerator } from "typed-redux-saga";
 import { call } from "redux-saga-test-plan/matchers.js";
 
-import { DocumentModel } from "@com.mgmtp.a12.kernel/kernel-md-facade/lib/main/js/api.js";
+import { DocumentModel, DocumentServiceFactory } from "@com.mgmtp.a12.kernel/kernel-md-facade";
 import {
 	DataOperation,
 	DefaultRequestSelectorMap,
 	OverviewEngineFactories,
-	ProvideDataParams
-} from "@com.mgmtp.a12.overviewengine/overviewengine-core/lib/main/client-extensions/index.js";
-import { DocumentServiceFactory } from "@com.mgmtp.a12.kernel/kernel-md-facade";
-import { OverviewModel } from "@com.mgmtp.a12.overviewengine/overviewengine-core/lib/main/overview-model.js";
-import { Query } from "@com.mgmtp.a12.dataservices/dataservices-access";
-import { ActivitySelectors } from "@com.mgmtp.a12.client/client-core/lib/core/activity/index.js";
-import { ModelSelectors } from "@com.mgmtp.a12.client/client-core/lib/core/model/index.js";
+	type OverviewModel,
+	type BuildRequestsParams
+} from "@com.mgmtp.a12.overviewengine/overviewengine-core";
+import { Query, type SupportedRequest } from "@com.mgmtp.a12.dataservices/dataservices-access";
+import { ActivitySelectors, ModelSelectors } from "@com.mgmtp.a12.client/client-core";
 
-import { workflowsDataLoader } from "../../data/workflowsDataLoader.js";
-import { WorkflowsConstants } from "../../utils/constants.js";
+import { workflowsDataLoader } from "../../data/internal/workflowsDataLoader.js";
+import { WorkflowsConstants } from "../../utils/internal/constants.js";
 
 import { deserializeDocumentModel, readFile } from "../testUtils/testUtils.js";
 
@@ -96,7 +95,7 @@ const rootDocumentModelString = readFile(`../resources/models/cdm_related_models
 const rootDocumentModel: DocumentModel = deserializeDocumentModel(rootDocumentModelString);
 /// End: Mock data for test cases using cdm
 
-const provideData = dataLoader.provideData as (params: ProvideDataParams) => SagaGenerator<DataOperation.ResultSet>;
+const buildRequests = dataLoader.buildRequests as (params: BuildRequestsParams) => SagaGenerator<SupportedRequest[]>;
 
 const query: DataOperation.Query = {
 	id: "someDataProviderId",
@@ -115,12 +114,12 @@ const query: DataOperation.Query = {
 	]
 };
 
-function createProvideDataParams(
+function createBuildRequestsParams(
 	activityId: string,
 	documentModel: DocumentModel,
 	overviewModel: OverviewModel,
 	inputQuery: DataOperation.Query = query
-): ProvideDataParams {
+): BuildRequestsParams {
 	return {
 		activityId: activityId,
 		queries: [inputQuery],
@@ -175,11 +174,11 @@ describe("workflowsDataLoader tests...", () => {
 			expectedFieldValue: string
 		) => {
 			// given
-			const provideDataParams = createProvideDataParams(activityId, documentModel, overviewModel);
+			const provideDataParams = createBuildRequestsParams(activityId, documentModel, overviewModel);
 
 			// when/then
-			const sagaResult = await expectSaga(provideData, provideDataParams)
-				.provide([[call.fn(OverviewEngineFactories.dataLoader.provideData), { queryResults: [] }]])
+			const sagaResult = await expectSaga(buildRequests, provideDataParams)
+				.provide([[call.fn(OverviewEngineFactories.dataLoader.buildRequests), []]])
 				.run();
 			const matchedRpcCallEffects = sagaResult.allEffects
 				.filter((effect) => effect.type == "CALL")
@@ -198,15 +197,15 @@ describe("workflowsDataLoader tests...", () => {
 
 	it("should set correct constraint if A12WF metadata is nested inside document model", () => {
 		// given
-		const provideDataParams = createProvideDataParams(
+		const provideDataParams = createBuildRequestsParams(
 			ACTIVITY_ID_FOR_DM_WITH_NESTED_A12WF,
 			documentModelWithNestedA12wf,
 			overviewModelWithNestedA12Wf
 		);
 
 		// when/then
-		return expectSaga(provideData, provideDataParams)
-			.provide([[call.fn(OverviewEngineFactories.dataLoader.provideData), { queryResults: [] }]])
+		return expectSaga(buildRequests, provideDataParams)
+			.provide([[call.fn(OverviewEngineFactories.dataLoader.buildRequests), []]])
 			.run()
 			.then((sagaResult) => {
 				const matchedRpcCallEffects = sagaResult.allEffects
@@ -240,7 +239,7 @@ describe("workflowsDataLoader tests...", () => {
 				caseSensitive: true
 			}
 		};
-		const provideDataParams = createProvideDataParams(
+		const provideDataParams = createBuildRequestsParams(
 			ACTIVITY_ID_FOR_DM,
 			documentModel,
 			overviewModel,
@@ -248,8 +247,8 @@ describe("workflowsDataLoader tests...", () => {
 		);
 
 		// when/then
-		return expectSaga(provideData, provideDataParams)
-			.provide([[call.fn(OverviewEngineFactories.dataLoader.provideData), { queryResults: [] }]])
+		return expectSaga(buildRequests, provideDataParams)
+			.provide([[call.fn(OverviewEngineFactories.dataLoader.buildRequests), []]])
 			.run()
 			.then((sagaResult) => {
 				const matchedRpcCallEffects = sagaResult.allEffects
@@ -288,7 +287,7 @@ describe("workflowsDataLoader tests...", () => {
 			fields: ["/some/Field/Name", "/some/Other/Field/Name"]
 		};
 
-		const provideDataParams = createProvideDataParams(
+		const provideDataParams = createBuildRequestsParams(
 			ACTIVITY_ID_FOR_DM,
 			documentModel,
 			overviewModel,
@@ -298,8 +297,8 @@ describe("workflowsDataLoader tests...", () => {
 		const fieldsRequiredByWF = ["/A12WF/Task/ID", "/A12WF/TaskDefinition/FormKey"];
 
 		// when/then
-		return expectSaga(provideData, provideDataParams)
-			.provide([[call.fn(OverviewEngineFactories.dataLoader.provideData), { queryResults: [] }]])
+		return expectSaga(buildRequests, provideDataParams)
+			.provide([[call.fn(OverviewEngineFactories.dataLoader.buildRequests), []]])
 			.run()
 			.then((sagaResult) => {
 				const matchedRpcCallEffects = sagaResult.allEffects
@@ -319,11 +318,11 @@ describe("workflowsDataLoader tests...", () => {
 				module: "AllApplicationsModule"
 			};
 		});
-		const provideDataParams = createProvideDataParams("someOverviewEngineActivityId", documentModel, overviewModel);
+		const provideDataParams = createBuildRequestsParams("someOverviewEngineActivityId", documentModel, overviewModel);
 
 		// when/then
-		return expectSaga(provideData, provideDataParams)
-			.provide([[call.fn(OverviewEngineFactories.dataLoader.provideData), { queryResults: [] }]])
+		return expectSaga(buildRequests, provideDataParams)
+			.provide([[call.fn(OverviewEngineFactories.dataLoader.buildRequests), []]])
 			.run()
 			.then((sagaResult) => {
 				const matchedRpcCallEffects = sagaResult.allEffects

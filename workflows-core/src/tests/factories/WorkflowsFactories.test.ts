@@ -30,7 +30,7 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { ModuleRegistryProvider } from "@com.mgmtp.a12.client/client-core/lib/core/application/index.js";
+import { ModuleRegistryProvider } from "@com.mgmtp.a12.client/client-core";
 
 import { WorkflowsFactories } from "../../factories/index.js";
 

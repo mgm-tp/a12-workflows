@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
  *
  * Copyright (c) 2012-2026 mgm technology partners GmbH
@@ -23,12 +23,13 @@
  *
  * Warranty Disclaimer (applies to either option)
  * ----------------------------------------------
- * THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND,
+ * THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND,
  * WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
+
 package com.mgmtp.a12.workflows.extension.internal.sync
 
 import com.mgmtp.a12.dataservices.utils.internal.DocumentUtils
@@ -41,7 +42,7 @@ import com.mgmtp.a12.kernel.md.model.api.fieldtypes.IDateRangeType
 import com.mgmtp.a12.kernel.md.model.api.services.IDocumentModelResolver
 import com.mgmtp.a12.kernel.md.model.api.visitor.DocumentModelVisitor
 import com.mgmtp.a12.kernel.md.model.api.visitor.DocumentModelWalker
-import com.mgmtp.a12.kernel.md.serializer.document.internal.service.serialization.DocumentSerializationUtils
+import com.mgmtp.a12.kernel.md.serializer.document.internal.service.convertion.FieldValueConverter
 import com.mgmtp.a12.utils.conversion.InstantRange
 import com.mgmtp.a12.workflows.shared.dtos.ProcessEngineVariable
 import com.mgmtp.a12.workflows.shared.logging.utils.logger
@@ -111,9 +112,8 @@ class WorkflowsDocumentModelWalker(
         )
         val syncValue = if (type is IDateRangeType) {
             if (value is InstantRange) {
-                val dateArray = arrayOf(Date.from(value.start()), Date.from(value.end()))
-                DocumentSerializationUtils.serializeDateRange(
-                    dateArray,
+                FieldValueConverter.serializeInstantRange(
+                    value,
                     type.rangeSeparator,
                     type.format,
                     timeZone,

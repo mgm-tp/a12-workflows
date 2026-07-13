@@ -30,12 +30,11 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { Action } from "typescript-fsa";
+import { vi } from "vitest";
 
-import { Activity, ActivitySelectors } from "@com.mgmtp.a12.client/client-core/lib/core/activity/index.js";
-import { FormEngineActions } from "@com.mgmtp.a12.formengine/formengine-core/lib/client-extensions/index.js";
-import { ModelSelectors } from "@com.mgmtp.a12.client/client-core/lib/core/model/index.js";
-import { FormModel } from "@com.mgmtp.a12.formengine/formengine-core/lib/models/index.js";
+import type { Action } from "@com.mgmtp.a12.client/typescript-fsa-redux-5-compat";
+import { Activity, ActivitySelectors, ModelSelectors } from "@com.mgmtp.a12.client/client-core";
+import { FormEngineActions, type FormModel } from "@com.mgmtp.a12.formengine/formengine-core";
 
 import { WorkflowsActions } from "../../../actions/index.js";
 import { sendMessageFromFormMiddleware } from "../../../middlewares/internal/sendMessageFromFormMiddleware.js";
@@ -50,7 +49,6 @@ let taskFormActivity: Activity;
 const sendMessageFormEngineEventAction = createEventButtonPayload(
 	"someSendMessageActivityId",
 	WorkflowsEvents.SEND_MESSAGE,
-	"form-engine/event/EVENT_BUTTON",
 	[{ elementName: "footerBox1" }, { elementName: "Save" }]
 );
 

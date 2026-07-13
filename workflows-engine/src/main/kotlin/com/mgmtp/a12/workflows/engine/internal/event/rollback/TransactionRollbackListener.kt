@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
  *
  * Copyright (c) 2012-2026 mgm technology partners GmbH
@@ -23,16 +23,15 @@
  *
  * Warranty Disclaimer (applies to either option)
  * ----------------------------------------------
- * THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND,
+ * THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND,
  * WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
+
 package com.mgmtp.a12.workflows.engine.internal.event.rollback
 
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.mgmtp.a12.dataservices.document.DocumentReference
 import com.mgmtp.a12.workflows.engine.internal.util.MetadataRetriever
 import com.mgmtp.a12.workflows.engine.internal.util.ProcessEngineVariableNames
@@ -44,6 +43,8 @@ import org.cibseven.bpm.engine.delegate.DelegateTask
 import org.cibseven.bpm.engine.impl.cfg.TransactionState
 import org.cibseven.bpm.engine.impl.context.Context
 import org.springframework.context.event.EventListener
+import tools.jackson.databind.JsonNode
+import tools.jackson.databind.ObjectMapper
 
 class TransactionRollbackListener(
     private val taskService: TaskService,

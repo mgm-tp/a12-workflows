@@ -30,7 +30,7 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { ApplicationModel } from "@com.mgmtp.a12.client/client-core/lib/core/model/index.js";
+import { ApplicationModel } from "@com.mgmtp.a12.client/client-core";
 
 export function findFlow(appModel: ApplicationModel, flowName: string): ApplicationModel.Flow | undefined {
 	for (const module of appModel.content.modules) {

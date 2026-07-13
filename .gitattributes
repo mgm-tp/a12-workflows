@@ -3,6 +3,7 @@
 # Shell scripts must always use LF line endings
 oss_cleanup.sh	eol=lf
 .githooks/*	eol=lf
+gradlew eol=lf
 
 # Avoids a bug in older Git versions
 *.png -text

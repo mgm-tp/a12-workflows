@@ -27,12 +27,11 @@ tasks.register("reportTestCoverage", NpmTask) {
 }
 
 assemble.dependsOn(rootProject.tasks.named("npmCompile"))
-npm_publish.dependsOn(syncVersions, tasks.named("assemble"))
 
 a12Publish {
     // releaseLine resolved from gradle.properties
     npm {
-        tag.set("rc.2.4") // prerelease versions must not publish to "latest" tag
+        tag.set("rc.1") // prerelease versions must not publish to "latest" tag
     }
 }
 

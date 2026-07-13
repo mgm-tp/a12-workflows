@@ -38,15 +38,15 @@ import {
 	addAdditionalMiddlewares,
 	type A12ApplicationConfig,
 	type ApplicationWithConfiguredFeature
-} from "@com.mgmtp.a12.client/client-core/lib/core/application/index.js";
+} from "@com.mgmtp.a12.client/client-core";
 
-import { WorkflowsMiddlewareInclusions, WorkflowsMiddlewareOptions } from "../../middlewares/index.js";
+import { type WorkflowsMiddlewareInclusions, type WorkflowsMiddlewareOptions } from "../../middlewares/index.js";
 
 import { WorkflowsFactories } from "./WorkflowsFactories.js";
 
 // we use module augmentation to extend the A12ApplicationConfig type with more options
 // for users, this is applied once they import anything from this file
-declare module "@com.mgmtp.a12.client/client-core/lib/core/application/internal/factories/applicationConfig.js" {
+declare module "@com.mgmtp.a12.client/client-core" {
 	interface A12ApplicationConfig {
 		readonly workflows?: {
 			middlewareOptions: WorkflowsMiddlewareOptions;

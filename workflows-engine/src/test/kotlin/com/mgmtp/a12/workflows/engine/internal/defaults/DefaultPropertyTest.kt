@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
  *
  * Copyright (c) 2012-2026 mgm technology partners GmbH
@@ -23,12 +23,13 @@
  *
  * Warranty Disclaimer (applies to either option)
  * ----------------------------------------------
- * THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND,
+ * THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND,
  * WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
+
 package com.mgmtp.a12.workflows.engine.internal.defaults
 
 import io.kotest.matchers.shouldBe
@@ -56,8 +57,8 @@ private class DefaultPropertyTest {
             // Default date format must match A12 date format
             Arguments.of("spring.jackson.date-format", "yyyy-MM-dd'T'HH:mm:ss"),
 
-            // Logging should be off due to GDPR
-            Arguments.of("logging.level.root", "OFF"),
+            // INFO is GDPR-compliant per engine log analysis (A12WF-1657)
+            Arguments.of("logging.level.root", "INFO"),
 
             // Actuator should be off by default for security
             // Not working for now as CIB 7 sets this to true, but it is not part of our configuration -> not tested

@@ -30,7 +30,7 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import { JsonRpc2Request } from "@com.mgmtp.a12.dataservices/dataservices-access/lib/json-rpc/index.js";
+import { JsonRpc2Request } from "@com.mgmtp.a12.dataservices/dataservices-access";
 
 export type DocumentDto = object;
 
