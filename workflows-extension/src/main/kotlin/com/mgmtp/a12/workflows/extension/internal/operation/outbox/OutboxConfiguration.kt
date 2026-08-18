@@ -42,6 +42,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
 import org.springframework.jms.core.JmsTemplate
 
+@Deprecated("Asynchronous mode is deprecated and will be removed in 2026.06.")
 @Configuration
 @ConditionalOnProperty(name = ["mgmtp.a12.workflows.extension.asynchronous-mode.enabled"], havingValue = "true")
 class OutboxConfiguration(

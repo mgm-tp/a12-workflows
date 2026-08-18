@@ -42,8 +42,12 @@ class WorkflowsExtensionPropertiesConfiguration {
     var automaticSynchronization = AutomaticSynchronization()
 
     inner class Extension {
+        @Deprecated("Asynchronous mode is deprecated and will be removed in 2026.06.")
         var asynchronousMode = AsynchronousMode()
+
+        @Deprecated("Asynchronous mode is deprecated and will be removed in 2026.06.")
         inner class AsynchronousMode {
+            @Deprecated("Asynchronous mode is deprecated and will be removed in 2026.06.")
             var enabled = false
         }
     }

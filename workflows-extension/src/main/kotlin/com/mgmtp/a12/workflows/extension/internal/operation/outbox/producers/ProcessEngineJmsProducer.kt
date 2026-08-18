@@ -44,7 +44,10 @@ import org.springframework.jms.core.JmsTemplate
 
 /**
  * Outbox producer using JmsTemplate to send messages to outbox.
+ *
+ * @deprecated Asynchronous mode is deprecated and will be removed in 2026.06.
  */
+@Deprecated("Asynchronous mode is deprecated and will be removed in 2026.06.")
 class ProcessEngineJmsProducer(
     private val jmsTemplate: JmsTemplate,
     private val orderingByBusinessKeyPostProcessor: OrderingByBusinessKeyPostProcessor,

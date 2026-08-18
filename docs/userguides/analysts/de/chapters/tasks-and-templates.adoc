@@ -1,0 +1,812 @@
+////
+SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
+Copyright (c) 2012-2026 mgm technology partners GmbH
+Dual License
+This source file is part of the mgm A12 Platform and available under a choice of two different licenses:
+1. Open-Source License – EUPL v1.2
+You may redistribute and/or modify this file under the terms of the European Union Public License, version 1.2 - see https://eupl.eu/.
+2. Commercial License
+Alternatively, you may obtain a commercial license from mgm technology partners GmbH, that permits use of this software under different terms (including support and maintenance services).
+
+Please contact a12-license@mgm-tp.com for more information.
+
+You must select and comply with exactly one of the above license options.
+
+Warranty Disclaimer (applies to either option)
+THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
+////
+= Integration spezifischer Tasks
+
+Die folgende Funktionalität kann in Ihre Anwendung modelliert werden.
+Die Integration spezifischer Tasks oder Events im BPMN-Modell mit A12-Modellen erfordert, dass Modeler Änderungen in mehreren Modellen vornehmen.
+Die relevanten Modelle und Modelleinstellungen werden für jede spezifische Funktion hervorgehoben.
+
+[NOTE]
+====
+Die folgenden Modellierungsschritte setzen voraus, dass das BPMN-Modell gültig ist.
+====
+
+[[start-process-overview]]
+== Einen Prozess aus einer Overview starten
+
+=== BPMN-Modell
+
+* Das BPMN-Modell muss einen ausführbaren Prozess enthalten.
+
+[TIP]
+====
+Die Standard-Process-ID sollte in einen semantischen Namen geändert werden, z. B. VacationProcess.
+
+Die Process-ID befindet sich in den Pool-Eigenschaften.
+====
+
+[CAUTION]
+====
+Unterstriche sollten aus der Process-ID entfernt werden, da Unterstriche eine spezifische Bedeutung haben, siehe <<start-process-overview-heterogen>>.
+====
+
+=== Overview Model
+
+Ein Prozess kann über ein Event gestartet werden, das im Subheader einer Overview modelliert ist.
+Dies ist vergleichbar mit dem Hinzufügen neuer Dokumente über das „add"-Event in der Overview.
+In diesem Fall muss ein Task-Dokument erstellt und in der Datenbank gespeichert sowie ein Prozess in der CIB 7 Engine gestartet werden.
+
+Das Overview Model muss ein Document Model referenzieren, das die Workflows-Metadaten enthält.
+
+* Modellieren Sie eine Event-Schaltfläche im Tab „Custom Actions" des Overview Model
+* Geben Sie das Event ein: `startProcess_<PROCESS_ID>`
++
+[NOTE]
+====
+Der Overview Model Editor zeigt dieses Event standardmäßig nicht an.
+Dieses Event muss manuell eingegeben werden.
+====
++
+[CAUTION]
+====
+Dieses Event versucht, eine neue Instanz des Prozessmodells `<PROCESS_ID>` zu starten.
+
+Die `<PROCESS_ID>` muss exakt mit einer ausführbaren Process-ID aus Ihrem BPMN-Modell übereinstimmen.
+Überprüfen Sie Ihre Modelle, um Tippfehler zu vermeiden.
+====
+
+Beispiel:: `startProcess_ContractChange` startet eine Instanz eines BPMN-Modells mit der _Process-ID_ `ContractChange`.
+
+Abhängig von der projektspezifischen Implementierung der Overview-Komponente kann die Process-ID über eine Annotation statt über den Event-Namen nach einem Unterstrich gesetzt werden (derselbe Ansatz wie beim <<anchor-send-message-event, sendMessage-Event>>).
+
+[[start-process-overview-heterogen]]
+== Einen Prozess mit einem spezifischen Subtype-Dokument starten
+
+Dies ermöglicht die Modellierung mehrerer Schaltflächen in einer heterogenen _Task-Overview_, wobei jede Schaltfläche einen Prozess mit dem jeweiligen Subtype startet.
+Derselbe Prozess wird in der CIB 7 Engine verwendet.
+Durch Angabe des Dokumenttyps können unterschiedliche Fields und Rules im Document Model sowie individuelle Form Models modelliert werden.
+
+=== BPMN-Modell
+
+* Das BPMN-Modell muss einen ausführbaren Prozess enthalten.
++
+[CAUTION]
+====
+Unterstriche sollten aus der Process-ID entfernt werden, da Unterstriche zur Trennung der `<PROCESS_ID>` von dem `<SUBTYPE_NAME>` verwendet werden.
+====
++
+[NOTE]
+====
+Das Event erstellt die Prozessvariable `subtype`.
+====
++
+* Ein _Business Rule Task_ sollte unmittelbar nach dem Start Event verwendet werden, um eine Prozessvariable auf Basis des `subtype` zu erstellen.
+Der Wert der Prozessvariable sollte Folgendes definieren:
+** Einen `formKey`, der in einem <<user-task-new-doc, User Task>> referenziert wird
+** Einen `documentModelName`, der mit dem <<create-document-delegate-template>> verwendet wird
+
+=== Overview Model
+
+Das Overview Model muss ein Document Model referenzieren, das die Workflows-Metadaten enthält.
+
+Das vom Overview Model referenzierte Document Model sollte der Supertype aller spezifischen Subtype-Document Models sein, die Sie verwenden.
+
+[CAUTION]
+====
+Wie bei anderen heterogenen Overviews muss der Path zu den im Overview Model referenzierten Fields zwischen dem Supertype- und den Subtype-Document Models konsistent sein.
+====
+
+* Modellieren Sie eine Event-Schaltfläche im Tab „Custom Actions" des Overview Model
++
+[TIP]
+====
+Verwenden Sie mehrere Events im Overview Model, um dem Endbenutzer das Starten eines Prozesses mit verschiedenen Subtype-Dokumenten zu ermöglichen.
+====
++
+* Geben Sie das Event ein: `startProcess_<PROCESS_ID>_<SUBTYPE_NAME>`
++
+[NOTE]
+====
+Der Overview Model Editor zeigt dieses Event standardmäßig nicht an.
+Dieses Event muss manuell eingegeben werden.
+====
++
+[CAUTION]
+====
+Dieses Event versucht, eine neue Instanz des Prozessmodells `<PROCESS_ID>` zu starten.
+
+Die `<PROCESS_ID>` muss exakt mit einer ausführbaren Process-ID aus Ihrem BPMN-Modell übereinstimmen.
+Überprüfen Sie Ihre Modelle, um Tippfehler zu vermeiden.
+====
++
+** Das Event erstellt die Prozessvariable `subtype` mit dem Wert `<SUBTYPE_NAME>`.
+Beispiel:: Angenommen, wir haben einen Supertype *Person* mit den Subtypes *Employee* und *Freelancer*. `startProcess_PersonRegistration_employee` startet eine Instanz eines BPMN-Modells mit der _Process-ID_ `PersonRegistration`.
+Die Prozessvariable `subtype` hat den Wert „employee".
+Ein _Business Rule Task_ im entsprechenden BPMN-Modell, der eine gültige _DMN Table_ referenziert, kann dann verwendet werden, um eine weitere Prozessvariable zu erstellen – beispielsweise den korrekten `formKey` eines bestimmten Subtypes.
+
+[WARNING]
+====
+Vermeiden Sie es, einen Fehlerfall zu modellieren, der die Erstellung einer Instanz eines abstrakten Supertype-Document Models ermöglichen würde.
+
+Dieser Fehler kann auftreten, wenn Sie eine Schaltfläche in Ihrem Overview Model modellieren, die ein `startProcess`-Event sendet, das das Form Model öffnet, das auf dem Supertype-Document Model basiert.
+Wenn die _DMN Table_ so modelliert ist, dass sie ein Form Model auf Basis des Supertype-Document Models öffnet, würde im Backend eine Instanz des Supertype-Document Models erstellt.
+
+Im folgenden Beispiel kann der abstrakte Supertype *Person* erstellt werden.
+
+.Decision-Table-Modellierung, die die Erstellung eines abstrakten Supertypes versucht
+image::assets/images/decision-table_faulty-modeling_example.png[Beispiel für fehlerhafte Decision-Table-Modellierung]
+====
+
+[[assign-task-user]]
+== Task dem aktuellen Benutzer zuweisen
+
+=== Overview Model
+
+Das Overview Model muss ein Document Model referenzieren, das die Workflows-Metadaten enthält.
+
+* Modellieren Sie eine Row Action im Tab „Custom Actions" des Overview Model
+* Geben Sie das Event ein: `claim`
++
+[NOTE]
+====
+Der Overview Model Editor zeigt dieses Event standardmäßig nicht an.
+Dieses Event muss manuell eingegeben werden.
+====
++
+** Weist dem aktuellen Benutzer einen Task zu
+** Das bedeutet, dass das Field `.../A12WF/Task/Assignee` auf den aktuellen Benutzernamen gesetzt wird
++
+[TIP]
+====
+Der zugewiesene Benutzer kann in einer Task-Liste angezeigt werden, indem die Spalte `.../A12WF/Task/Assignee` zum Overview Model hinzugefügt wird.
+====
+
+[NOTE]
+====
+Der Wert von `.../A12WF/Task/Assignee` kann je nach Projektkonfiguration den Zugriff auf Tasks beeinflussen.
+
+Dies ist nur über ABAC möglich, was nicht modellbasiert ist.
+====
+
+[[user-task-new-doc]]
+== User Task mit Erstellung eines neuen Dokuments
+
+=== Form Model
+
+Das Form Model muss ein Document Model referenzieren, das die Workflows-Metadaten enthält.
+[CAUTION]
+====
+Im Form Model gesetzte Initialwerte haben keine Auswirkung, da das Form Model in diesem User Task ein bestehendes Dokument öffnet.
+
+Das bestehende Dokument enthält Werte für Metadaten und Workflows-Metadaten-Fields.
+====
+
+Events sollten modelliert werden, um Endbenutzern die Steuerung des Prozesses über das Formular zu ermöglichen.
+Dies kann Folgendes umfassen:
+
+* Verlassen des User Tasks und Weiterbewegen des Prozess-Tokens, siehe <<anchor-proceed-event>>.
+* Senden einer Message, um ein Message Boundary Event auszulösen, siehe <<anchor-send-message-event>>.
+
+=== BPMN-Modell
+
+Modellieren Sie einen User Task und wenden Sie das Template „User Task Creating A New Document" an.
+
+==== Output Document Reference
+Process Variable Name For New Document Reference::
+Diese Prozessvariable wird verwendet, um dieses spezifische Dokument in allen weiteren Schritten des Prozesses zu referenzieren.
+
+==== Forms
+Type:: Wählen Sie „Embedded or External Task Forms".
+Form key:: Geben Sie den Namen des Form Model ein.
++
+[NOTE]
+====
+Wenn der Prozess unter Angabe eines Dokumenttyps gestartet wurde (<<start-process-overview-heterogen>>), referenzieren Sie die Prozessvariable `formKey`, die Sie als Expression erstellt haben.
+
+Beispiel:: Wenn die Ergebnisvariable des _Business Rule Task_ „resultingFormKey" war, geben Sie die Expression `${resultingFormKey}` ein.
+====
+
+==== Beispielmodell
+Siehe den ersten User Task in link:assets/bpmn/UserTaskInputOutputExample.bpmn[UserTaskInputOutputExample.bpmn].
+
+[NOTE]
+====
+Im obigen Beispielmodell können Sie die neue Document Reference im restlichen Prozess als `${myRequestDocRef}` verwenden.
+====
+
+[[anchor-proceed-event]]
+== Einen User Task abschließen
+
+Im Form Model kann eine Schaltfläche modelliert werden, die den aktuellen User Task abschließt.
+
+=== Form Model
+
+* Modellieren Sie eine Event-Schaltfläche
+* Geben Sie das Event ein: `proceed`
++
+[NOTE]
+====
+Der Form Model Editor zeigt dieses Event standardmäßig nicht an.
+Dieses Event muss manuell eingegeben werden.
+====
++
+** Speichert das aktuelle Dokument.
+** Schließt das aktuell geöffnete Formular (entspricht `event_submit`).
+** Schließt den aktuellen User Task ab.
++
+[CAUTION]
+====
+Standardmäßig wird im Backend eine Full Validation für alle Dokumente durchgeführt.
+Die folgende Schaltflächeneinstellung wird dringend empfohlen:
+
+Validation Mode: `Full Validation`
+
+Damit wird sichergestellt, dass die entsprechende Frontend-Validierung ausgelöst wird und Fehlermeldungen dem Endbenutzer angemessen angezeigt werden.
+====
+
+==== Beispiel
+
+.Form-Model-Schaltfläche mit Event 'proceed'
+image::assets/images/modeling-proceed-event.png[Form-Schaltfläche mit Event 'proceed']
+
+[[anchor-send-message-event]]
+== Eine Message aus einem Formular senden
+
+Im Form Model kann eine Schaltfläche modelliert werden, die eine Message im Workflow-Prozess sendet.
+
+=== Form Model
+
+* Modellieren Sie eine Event-Schaltfläche
+* Geben Sie das Event ein: `sendMessage`
++
+[NOTE]
+====
+Der Form Model Editor zeigt dieses Event standardmäßig nicht an.
+Dieses Event muss manuell eingegeben werden.
+====
++
+[NOTE]
+====
+Das `sendMessage`-Event löst ein Message Event in CIB 7 aus.
+====
++
+* Fügen Sie eine Annotation hinzu:
++
+Name: `messageName`
++
+Value: Geben Sie die Message ein, die im Message Boundary Event eingetragen werden kann.
+
+Ein Klick auf diese Schaltfläche in der Anwendung löst ein Message Event im BPMN-Modell aus, wobei der Wert verwendet wird, den Sie in der Annotation eingetragen haben.
+[CAUTION]
+====
+Der Wert der Annotation muss mit dem Namen des Message Event in Ihrem BPMN-Modell übereinstimmen.
+====
+[CAUTION]
+====
+Das Senden einer Message speichert das aktuelle Dokument nicht.
+====
+[WARNING]
+====
+Workflows aktualisiert die Dokument-Metadaten beim Verlassen des User Tasks.
+Wenn die Validierung des Dokuments fehlschlägt, kann der Prozess den User Task nicht verlassen.
+
+Dies kann auftreten, wenn das <<set-status-delegate-template>> verwendet wird und <<anchor-cbr-context-based-validation-rules>> durch den neuen Status-Field-Wert „aktiviert" wurden, die erforderlichen Datenänderungen aber noch nicht eingegeben und gespeichert wurden.
+====
+
+==== Beispiel
+
+Das Event sollte auf Ihrer Form-Model-Schaltfläche im SME modelliert werden:
+
+.Form-Model-Schaltfläche mit Event 'sendMessage'
+image::assets/images/modeling-sendmessage-event_1.png[Form-Schaltfläche mit Event 'sendMessage']
+.Annotation 'messageName' auf der Form-Model-Schaltfläche mit Event 'sendMessage'
+image::assets/images/modeling-sendmessage-event_2.png[Annotation 'messageName']
+
+Modellieren Sie anschließend das entsprechende Message Catch Event in Ihrem BPMN-Modell. Der Event-Name muss exakt übereinstimmen (`CANCEL_ORDER_MESSAGE`):
+
+.Message Boundary Event für die obige Schaltfläche
+image::assets/images/modeling-sendmessage-event-bpmn.png[BPMN Message Catch Event]
+
+[[user-task-existing-doc]]
+== User Task mit Eingabedokument
+Eingabedokumente, die im aktuellen Prozess erstellt wurden, können über eine Prozessvariable referenziert werden.
+
+Prozesse, die Eingabedokumente referenzieren, die nicht im aktuellen Prozess erstellt wurden, sind mit reiner Modellierung nicht realisierbar, da es keine Möglichkeit gibt, zu modellieren, welche Document References verwendet werden sollen.
+
+[TIP]
+====
+Sie können einen <<user-task-new-doc>> oder ein <<create-document-delegate-template>> verwenden, um die benötigten Dokumente zu erstellen.
+====
+
+=== Form Model
+
+Das Form Model muss ein Document Model referenzieren, das die Workflows-Metadaten enthält.
+[CAUTION]
+====
+Im Form Model gesetzte Initialwerte haben keine Auswirkung, da das Form Model in diesem User Task ein bestehendes Dokument öffnet.
+====
+
+Events sollten modelliert werden, um Endbenutzern die Steuerung des Prozesses über das Formular zu ermöglichen.
+Dies kann Folgendes umfassen:
+
+* Verlassen des User Tasks und Weiterbewegen des Prozess-Tokens, siehe <<anchor-proceed-event>>.
+* Senden einer Message, um ein Message Boundary Event auszulösen, siehe <<anchor-send-message-event>>.
+
+=== BPMN-Modell
+
+Modellieren Sie einen User Task und wenden Sie das Template „User Task With Input Document" an.
+
+==== Input Document Reference
+Document Reference Variable:: Geben Sie die Document Reference für das Dokument ein, das Sie öffnen möchten.
++
+[NOTE]
+====
+Die `Document Reference Variable` ist normalerweise eine Expression, die die Prozessvariable referenziert, die Sie bei der Modellierung eines <<user-task-new-doc>> oder bei Verwendung eines <<create-document-delegate-template>> erstellt haben.
+====
+
+==== Forms
+
+Type:: Wählen Sie „Embedded or External Task Forms".
+Form key:: Geben Sie den Namen des Form Model ein.
++
+[WARNING]
+====
+Das vom Form Model referenzierte Document Model muss mit dem Document Model Name übereinstimmen, der in den Dokument-Metadaten gespeichert ist, die Sie in der `Document Reference Variable` angegeben haben.
+====
++
+[NOTE]
+====
+Wenn der Prozess unter Angabe eines Dokumenttyps gestartet wurde (<<start-process-overview-heterogen>>), referenzieren Sie die Prozessvariable `formKey`, die Sie als Expression erstellt haben.
+
+Beispiel:: Wenn die Ergebnisvariable des _Business Rule Task_ „resultingFormKey" war, geben Sie die Expression `${resultingFormKey}` ein.
+====
+
+==== Beispielmodell
+Siehe den zweiten User Task in link:assets/bpmn/UserTaskInputOutputExample.bpmn[UserTaskInputOutputExample.bpmn].
+
+[NOTE]
+====
+Im obigen Beispielmodell bezieht sich `${myRequestDocRef}` auf eine _Prozessvariable_, die im ersten User Task erstellt wurde.
+====
+
+[[set-status-delegate-template]]
+== Set Status Delegate Template
+Der `setStatusDelegate` ermöglicht die Aktualisierung eines einzelnen Field-Werts.
+
+[NOTE]
+====
+Eine Full Validation des Dokuments wird nicht durchgeführt.
+====
+
+Da das gesamte Dokument bei der Aktualisierung dieses einzelnen Field-Werts nicht validiert wird, kann dieser Delegate verwendet werden, um das Dokument auf einen (User) Task vorzubereiten, in dem <<anchor-cbr-context-based-validation-rules>> verwendet werden.
+
+=== Document Model
+
+Das Document Model muss das Field enthalten, dessen Wert geändert werden soll.
+
+[TIP]
+====
+Modellieren Sie ein Enumeration-Field, sodass nur die im Document Model definierten internen Werte verwendet werden können.
+
+Kategorien können ebenfalls modelliert werden, wenn der Datentyp Enumeration verwendet wird. Dies ermöglicht die Gruppierung von <<anchor-cbr-context-based-validation-rules>>.
+====
+
+=== BPMN-Modell
+
+Modellieren Sie einen Service Task und wenden Sie das Template „Set Status Delegate Template" an.
+
+==== Delegate Inputs
+
+Document Reference:: Geben Sie die Document Reference für das Dokument ein, dessen Status-Field-Wert geändert werden soll.
+
+New Value:: Geben Sie den neuen Field-Wert als String-Konstante oder Expression ein.
++
+[CAUTION]
+====
+Wenn der Delegate den Wert eines Fields setzt, wird der Field-Wert validiert.
+
+Das bedeutet, dass der neue Wert eines Enumeration-Fields exakt mit einem der Werte in der Spalte „Value" der Enumeration Values für das angegebene Field übereinstimmen muss.
+====
+
+Path To Field:: Geben Sie den Path zu dem Field ein, das Sie aktualisieren möchten.
++
+[NOTE]
+====
+Der Path muss der absolute Path des Fields sein.
+====
++
+[TIP]
+====
+Sie können den Path kopieren und einfügen, nachdem Sie das Field im Simple Model Editor geöffnet haben.
+====
+
+Repetitions:: (Optional) Geben Sie den Index des wiederholbaren Fields ein, das Sie aktualisieren möchten.
++
+[NOTE]
+====
+Die Repetitions müssen für jeden Term im Path angegeben werden.
+Die kommagetrennte Liste der Repetitions wird in derselben Reihenfolge wie die Terme im Path ausgewertet.
+
+Beispiel:: Wenn der Path zum Field „/Application/Vacation/Status" lautet, ist die Standardeinstellung „1,1,1".
++
+Wenn die Group „Vacation" wiederholbar ist und Sie die dritte Wiederholung bearbeiten möchten, sollten die Repetitions auf „1,3,1" gesetzt werden.
+====
+
+==== Beispielmodelle
+
+link:assets/bpmn/SetStatusDelegate.bpmn[SetStatusDelegate.bpmn]
+
+link:assets/bpmn/SetStatusDelegateWithRepetitions.bpmn[SetStatusDelegateWithRepetitions.bpmn]
+
+[[sync-available-fields-delegate-template]]
+== Sync Available Fields Delegate Template
+Der `syncAvailableFieldsDelegate` ruft die aktuellen Werte der mit `availableInProcessAs` annotierten Fields der angegebenen Dokumente ab und speichert sie als Prozessvariablen.
+Mehrere Document References können verwendet werden, um die Prozessvariablen aus einer Reihe von Dokumenten in einem einzigen Schritt zu aktualisieren.
+
+[NOTE]
+====
+Mit `availableInProcessAs` annotierte Fields, die noch nicht im Dokument gespeichert wurden, werden als Prozessvariablen mit dem Wert `null` gespeichert.
+====
+
+=== Document Model
+Fields, deren Werte als Prozessvariablen gepflegt werden sollen, müssen mit `availableInProcessAs` annotiert werden.
+
+Der Wert der Annotation legt den Namen der Prozessvariable fest.
+
+[CAUTION]
+====
+Achten Sie darauf, eindeutige Prozessvariablennamen zu verwenden.
+Der `syncAvailableFieldsDelegate` überschreibt bestehende Prozessvariablen und speichert bei nicht eindeutigen Prozessvariablennamen nur den letzten Wert.
+
+Die <<anchor-occupied-process-variable-names>> dürfen nicht verwendet werden.
+====
+
+=== BPMN-Modell
+Modellieren Sie einen Service Task und wenden Sie das Template „Sync Available Fields Delegate Template" an.
+
+==== Delegate Inputs
+
+Document Reference/s:: Geben Sie die Document Reference für das Dokument ein, dessen mit `availableInProcessAs` annotierte Fields gelesen und als Prozessvariablen gespeichert werden sollen.
++
+Mehrere Document References können als kommagetrennte Zeichenkette oder Eingabeliste modelliert werden.
+
+==== Beispielmodell
+
+link:assets/bpmn/SyncAvailableFields.bpmn[SyncAvailableFields.bpmn]
+
+[[send-email-delegate-template]]
+== Send Email Delegate Template
+Der `sendEmailDelegate` sendet eine E-Mail über den Mailserver und die Einstellungen, die in der `workspace.json` oder im Project Template definiert sind. Weitere Informationen finden Sie unter <<preview-app-setup>> oder <<project-template-setup>>.
+
+Ein BPMN Error Code (<<send-email-error>>) wird bereitgestellt, um Fehler mit dem Mailserver zu behandeln.
+
+[NOTE]
+====
+Die Delegate Inputs für den `sendEmailDelegate` akzeptieren Prozessvariablen oder String-Daten.
+
+Stellen Sie sicher, dass die benötigten Field-Werte mit `availableInProcessAs` annotiert und aktuell sind (<<sync-available-fields-delegate-template>>).
+====
+
+=== BPMN-Modell
+
+Modellieren Sie einen Service Task und wenden Sie das Template „Send Email Delegate Template" an.
+
+==== Delegate Inputs
+
+Recipients:: Geben Sie die E-Mail-Adresse oder -Adressen der Empfänger ein.
+Mehrere E-Mail-Adressen können als kommagetrennte Zeichenkette hinzugefügt werden.
+
+Subject:: Geben Sie den Betreff der E-Mail ein.
+
+Message:: Geben Sie den Nachrichtentext ein.
++
+[TIP]
+====
+Für die `message` können Sie link:https://freemarker.apache.org/docs/dgui_quickstart_basics.html[Freemarker] verwenden.
+
+Damit können Sie Werte von Prozessvariablen über Expressions wie `$\{orderTotal\}` einbinden.
+Siehe das bereitgestellte Beispielmodell.
+====
+
+Cc:: (Optional) Geben Sie Adressen ein, die im CC stehen sollen.
+Mehrere E-Mail-Adressen können als kommagetrennte Zeichenkette hinzugefügt werden.
+
+==== Beispielmodell
+
+link:assets/bpmn/SendEmail.bpmn[SendEmail.bpmn]
+
+[[send-email-error]]
+=== Send Email Error
+
+Dieser Fehler wird ausgelöst, wenn eine E-Mail nicht über den Delegate gesendet werden konnte – z. B. weil der Mailserver nicht erreichbar war.
+
+Modellieren Sie ein Error Boundary Event für den Service Task, der das <<send-email-delegate-template>> verwendet.
+
+==== Error
+
+Global error reference:: Wählen Sie „Create new ..." oder wählen Sie einen vordefinierten Namen aus der Liste.
+
+Name:: Der Name für den Fehler im Modell.
+
+Code:: SendEmailError
+
+[NOTE]
+====
+Alle anderen Einstellungen sind optional.
+====
+
+[[create-document-delegate-template]]
+== Create Document Delegate Template
+
+[NOTE]
+====
+Eine Full Validation des erstellten Dokuments wird nicht durchgeführt.
+====
+
+Der `createDocumentDelegate` erstellt ein neues leeres Dokument des angegebenen Document Models.
+Die Document Reference wird vorübergehend in der Variable `newDocRef` gespeichert.
+Das Create Document Delegate Template stellt die Outputs bereit, um die Document Reference einer Prozessvariable zuzuordnen.
+Pflichtfelder eines Dokuments können als „required" gesetzt werden, wenn sie im ersten _User Task_ eines Workflows-Prozesses verpflichtend sein sollen – unabhängig davon, ob sie über `createDocumentDelegate` in einem _Service Task_ oder über einen <<user-task-new-doc, User Task mit Erstellung eines neuen Dokuments>> erstellt werden.
+
+[NOTE]
+====
+Verwenden Sie den <<user-task-new-doc, User Task mit Erstellung eines neuen Dokuments>>, wenn der Endbenutzer sofort Daten eingeben soll. Verwenden Sie diesen Delegate, wenn zunächst andere (Service-)Tasks ausgeführt werden sollen.
+====
+
+=== Document Model
+
+Das Document Model muss die Workflows-Metadaten enthalten.
+
+=== BPMN-Modell
+
+Modellieren Sie einen Service Task und wenden Sie das Template „Create Document Delegate Template" an.
+
+==== Delegate Inputs
+
+Document Model Name:: Geben Sie den Namen des Document Models ein, für das Sie ein neues Dokument erstellen möchten.
++
+[NOTE]
+====
+Wenn der Prozess unter Angabe eines Dokumenttyps gestartet wurde (<<start-process-overview-heterogen>>), referenzieren Sie die Prozessvariable `documentModelName`, die Sie als Expression erstellt haben.
+
+Beispiel:: Wenn die Ergebnisvariable des _Business Rule Task_ „resultingDocumentModelName" war, geben Sie die Expression `$\{resultingDocumentModelName\}` ein.
+====
+
+==== Delegate Output
+
+Process Variable Name For New Document Reference:: Diese Prozessvariable wird verwendet, um dieses spezifische Dokument in allen weiteren Schritten des Prozesses zu referenzieren.
+
+==== Beispielmodell
+
+link:assets/bpmn/CreateDocument.bpmn[CreateDocument.bpmn]
+
+
+[[create-relationship-link-delegate-template]]
+== Create Relationship Link Delegate Template
+
+Der `createRelationshipLinkDelegate` erstellt einen Link zwischen den beiden angegebenen Dokumenten.
+Die ID dieses Links wird vorübergehend in der Variable `newLinkId` gespeichert.
+Das Create Relationship Link Delegate Template stellt die Outputs bereit, um die Document Reference einer Prozessvariable zuzuordnen.
+
+=== Document Model
+
+Das Dokument wird beim Erstellen oder Ändern von Relationship Links nicht gespeichert.
+Eingabedokumente zu referenzieren, die nicht im aktuellen Prozess erstellt wurden, ist mit reiner Modellierung jedoch nicht realisierbar, da es keine Möglichkeit gibt, zu modellieren, welche Document References verwendet werden sollen.
+
+Daher werden die zu verlinkenden Dokumente normalerweise im Prozess erstellt.
+Das bedeutet, dass die im Relationship Model referenzierten Document Model(s) in der Regel die Workflows-Metadaten enthalten.
+
+=== Relationship Model
+
+Ein Relationship Model muss modelliert werden.
+
+=== BPMN-Modell
+
+Modellieren Sie einen Service Task und wenden Sie das Template „Create Relationship Link Delegate Template" an.
+
+[NOTE]
+====
+Relationship Links sind in A12 vollständig flach.
+Da sowohl Source als auch Target Role im Template explizit modelliert und nicht aus dem aktuellen Kontext abgeleitet werden, spielt es keine Rolle, welches Dokument die „Source" und welches das „Target" ist.
+====
+
+==== Delegate Inputs
+
+Relationship Model:: Geben Sie den Namen des Relationship Models ein, für das Sie einen neuen Link erstellen möchten.
+
+Source Document Reference:: Geben Sie die Document Reference für das Dokument ein, das Sie verlinken möchten.
++
+[WARNING]
+====
+Das Dokument muss das Document Model referenzieren, das in der Source Role referenziert ist.
+====
+
+Source Role:: Der Name einer der Roles im Relationship Model.
+
+Target Document Reference:: Geben Sie die Document Reference für das andere Dokument ein, das Sie verlinken möchten.
++
+[WARNING]
+====
+Das Dokument muss das Document Model referenzieren, das in der Target Role referenziert ist.
+====
+
+Target Role:: Der Name der anderen Role im Relationship Model.
+
+==== Delegate Output
+
+Process Variable Name For New Link ID:: Diese Prozessvariable wird verwendet, um diesen spezifischen Link in allen weiteren Schritten des Prozesses zu referenzieren.
+
+==== Beispielmodell
+link:assets/bpmn/CreateRelationshipLink.bpmn[CreateRelationshipLink.bpmn]
+
+[[relationship-linkage-error]]
+=== Relationship Linkage Error
+
+Dieser Fehler wird ausgelöst, wenn ein Relationship Link nicht erstellt, geändert oder gelöscht werden konnte – z. B. weil das angegebene Relationship Model nicht gefunden wurde.
+
+Modellieren Sie ein Error Boundary Event für den Service Task, der das <<create-relationship-link-delegate-template>> verwendet.
+
+==== Error
+
+Global error reference:: Wählen Sie „Create new ..." oder wählen Sie einen vordefinierten Namen aus der Liste.
+
+Name:: Der Name für den Fehler im Modell.
+
+Code:: RelationshipLinkageError
+
+[NOTE]
+====
+Alle anderen Einstellungen sind optional.
+====
+
+[CAUTION]
+====
+Die Werte des Delegate Output werden auf `Null` gesetzt.
+Dieser neue Wert kann bestehende Prozessvariablen mit demselben Namen überschreiben.
+====
+
+[[link-limit-reached-error]]
+=== Link Limit Reached Error
+
+Dieser Fehler wird ausgelöst, wenn der neue Link die Obergrenze überschreiten würde. Siehe auch link:/docs/overall/relationships_for_bas/index.html#_relationship_model_editor[Relationship Model Dokumentation].
+
+Modellieren Sie ein Error Boundary Event für den Service Task, der das <<create-relationship-link-delegate-template>> verwendet.
+
+==== Error
+
+Global error reference:: Wählen Sie „Create new ..." oder wählen Sie einen vordefinierten Namen aus der Liste.
+
+Name:: Der Name für den Fehler im Modell.
+
+Code:: LinkLimitReachedError
+
+[NOTE]
+====
+Alle anderen Einstellungen sind optional.
+====
+
+[CAUTION]
+====
+Die Werte des Delegate Output werden auf `Null` gesetzt.
+Dieser neue Wert kann bestehende Prozessvariablen mit demselben Namen überschreiben.
+====
+
+[[delete-relationship-link-delegate-template]]
+== Delete Relationship Link Delegate Template
+
+Der `deleteRelationshipLinkDelegate` löscht den Link mit der angegebenen ID zwischen den beiden angegebenen Dokumenten.
+Wie bei anderen Referenzen auf spezifische Elemente in der Datenbank bedeutet dies normalerweise, dass der Relationship Link im Prozess erstellt und die Link-ID als Prozessvariable gespeichert wurde.
+Beispielsweise wurde der Relationship Link über das <<create-relationship-link-delegate-template>> erstellt.
+
+=== BPMN-Modell
+
+Modellieren Sie einen Service Task und wenden Sie das Template „Delete Relationship Link Delegate Template" an.
+
+==== Delegate Inputs
+
+Die Modellierung entspricht der Beschreibung im <<create-relationship-link-delegate-template>> mit folgender Ausnahme:
+
+Link ID:: Geben Sie die ID des zu löschenden Links ein.
+Beispielsweise die Prozessvariable, die als Delegate Output des <<create-relationship-link-delegate-template>> definiert wurde.
++
+[NOTE]
+====
+Die anderen Delegate Inputs beschreiben die Dokumente, Roles und das Relationship Model des Links, der gelöscht werden soll.
+====
+
+==== Beispielmodell
+link:assets/bpmn/DeleteRelationshipLink.bpmn[DeleteRelationshipLink.bpmn]
+
+=== Relationship Linkage Error
+
+Der Relationship Linkage Error kann für Service Tasks modelliert werden, die das Template „Delete Relationship Link Delegate Template" verwenden. Siehe <<relationship-linkage-error>>.
+
+[[relink-document-delegate-template]]
+== Re-link Document Delegate Template
+
+Der `relinkDocumentDelegate` kann verwendet werden, um einen bestehenden Link zu löschen und in einem einzigen Service Task einen neuen Link zu erstellen.
+Die vorhandene Link-ID und die IDs der beiden zu verlinkenden Dokumente sollten als Prozessvariablen verfügbar sein.
+Beispielsweise wurde der Relationship Link über das <<create-relationship-link-delegate-template>> erstellt.
+
+=== BPMN-Modell
+
+Modellieren Sie einen Service Task und wenden Sie das Template „Re-link Document Delegate Template" an.
+
+==== Delegate Inputs
+
+Die Modellierung entspricht der Beschreibung im <<create-relationship-link-delegate-template>> mit folgender Ausnahme:
+
+Link ID:: Geben Sie die ID des zu löschenden Links ein.
+Beispielsweise die Prozessvariable, die als Delegate Output des <<create-relationship-link-delegate-template>> definiert wurde.
++
+[NOTE]
+====
+Die anderen Delegate Inputs beschreiben die Dokumente, Roles und das Relationship Model des Links, der erstellt werden soll.
+====
++
+[CAUTION]
+====
+Die Roles und das Relationship Model der Beziehung, die Sie neu verlinken, müssen konsistent sein.
+====
+
+==== Delegate Outputs
+
+Process Variable Name For New Link ID:: Diese Prozessvariable wird verwendet, um diesen spezifischen Link in allen weiteren Schritten des Prozesses zu referenzieren.
++
+[NOTE]
+====
+Die in den Delegate Inputs referenzierte Prozessvariable kann in den Delegate Outputs wiederverwendet werden, indem Sie den Prozessvariablennamen unter „Process Variable Name For New Link ID" eingeben.
+Dadurch wird der Wert in der Prozessvariable mit der neuen Link-ID überschrieben.
+====
+
+==== Beispielmodell
+link:assets/bpmn/RelinkDocument.bpmn[RelinkDocument.bpmn]
+
+
+=== Relationship Linkage Error
+
+Der Relationship Linkage Error kann für Service Tasks modelliert werden, die das Template „Re-link Document Delegate Template" verwenden. Siehe <<relationship-linkage-error>>.
+
+
+[[message-event-template]]
+== Template für Message Throw Event
+
+Das Template für Message Throw Event erstellt eine Message-Event-Definition, die alle aktuellen Prozessvariablen abruft und die Prozessvariablen mit ihren Werten als Teil der Message sendet.
+
+=== BPMN-Modell
+
+Modellieren Sie ein Intermediate Message Event und wenden Sie das Template „Template For Message Throw Event" an.
+
+==== Inputs
+
+Local variable assignment:: Ist standardmäßig auf „On" gesetzt.
+
+Assignment type:: Ist standardmäßig auf „String or expression" gesetzt.
+
+Value:: Dies ist der Name der Message, der im Message Catch Event eingetragen werden kann.
+
+[NOTE]
+====
+Die Message wird nur empfangen, wenn ein ausführbarer Prozess:
+
+* Ein Message Catch Event hat, das die Message „Value" referenziert
+* Einen Prozess hat, der auf diese Message „wartet".
+Zum Beispiel:
+** Ein Message Start Event
+** Ein Prozess, der ein Event Based Gateway erreicht hat, bei dem eines der Events ein Message Catch Event ist
+====

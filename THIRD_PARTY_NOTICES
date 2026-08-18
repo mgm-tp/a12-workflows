@@ -1,7 +1,7 @@
 THIRD_PARTY_NOTICES
 
 Component: A12 Workflows
-Generated: 2026-04-24 for mgm A12 Platform 2025.06-ext5
+Generated: 2026-07-08 for mgm A12 Platform 2025.06-ext6
 
 The mgm A12 Platform is developed by mgm technology partners GmbH.
 
@@ -17,49 +17,52 @@ Component Overview
 The following third-party components are included in this distribution:
 
 
-- @com.mgmtp.a12.base/base-model-api 29.3.0, licensed under EUPL v1.2
+- @com.mgmtp.a12.base/base-model-api 29.3.1, licensed under EUPL v1.2
 	Copyright (C) 2012-2026 mgm technology partners GmbH
 	Source: https://github.com/mgm-tp
 - @com.mgmtp.a12.client/client-core 16.2.1, licensed under EUPL v1.2
 	Copyright (C) 2012-2026 mgm technology partners GmbH
 	Source: https://github.com/mgm-tp
-- @com.mgmtp.a12.dataservices/dataservices-access 38.4.0, licensed under EUPL v1.2
+- @com.mgmtp.a12.dataservices/dataservices-access 38.4.3, licensed under EUPL v1.2
 	Copyright (C) 2012-2026 mgm technology partners GmbH
 	Source: https://github.com/mgm-tp
-- @com.mgmtp.a12.devtools/eslint-config 3.1.0, licensed under EUPL v1.2
+- @com.mgmtp.a12.devtools/codemod 2.2.2, licensed under EUPL v1.2
 	Copyright (C) 2012-2026 mgm technology partners GmbH
 	Source: https://github.com/mgm-tp
-- @com.mgmtp.a12.devtools/prettier-config 1.1.0, licensed under EUPL v1.2
+- @com.mgmtp.a12.devtools/eslint-config 3.1.2, licensed under EUPL v1.2
+	Copyright (C) 2012-2026 mgm technology partners GmbH
+	Source: https://github.com/mgm-tp
+- @com.mgmtp.a12.devtools/prettier-config 1.1.1, licensed under EUPL v1.2
 	Copyright (C) 2012-2026 mgm technology partners GmbH
 	Source: https://github.com/mgm-tp
 - @com.mgmtp.a12.devtools/tsconfig 1.1.0, licensed under EUPL v1.2
 	Copyright (C) 2012-2026 mgm technology partners GmbH
 	Source: https://github.com/mgm-tp
-- @com.mgmtp.a12.expression/expression-core 2.0.6, licensed under EUPL v1.2
+- @com.mgmtp.a12.expression/expression-core 2.0.7, licensed under EUPL v1.2
 	Copyright (C) 2012-2026 mgm technology partners GmbH
 	Source: https://github.com/mgm-tp
-- @com.mgmtp.a12.formengine/formengine-core 38.4.0, licensed under EUPL v1.2
+- @com.mgmtp.a12.formengine/formengine-core 38.4.2, licensed under EUPL v1.2
 	Copyright (C) 2012-2026 mgm technology partners GmbH
 	Source: https://github.com/mgm-tp
-- @com.mgmtp.a12.kernel/kernel-core-runtime-api-ts 30.8.1, licensed under EUPL v1.2
+- @com.mgmtp.a12.kernel/kernel-core-runtime-api-ts 30.8.5, licensed under EUPL v1.2
 	Copyright (C) 2012-2026 mgm technology partners GmbH
 	Source: https://github.com/mgm-tp
-- @com.mgmtp.a12.kernel/kernel-md-facade 30.8.1, licensed under EUPL v1.2
+- @com.mgmtp.a12.kernel/kernel-md-facade 30.8.5, licensed under EUPL v1.2
 	Copyright (C) 2012-2026 mgm technology partners GmbH
 	Source: https://github.com/mgm-tp
-- @com.mgmtp.a12.overviewengine/overviewengine-core 38.3.0, licensed under EUPL v1.2
+- @com.mgmtp.a12.overviewengine/overviewengine-core 38.3.1, licensed under EUPL v1.2
 	Copyright (C) 2012-2026 mgm technology partners GmbH
 	Source: https://github.com/mgm-tp
-- @com.mgmtp.a12.relationshipengine/relationshipengine-core 2.3.0, licensed under EUPL v1.2
+- @com.mgmtp.a12.relationshipengine/relationshipengine-core 2.3.1, licensed under EUPL v1.2
 	Copyright (C) 2012-2026 mgm technology partners GmbH
 	Source: https://github.com/mgm-tp
-- @com.mgmtp.a12.uaa/uaa-authentication-client 9.3.2, licensed under EUPL v1.2
+- @com.mgmtp.a12.uaa/uaa-authentication-client 9.4.0, licensed under EUPL v1.2
 	Copyright (C) 2012-2026 mgm technology partners GmbH
 	Source: https://github.com/mgm-tp
 - @com.mgmtp.a12.utils/utils-collections 6.2.0, licensed under EUPL v1.2
 	Copyright (C) 2012-2026 mgm technology partners GmbH
 	Source: https://github.com/mgm-tp
-- @com.mgmtp.a12.utils/utils-connector 8.2.1, licensed under EUPL v1.2
+- @com.mgmtp.a12.utils/utils-connector 8.2.3, licensed under EUPL v1.2
 	Copyright (C) 2012-2026 mgm technology partners GmbH
 	Source: https://github.com/mgm-tp
 - @com.mgmtp.a12.utils/utils-localization 7.2.0, licensed under EUPL v1.2
@@ -71,7 +74,7 @@ The following third-party components are included in this distribution:
 - @com.mgmtp.a12.utils/utils-logging 6.2.0, licensed under EUPL v1.2
 	Copyright (C) 2012-2026 mgm technology partners GmbH
 	Source: https://github.com/mgm-tp
-- @com.mgmtp.a12.widgets/widgets-core 38.3.0, licensed under EUPL v1.2
+- @com.mgmtp.a12.widgets/widgets-core 38.3.5, licensed under EUPL v1.2
 	Copyright (C) 2012-2026 mgm technology partners GmbH
 	Source: https://github.com/mgm-tp
 - @cyclonedx/cyclonedx-npm 4.2.1, licensed under Apache-2.0
@@ -83,9 +86,18 @@ The following third-party components are included in this distribution:
 - eslint-config-prettier 10.1.8, licensed under MIT
 	Copyright (c) 2017, 2018, 2019, 2020, 2021, 2022, 2023 Simon Lydell and contributors
 	Source: https://github.com/prettier/eslint-config-prettier
+- eslint-plugin-import 2.32.0, licensed under MIT
+	Copyright (c) 2015 Ben Mosher
+	Source: https://github.com/import-js/eslint-plugin-import
 - eslint-plugin-notice 1.0.0, licensed under MIT
 	Copyright (c) 2017 Nick Deis
 	Source: https://github.com/nickdeis/eslint-plugin-notice
+- @hypermod/utils 0.6.0, licensed under MIT
+	Copyright (c) 2023 Hypermod
+	Source: https://github.com/hypermod-io/hypermod-community
+- jscodeshift 17.3.0, licensed under MIT
+	Copyright (c) Facebook, Inc. and its affiliates.
+	Source: https://github.com/facebook/jscodeshift
 - jsdom 26.1.0, licensed under MIT
 	Copyright (c) 2010 Elijah Insua
 	Source: https://github.com/jsdom/jsdom
@@ -98,7 +110,10 @@ The following third-party components are included in this distribution:
 - npm-run-all 4.1.5, licensed under MIT
 	Copyright (c) 2015 Toru Nagashima
 	Source: https://github.com/mysticatea/npm-run-all
-- prettier 3.8.2, licensed under MIT
+- prettier 3.8.3, licensed under MIT
+	Copyright © James Long and contributors
+	Source: https://github.com/prettier/prettier
+- prettier 3.9.4, licensed under MIT
 	Copyright © James Long and contributors
 	Source: https://github.com/prettier/prettier
 - react 19.1.1, licensed under MIT
@@ -119,7 +134,10 @@ The following third-party components are included in this distribution:
 - redux-mock-store 1.5.5, licensed under MIT
 	Copyright (c) 2017 Arnaud Benard
 	Source: https://github.com/arnaudbenard/redux-mock-store
-- redux-saga 1.4.2, licensed under MIT
+- redux-saga 1.4.3, licensed under MIT
+	Copyright (c) Redux-Saga team and other contributors
+	Source: https://github.com/redux-saga/redux-saga
+- redux-saga 1.5.0, licensed under MIT
 	Copyright (c) Redux-Saga team and other contributors
 	Source: https://github.com/redux-saga/redux-saga
 - redux-saga-test-plan 4.0.6, licensed under MIT
@@ -128,9 +146,18 @@ The following third-party components are included in this distribution:
 - scheduler 0.20.2, licensed under MIT
 	Copyright (c) Meta Platforms, Inc. and affiliates
 	Source: https://github.com/facebook/react
-- styled-components 6.4.0, licensed under MIT
+- styled-components 6.4.1, licensed under MIT
 	Copyright (c) 2016-present Glen Maddern and Maximilian Stoiber
 	Source: https://github.com/styled-components/styled-components
+- styled-components 6.4.3, licensed under MIT
+	Copyright (c) 2016-present Glen Maddern and Maximilian Stoiber
+	Source: https://github.com/styled-components/styled-components
+- @swc/core 1.15.33, licensed under Apache-2.0
+	Copyright 2024 SWC contributors
+	Source: https://github.com/swc-project/swc
+- @swc/core 1.15.43, licensed under Apache-2.0
+	Copyright 2024 SWC contributors
+	Source: https://github.com/swc-project/swc
 - typed-redux-saga 1.5.0, licensed under MIT
 	Copyright (c) 2019 Agile Digital
 	Source: https://github.com/agiledigital/typed-redux-saga
@@ -140,184 +167,432 @@ The following third-party components are included in this distribution:
 - typescript-fsa 3.0.0, licensed under MIT
 	Copyright (c) 2016 Daniel Lytkin
 	Source: https://github.com/aikoven/typescript-fsa
+- @types/jscodeshift 17.3.0, licensed under MIT
+	Copyright Node.js contributors
+	Source: https://github.com/DefinitelyTyped/DefinitelyTyped
 - @types/jsonpath 0.2.4, licensed under MIT
 	Copyrights are respective of each contributor listed at the beginning of each definition file
 	Source: https://github.com/DefinitelyTyped/DefinitelyTyped
-- @types/node 25.6.0, licensed under MIT
+- @types/node 25.6.2, licensed under MIT
+	Copyright Node.js contributors
+	Source: https://github.com/DefinitelyTyped/DefinitelyTyped
+- @types/node 25.9.5, licensed under MIT
 	Copyright Node.js contributors
 	Source: https://github.com/DefinitelyTyped/DefinitelyTyped
 - @types/redux-mock-store 1.5.0, licensed under MIT
 	Copyrights are respective of each contributor listed at the beginning of each definition file
 	Source: https://github.com/DefinitelyTyped/DefinitelyTyped
-- uuid 11.1.0, licensed under MIT
+- @types/yargs 17.0.35, licensed under MIT
+	Copyrights are respective of each contributor listed at the beginning of each definition file
+	Source: https://github.com/DefinitelyTyped/DefinitelyTyped
+- uuid 11.1.1, licensed under MIT
 	Copyright (c) 2010-2020 Robert Kieffer and other contributors
 	Source: https://github.com/uuidjs/uuid
 - vitest 3.2.4, licensed under MIT
 	Copyright (c) 2021-Present Vitest Team
 	Source: https://github.com/vitest-dev/vitest
+- vitest 3.2.7, licensed under MIT
+	Copyright (c) 2021-Present Vitest Team
+	Source: https://github.com/vitest-dev/vitest
 - @vitest/coverage-v8 3.2.4, licensed under MIT
 	Copyright (c) 2021-Present Vitest Team
 	Source: https://github.com/vitest-dev/vitest
+- @vitest/coverage-v8 3.2.7, licensed under MIT
+	Copyright (c) 2021-Present Vitest Team
+	Source: https://github.com/vitest-dev/vitest
+- yargs 17.7.2, licensed under MIT
+	Copyright 2014 Contributors (ben@npmjs.com) and Copyright 2010 James Halliday (mail@substack.net)
+	Source: https://github.com/yargs/yargs
+- yargs 17.7.3, licensed under MIT
+	Copyright 2014 Contributors (ben@npmjs.com) and Copyright 2010 James Halliday (mail@substack.net)
+	Source: https://github.com/yargs/yargs
 
-- com.fasterxml.jackson.core/jackson-annotations 2.20, licensed under Apache-2.0
-	Copyright 2007-, Tatu Saloranta (tatu.saloranta@iki.fi)
-	Source: https://github.com/FasterXML/jackson-annotations
-- com.fasterxml.jackson.core/jackson-databind 2.20.1, licensed under Apache-2.0
-	Copyright 2013 FasterXML.com
-	Source: https://github.com/FasterXML/jackson-databind
-- com.fasterxml.jackson.module/jackson-module-kotlin 2.20.1, licensed under Apache-2.0
-	Copyright 2007-, Tatu Saloranta (tatu.saloranta@iki.fi)
-	Source: https://github.com/FasterXML/jackson-module-kotlin
-- com.h2database/h2 2.3.232, licensed under MPL-2.0
-	Copyright 2004-2025 H2 Group. Multiple-Licensed under the MPL 2.0, and the EPL 1.0 (https://h2database.com/html/license.html)
-	Source: https://github.com/h2database/h2database
-- com.mgmtp.a12.dataservices/dataservices-client-spring-boot-autoconfigure 38.4.0, licensed under EUPL v1.2
+
+- org.springframework.boot/spring-boot 3.5.15, licensed under Apache-2.0
+	Copyright (c) 2012-2026 VMware, Inc.
+	Source: https://github.com/spring-projects/spring-boot
+- org.springframework.security/spring-security-core 6.5.11, licensed under Apache-2.0
+	Copyright 2004-present the original author or authors
+	Source: https://github.com/spring-projects/spring-security
+- org.springframework.security/spring-security-oauth2-jose 6.5.11, licensed under Apache-2.0
+	Copyright 2004-present the original author or authors
+	Source: https://github.com/spring-projects/spring-security
+- com.mgmtp.a12.dataservices/dataservices-server-app 38.4.3, licensed under EUPL v1.2
 	Copyright (C) 2012-2026 mgm technology partners GmbH
 	Source: https://github.com/mgm-tp
-- com.mgmtp.a12.dataservices/dataservices-core 38.4.0, licensed under EUPL v1.2
+- com.mgmtp.a12.uaa/uaa-authentication-principal-extension-spring-boot-autoconfigure 9.4.0, licensed under EUPL v1.2
 	Copyright (C) 2012-2026 mgm technology partners GmbH
 	Source: https://github.com/mgm-tp
-- com.mgmtp.a12.dataservices/dataservices-core-spring-boot-autoconfigure 38.4.0, licensed under EUPL v1.2
+- com.mgmtp.a12.uaa/uaa-authentication 9.4.0, licensed under EUPL v1.2
 	Copyright (C) 2012-2026 mgm technology partners GmbH
 	Source: https://github.com/mgm-tp
-- com.mgmtp.a12.dataservices/dataservices-domain 38.4.0, licensed under EUPL v1.2
+- com.mgmtp.a12.uaa/uaa-authentication-principal-extension 9.4.0, licensed under EUPL v1.2
 	Copyright (C) 2012-2026 mgm technology partners GmbH
 	Source: https://github.com/mgm-tp
-- com.mgmtp.a12.dataservices/dataservices-server-app 38.4.0, licensed under EUPL v1.2
-	Copyright (C) 2012-2026 mgm technology partners GmbH
-	Source: https://github.com/mgm-tp
-- com.mgmtp.a12.kernel/kernel-conversion-java 30.8.1, licensed under EUPL v1.2
-	Copyright (C) 2012-2026 mgm technology partners GmbH
-	Source: https://github.com/mgm-tp
-- com.mgmtp.a12.uaa/uaa-authentication-principal-extension-spring-boot-autoconfigure 9.3.2, licensed under EUPL v1.2
-	Copyright (C) 2012-2026 mgm technology partners GmbH
-	Source: https://github.com/mgm-tp
-- com.mgmtp.a12.uaa/uaa-rest-client-spring-boot-autoconfigure 9.3.2, licensed under EUPL v1.2
-	Copyright (C) 2012-2026 mgm technology partners GmbH
-	Source: https://github.com/mgm-tp
-- com.mgmtp.a12.utils/utils-rest-server-connector-spring-boot-autoconfigure 8.2.1, licensed under EUPL v1.2
-	Copyright (C) 2012-2026 mgm technology partners GmbH
-	Source: https://github.com/mgm-tp
-- commons-fileupload/commons-fileupload 1.5, licensed under Apache-2.0
-	Copyright 2002-2026 The Apache Software Foundation
-	Source: https://github.com/apache/commons-fileupload
-- com.ninja-squad/springmockk 4.0.2, licensed under Apache-2.0
-	Copyright 2002-present the original author or authors.
-	Source: https://github.com/Ninja-Squad/springmockk
-- io.kotest/kotest-assertions-core 5.9.1, licensed under Apache-2.0
-	Source: https://github.com/kotest/kotest/
-- io.kotest/kotest-assertions-json 5.9.1, licensed under Apache-2.0
-	Source: https://github.com/kotest/kotest/
-- io.mockk/mockk 1.14.2, licensed under Apache-2.0
-	Source: https://github.com/mockk/mockk/
-- io.netty/netty-resolver-dns-native-macos 4.2.1.Final, licensed under Apache-2.0
-	Copyright 2014 The Netty Project
-	Source: https://github.com/netty/netty
-- io.vertx/vertx-mail-client 4.5.14, licensed under Apache-2.0
-	Copyright (c) 2011-2015 The original author or authors
-	Source: https://github.com/vert-x3/vertx-mail-client
-- org.apache.activemq/artemis-jakarta-server 2.40.0, licensed under Apache-2.0
-	Copyright [2014-2025] The Apache Software Foundation
-	Source: https://github.com/apache/activemq-artemis
-- org.apache.commons/commons-compress 1.27.1, licensed under Apache-2.0
-	Copyright 2002-2026 The Apache Software Foundation
-	Source: https://github.com/apache/commons-compress
-- org.awaitility/awaitility 4.3.0, licensed under Apache-2.0
-	Copyright 2010 the original author or authors.
-	Source: https://github.com/awaitility/awaitility
-- org.cibseven.bpm/cibseven-bpm-assert 2.0.0, licensed under Apache-2.0
-	Source: https://github.com/cibseven/cibseven
-- org.cibseven.bpm/cibseven-bpm-junit5 2.0.0, licensed under Apache-2.0
-	Source: https://github.com/cibseven/cibseven
-- org.cibseven.bpm/cibseven-engine 2.0.0, licensed under Apache-2.0
-	Source: https://github.com/cibseven/cibseven
-- org.cibseven.bpm/cibseven-engine-plugin-connect 2.0.0, licensed under Apache-2.0
-	Source: https://github.com/cibseven/cibseven
-- org.cibseven.bpm.springboot/cibseven-bpm-spring-boot-starter 2.0.0, licensed under Apache-2.0
-	Source: https://github.com/cibseven/cibseven
-- org.cibseven.bpm.springboot/cibseven-bpm-spring-boot-starter-rest 2.0.0, licensed under Apache-2.0
-	Source: https://github.com/cibseven/cibseven
-- org.cibseven.bpm.springboot/cibseven-bpm-spring-boot-starter-webapp 2.0.0, licensed under Apache-2.0
-	Source: https://github.com/cibseven/cibseven
-- org.cibseven.connect/cibseven-connect-connectors-all 2.0.0, licensed under Apache-2.0
-	Source: https://github.com/cibseven/cibseven
-- org.cibseven.template-engines/cibseven-template-engines-freemarker 2.0.0, licensed under Apache-2.0
-	Source: https://github.com/cibseven/cibseven
-- org.hibernate.validator/hibernate-validator 8.0.2.Final, licensed under Apache-2.0
-	Copyright Red Hat Inc. and Hibernate Authors
-	Source: https://github.com/hibernate/hibernate-validator
-- org.jetbrains.kotlin/kotlin-allopen-compiler-plugin-embeddable 2.1.20, licensed under Apache-2.0
-	Copyright 2010-2023 JetBrains s.r.o. and Kotlin Programming Language contributors
-	Source: https://github.com/JetBrains/kotlin
+- org.jacoco/org.jacoco.agent 0.8.13, licensed under EPL-2.0
+	Copyright (c) 2009, 2025 Mountainminds GmbH & Co. KG and Contributors
+	Source: https://github.com/jacoco/jacoco
+- org.jacoco/org.jacoco.ant 0.8.13, licensed under EPL-2.0
+	Copyright (c) 2009, 2025 Mountainminds GmbH & Co. KG and Contributors
+	Source: https://github.com/jacoco/jacoco
+- com.pinterest.ktlint/ktlint-rule-engine 1.5.0, licensed under MIT
+	Copyright 2019 Pinterest, Inc. AND Copyright 2016-2019 Stanley Shyiko
+	Source: https://github.com/pinterest/ktlint
+- com.pinterest.ktlint/ktlint-ruleset-standard 1.5.0, licensed under MIT
+	Copyright 2019 Pinterest, Inc. AND Copyright 2016-2019 Stanley Shyiko
+	Source: https://github.com/pinterest/ktlint
+- com.pinterest.ktlint/ktlint-cli-reporter-core 1.5.0, licensed under MIT
+	Copyright 2019 Pinterest, Inc. AND Copyright 2016-2019 Stanley Shyiko
+	Source: https://github.com/pinterest/ktlint
+- com.pinterest.ktlint/ktlint-cli-reporter-plain 1.5.0, licensed under MIT
+	Copyright 2019 Pinterest, Inc. AND Copyright 2016-2019 Stanley Shyiko
+	Source: https://github.com/pinterest/ktlint
+- com.pinterest.ktlint/ktlint-cli-reporter-html 1.5.0, licensed under MIT
+	Copyright 2019 Pinterest, Inc. AND Copyright 2016-2019 Stanley Shyiko
+	Source: https://github.com/pinterest/ktlint
+- com.pinterest.ktlint/ktlint-cli-reporter-checkstyle 1.5.0, licensed under MIT
+	Copyright 2019 Pinterest, Inc. AND Copyright 2016-2019 Stanley Shyiko
+	Source: https://github.com/pinterest/ktlint
+- com.pinterest.ktlint/ktlint-cli-reporter-json 1.5.0, licensed under MIT
+	Copyright 2019 Pinterest, Inc. AND Copyright 2016-2019 Stanley Shyiko
+	Source: https://github.com/pinterest/ktlint
+- com.pinterest.ktlint/ktlint-cli-reporter-sarif 1.5.0, licensed under MIT
+	Copyright 2019 Pinterest, Inc. AND Copyright 2016-2019 Stanley Shyiko
+	Source: https://github.com/pinterest/ktlint
+- org.asciidoctor/asciidoctorj 2.5.7, licensed under Apache-2.0
+	Source: https://github.com/asciidoctor/asciidoctorj
+- org.asciidoctor/asciidoctorj-pdf 2.3.10, licensed under Apache-2.0
+	Source: https://github.com/asciidoctor/asciidoctorj
+- org.apache.jmeter/ApacheJMeter_core 5.6.3, licensed under Apache-2.0
+	Copyright 1998-2024 The Apache Software Foundation
+	Source: https://github.com/apache/jmeter
+- org.apache.jmeter/ApacheJMeter_http 5.6.3, licensed under Apache-2.0
+	Copyright 1998-2024 The Apache Software Foundation
+	Source: https://github.com/apache/jmeter
+- org.apache.commons/commons-csv 1.14.0, licensed under Apache-2.0
+	Copyright 2005-2025 The Apache Software Foundation
+	Source: https://github.com/apache/commons-csv
+- org.apache.jmeter/jorphan 5.6.3, licensed under Apache-2.0
+	Copyright 1998-2024 The Apache Software Foundation
+	Source: https://github.com/apache/jmeter
+- org.apache.logging.log4j/log4j-core 2.24.3, licensed under Apache-2.0
+	Copyright 1999-2025 The Apache Software Foundation
+	Source: https://github.com/apache/logging-log4j2
+- org.springframework.boot/spring-boot-starter-artemis 3.5.15, licensed under Apache-2.0
+	Copyright (c) 2012-2026 VMware, Inc.
+	Source: https://github.com/spring-projects/spring-boot
 - org.jetbrains.kotlin/kotlin-build-tools-impl 2.1.20, licensed under Apache-2.0
-	Copyright 2010-2023 JetBrains s.r.o. and Kotlin Programming Language contributors
+	Copyright 2010-2024 JetBrains s.r.o and respective authors and developers
 	Source: https://github.com/JetBrains/kotlin
 - org.jetbrains.kotlin/kotlin-compiler-embeddable 2.1.20, licensed under Apache-2.0
+	Copyright 2010-2023 JetBrains s.r.o. and Kotlin Programming Language contributors
+	Source: https://github.com/JetBrains/kotlin
+- org.jetbrains.kotlin/kotlin-allopen-compiler-plugin-embeddable 2.1.20, licensed under Apache-2.0
+	Copyright 2010-2024 JetBrains s.r.o and respective authors and developers
+	Source: https://github.com/JetBrains/kotlin
+- org.jetbrains.kotlin/kotlin-scripting-compiler-embeddable 2.1.20, licensed under Apache-2.0
 	Copyright 2010-2023 JetBrains s.r.o. and Kotlin Programming Language contributors
 	Source: https://github.com/JetBrains/kotlin
 - org.jetbrains.kotlin/kotlin-klib-commonizer-embeddable 2.1.20, licensed under Apache-2.0
 	Copyright 2010-2023 JetBrains s.r.o. and Kotlin Programming Language contributors
 	Source: https://github.com/JetBrains/kotlin
-- org.jetbrains.kotlin/kotlin-noarg-compiler-plugin-embeddable 2.1.20, licensed under Apache-2.0
+- org.junit.jupiter/junit-jupiter 5.11.3, licensed under EPL-2.0
+	Copyright 2015-2025 the original author or authors
+	Source: https://github.com/junit-team/junit-framework
+- io.mockk/mockk 1.14.2, licensed under Apache-2.0
+	Source: https://github.com/mockk/mockk/
+- io.kotest/kotest-assertions-core 5.9.1, licensed under Apache-2.0
+	Source: https://github.com/kotest/kotest/
+- io.kotest/kotest-assertions-json 5.9.1, licensed under Apache-2.0
+	Source: https://github.com/kotest/kotest/
+- org.junit.platform/junit-platform-launcher 1.11.3, licensed under EPL-2.0
+	Copyright 2015-2025 the original author or authors
+	Source: https://github.com/junit-team/junit-framework
+- org.springframework.boot/spring-boot-configuration-processor 3.5.15, licensed under Apache-2.0
+	Copyright (c) 2012-2026 VMware, Inc.
+	Source: https://github.com/spring-projects/spring-boot
+- com.mgmtp.a12.dataservices/dataservices-client-spring-boot-autoconfigure 38.4.3, licensed under EUPL v1.2
+	Copyright (C) 2012-2026 mgm technology partners GmbH
+	Source: https://github.com/mgm-tp
+- com.mgmtp.a12.dataservices/dataservices-domain 38.4.3, licensed under EUPL v1.2
+	Copyright (C) 2012-2026 mgm technology partners GmbH
+	Source: https://github.com/mgm-tp
+- com.fasterxml.jackson.module/jackson-module-kotlin 2.22.0, licensed under Apache-2.0
+	Copyright 2007-, Tatu Saloranta (tatu.saloranta@iki.fi)
+	Source: https://github.com/FasterXML/jackson-module-kotlin
+- com.fasterxml.jackson.core/jackson-databind 2.22.0, licensed under Apache-2.0
+	Copyright 2013 FasterXML.com
+	Source: https://github.com/FasterXML/jackson-databind
+- io.vertx/vertx-mail-client 4.5.14, licensed under Apache-2.0
+	Copyright (c) 2011-2015 The original author or authors
+	Source: https://github.com/vert-x3/vertx-mail-client
+- org.cibseven.bpm/cibseven-engine 2.0.0, licensed under Apache-2.0
+	Copyright 2013-2025 Camunda Services GmbH
+	Source: https://github.com/cibseven/cibseven
+- org.springframework.boot/spring-boot-starter-web 3.5.15, licensed under Apache-2.0
+	Copyright (c) 2012-2026 VMware, Inc.
+	Source: https://github.com/spring-projects/spring-boot
+- org.springframework.boot/spring-boot-starter-actuator 3.5.15, licensed under Apache-2.0
+	Copyright (c) 2012-2026 VMware, Inc.
+	Source: https://github.com/spring-projects/spring-boot
+- org.cibseven.bpm.springboot/cibseven-bpm-spring-boot-starter 2.0.0, licensed under Apache-2.0
+	Copyright 2013-2025 Camunda Services GmbH
+	Source: https://github.com/cibseven/cibseven
+- org.cibseven.bpm.springboot/cibseven-bpm-spring-boot-starter-rest 2.0.0, licensed under Apache-2.0
+	Copyright 2013-2025 Camunda Services GmbH
+	Source: https://github.com/cibseven/cibseven
+- org.cibseven.bpm.springboot/cibseven-bpm-spring-boot-starter-webapp 2.0.0, licensed under Apache-2.0
+	Copyright 2013-2025 Camunda Services GmbH
+	Source: https://github.com/cibseven/cibseven
+- org.postgresql/postgresql 42.7.5, licensed under BSD-2-Clause
+	Copyright (c) 1997, PostgreSQL Global Development Group
+	Source: https://github.com/pgjdbc/pgjdbc
+- com.h2database/h2 2.3.232, licensed under MPL-2.0
+	Copyright 2004-2025 H2 Group. Multiple-Licensed under the MPL 2.0, and the EPL 1.0 (https://h2database.com/html/license.html)
+	Source: https://github.com/h2database/h2database
+- org.apache.commons/commons-compress 1.27.1, licensed under Apache-2.0
+	Copyright 2002-2026 The Apache Software Foundation
+	Source: https://github.com/apache/commons-compress
+- org.yaml/snakeyaml 2.5, licensed under Apache-2.0
+	Copyright (c) 2008, SnakeYAML
+	Source: https://bitbucket.org/snakeyaml/snakeyaml/src/snakeyaml-2.4/
+- org.springframework.boot/spring-boot-starter-jdbc 3.5.15, licensed under Apache-2.0
+	Copyright (c) 2012-2026 VMware, Inc.
+	Source: https://github.com/spring-projects/spring-boot
+- org.cibseven.template-engines/cibseven-template-engines-freemarker 2.0.0, licensed under Apache-2.0
+	Copyright 2013-2025 Camunda Services GmbH
+	Source: https://github.com/cibseven/cibseven
+- org.cibseven.connect/cibseven-connect-connectors-all 2.0.0, licensed under Apache-2.0
+	Copyright 2013-2025 Camunda Services GmbH
+	Source: https://github.com/cibseven/cibseven
+- org.cibseven.bpm/cibseven-engine-plugin-connect 2.0.0, licensed under Apache-2.0
+	Copyright 2013-2025 Camunda Services GmbH
+	Source: https://github.com/cibseven/cibseven
+- org.jetbrains.kotlin/kotlin-stdlib-jdk8 2.1.20, licensed under Apache-2.0
 	Copyright 2010-2023 JetBrains s.r.o. and Kotlin Programming Language contributors
 	Source: https://github.com/JetBrains/kotlin
 - org.jetbrains.kotlin/kotlin-reflect 2.1.20, licensed under Apache-2.0
 	Copyright 2010-2023 JetBrains s.r.o. and Kotlin Programming Language contributors
 	Source: https://github.com/JetBrains/kotlin
-- org.jetbrains.kotlin/kotlin-scripting-compiler-embeddable 2.1.20, licensed under Apache-2.0
-	Copyright 2010-2023 JetBrains s.r.o. and Kotlin Programming Language contributors
-	Source: https://github.com/JetBrains/kotlin
-- org.jetbrains.kotlin/kotlin-stdlib 2.1.20, licensed under Apache-2.0
-	Copyright 2010-2023 JetBrains s.r.o. and Kotlin Programming Language contributors
-	Source: https://github.com/JetBrains/kotlin
-- org.jetbrains.kotlin/kotlin-stdlib-jdk8 2.1.20, licensed under Apache-2.0
-	Copyright 2010-2023 JetBrains s.r.o. and Kotlin Programming Language contributors
-	Source: https://github.com/JetBrains/kotlin
-- org.json/json 20250107, licensed under Public Domain
-	Source: https://github.com/douglascrockford/JSON-java
-- org.junit.jupiter/junit-jupiter 5.11.3, licensed under EPL-2.0
-	Copyright 2015-2025 the original author or authors
-	Source: https://github.com/junit-team/junit-framework
-- org.junit.jupiter/junit-jupiter 5.8.2, licensed under EPL-2.0
-	Copyright JUnit team
-	Source: https://github.com/junit-team/junit5
-- org.postgresql/postgresql 42.7.5, licensed under BSD-2-Clause
-	Copyright (c) 1997, PostgreSQL Global Development Group
-	Source: https://github.com/pgjdbc/pgjdbc
-- org.slf4j/slf4j-api 2.0.17, licensed under MIT
-	Copyright (c) 2004-2022 QOS.ch Sarl (Switzerland)
-	Source: https://github.com/qos-ch/slf4j
-- org.springframework.boot/spring-boot 3.5.9, licensed under Apache-2.0
+- org.springframework.boot/spring-boot-autoconfigure 3.5.15, licensed under Apache-2.0
 	Copyright (c) 2012-2026 VMware, Inc.
 	Source: https://github.com/spring-projects/spring-boot
-- org.springframework.boot/spring-boot-autoconfigure 3.5.9, licensed under Apache-2.0
-	Copyright (c) 2012-2026 VMware, Inc.
-	Source: https://github.com/spring-projects/spring-boot
-- org.springframework.boot/spring-boot-configuration-processor 3.5.9, licensed under Apache-2.0
-	Copyright (c) 2012-2026 VMware, Inc.
-	Source: https://github.com/spring-projects/spring-boot
-- org.springframework.boot/spring-boot-devtools 3.5.9, licensed under Apache-2.0
-	Copyright (c) 2012-2026 VMware, Inc.
-	Source: https://github.com/spring-projects/spring-boot
-- org.springframework.boot/spring-boot-starter-actuator 3.5.9, licensed under Apache-2.0
-	Copyright (c) 2012-2026 VMware, Inc.
-	Source: https://github.com/spring-projects/spring-boot
-- org.springframework.boot/spring-boot-starter-artemis 3.5.9, licensed under Apache-2.0
-	Copyright (c) 2012-2026 VMware, Inc.
-	Source: https://github.com/spring-projects/spring-boot
-- org.springframework.boot/spring-boot-starter-jdbc 3.5.9, licensed under Apache-2.0
-	Copyright (c) 2012-2026 VMware, Inc.
-	Source: https://github.com/spring-projects/spring-boot
-- org.springframework.boot/spring-boot-starter-test 3.5.9, licensed under Apache-2.0
-	Copyright VMware Inc.
-	Source: https://github.com/spring-projects/spring-boot
-- org.springframework.boot/spring-boot-starter-web 3.5.9, licensed under Apache-2.0
-	Copyright (c) 2012-2026 VMware, Inc.
-	Source: https://github.com/spring-projects/spring-boot
+- org.hibernate.validator/hibernate-validator 8.0.2.Final, licensed under Apache-2.0
+	Copyright Red Hat Inc. and Hibernate Authors
+	Source: https://github.com/hibernate/hibernate-validator
 - org.yaml/snakeyaml 2.4, licensed under Apache-2.0
 	Copyright (c) 2008, SnakeYAML
 	Source: https://bitbucket.org/snakeyaml/snakeyaml/src/snakeyaml-2.4/
+- commons-fileupload/commons-fileupload 1.5, licensed under Apache-2.0
+	Copyright 2002-2026 The Apache Software Foundation
+	Source: https://github.com/apache/commons-fileupload
+- org.jetbrains.kotlin/kotlin-stdlib 2.1.20, licensed under Apache-2.0
+	Copyright 2010-2023 JetBrains s.r.o. and Kotlin Programming Language contributors
+	Source: https://github.com/JetBrains/kotlin
+- org.jetbrains.kotlin/kotlin-stdlib 2.1.21, licensed under Apache-2.0
+	Copyright 2010-2024 JetBrains s.r.o and respective authors and developers
+	Source: https://github.com/JetBrains/kotlin
+- org.json/json 20250107, licensed under Public Domain
+	Source: https://github.com/douglascrockford/JSON-java
+- org.springframework.boot/spring-boot-starter-test 3.5.15, licensed under Apache-2.0
+	Copyright (c) 2012-2026 VMware, Inc.
+	Source: https://github.com/spring-projects/spring-boot
+- org.springframework.security/spring-security-test 6.5.11, licensed under Apache-2.0
+	Copyright 2004-present the original author or authors
+	Source: https://github.com/spring-projects/spring-security
+- com.ninja-squad/springmockk 4.0.2, licensed under Apache-2.0
+	Copyright 2002-present the original author or authors.
+	Source: https://github.com/Ninja-Squad/springmockk
+- org.testcontainers/testcontainers 1.21.0, licensed under MIT
+	Copyright (c) 2015-2019 Richard North
+	Source: https://github.com/testcontainers/testcontainers-java
+- org.testcontainers/junit-jupiter 1.21.0, licensed under MIT
+	Copyright (c) 2015-2019 Richard North
+	Source: https://github.com/testcontainers/testcontainers-java
+- org.cibseven.bpm/cibseven-bpm-assert 2.0.0, licensed under Apache-2.0
+	Copyright 2013-2025 Camunda Services GmbH
+	Source: https://github.com/cibseven/cibseven
+- org.cibseven.bpm/cibseven-bpm-junit5 2.0.0, licensed under Apache-2.0
+	Copyright 2013-2025 Camunda Services GmbH
+	Source: https://github.com/cibseven/cibseven
+- org.jetbrains.kotlin/kotlin-noarg-compiler-plugin-embeddable 2.1.20, licensed under Apache-2.0
+	Copyright 2010-2023 JetBrains s.r.o. and Kotlin Programming Language contributors
+	Source: https://github.com/JetBrains/kotlin
+- io.netty/netty-resolver-dns-native-macos 4.2.1.Final, licensed under Apache-2.0
+	Copyright 2014 The Netty Project
+	Source: https://github.com/netty/netty
+- org.awaitility/awaitility 4.3.0, licensed under Apache-2.0
+	Copyright 2010 the original author or authors.
+	Source: https://github.com/awaitility/awaitility
+- com.mgmtp.a12.utils/utils-rest-server-connector-spring-boot-autoconfigure 8.2.3, licensed under EUPL v1.2
+	Copyright (C) 2012-2026 mgm technology partners GmbH
+	Source: https://github.com/mgm-tp
+- com.fasterxml.jackson.core/jackson-annotations 2.22, licensed under Apache-2.0
+	Copyright 2007-, Tatu Saloranta (tatu.saloranta@iki.fi)
+	Source: https://github.com/FasterXML/jackson-annotations
+- com.mgmtp.a12.uaa/uaa-rest-client-spring-boot-autoconfigure 9.4.0, licensed under EUPL v1.2
+	Copyright (C) 2012-2026 mgm technology partners GmbH
+	Source: https://github.com/mgm-tp
+- org.springframework.boot/spring-boot-devtools 3.5.15, licensed under Apache-2.0
+	Copyright (c) 2012-2026 VMware, Inc.
+	Source: https://github.com/spring-projects/spring-boot
+- com.mgmtp.a12.dataservices/dataservices-core 38.4.3, licensed under EUPL v1.2
+	Copyright (C) 2012-2026 mgm technology partners GmbH
+	Source: https://github.com/mgm-tp
+- com.mgmtp.a12.dataservices/dataservices-core-spring-boot-autoconfigure 38.4.3, licensed under EUPL v1.2
+	Copyright (C) 2012-2026 mgm technology partners GmbH
+	Source: https://github.com/mgm-tp
+- com.mgmtp.a12.kernel/kernel-conversion-java 30.8.5, licensed under EUPL v1.2
+	Copyright (C) 2012-2026 mgm technology partners GmbH
+	Source: https://github.com/mgm-tp
+- org.apache.activemq/artemis-jakarta-server 2.40.0, licensed under Apache-2.0
+	Copyright [2014-2025] The Apache Software Foundation
+	Source: https://github.com/apache/activemq-artemis
+- org.jetbrains.kotlinx/kotlinx-coroutines-core 1.10.2, licensed under Apache-2.0
+	Copyright 2016-2025 JetBrains s.r.o and contributors
+	Source: https://github.com/Kotlin/kotlinx.coroutines
+- com.mgmtp.a12.dataservices/dataservices-server-spring-boot-autoconfigure 38.4.3, licensed under EUPL v1.2
+	Copyright (C) 2012-2026 mgm technology partners GmbH
+	Source: https://github.com/mgm-tp
+- org.projectlombok/lombok 1.18.38, licensed under MIT
+	Copyright (C) 2009-2021 The Project Lombok Authors
+	Source: https://github.com/projectlombok/lombok
+- org.springframework/spring-core 6.2.19, licensed under Apache-2.0
+	Copyright 2002-present the original author or authors
+	Source: https://github.com/spring-projects/spring-framework
+- org.slf4j/slf4j-simple 2.0.17, licensed under MIT
+	Copyright (c) 2004-2022 QOS.ch Sarl (Switzerland)
+	Source: https://github.com/qos-ch/slf4j
+- org.slf4j/slf4j-api 2.0.17, licensed under MIT
+	Copyright (c) 2004-2022 QOS.ch Sarl (Switzerland)
+	Source: https://github.com/qos-ch/slf4j
+- commons-cli/commons-cli 1.9.0, licensed under Apache-2.0
+	Copyright 2002-2025 The Apache Software Foundation
+	Source: https://github.com/apache/commons-cli
+- org.jdom/jdom2 2.0.6.1, licensed under BSD-3-Clause
+	Copyright (C) 2000-2012 Jason Hunter & Brett McLaughlin. All rights reserved.
+	Source: https://github.com/hunterhacker/jdom
+- org.apache.commons/commons-lang3 3.17.0, licensed under Apache-2.0
+	Copyright 2001-2024 The Apache Software Foundation
+	Source: https://github.com/apache/commons-lang
+- commons-io/commons-io 2.19.0, licensed under Apache-2.0
+	Copyright 2002-2025 The Apache Software Foundation
+	Source: https://github.com/apache/commons-io
+- org.glassfish.jaxb/jaxb-core 4.0.5, licensed under BSD-3-Clause
+	Copyright (c) 2018 Oracle and/or its affiliates
+	Source: https://github.com/eclipse-ee4j/jaxb-ri
+- jaxen/jaxen 2.0.0, licensed under BSD-3-Clause
+	Copyright 2003-2006 The Werken Company
+	Source: https://github.com/jaxen-xpath/jaxen
+- org.glassfish.jaxb/jaxb-runtime 4.0.5, licensed under BSD-3-Clause
+	Copyright (c) 2018 Oracle and/or its affiliates
+	Source: https://github.com/eclipse-ee4j/jaxb-ri
+- jakarta.xml.bind/jakarta.xml.bind-api 4.0.2, licensed under BSD-3-Clause
+	Copyright (c) 2017, 2018 Oracle and/or its affiliates
+	Source: https://github.com/jakartaee/jaxb-api
+- org.glassfish.jaxb/jaxb-xjc 4.0.5, licensed under BSD-3-Clause
+	Copyright (c) 2018 Oracle and/or its affiliates
+	Source: https://github.com/eclipse-ee4j/jaxb-ri
+- org.xmlunit/xmlunit-core 2.10.0, licensed under Apache-2.0
+	Source: https://github.com/xmlunit/xmlunit
+- org.xmlunit/xmlunit-assertj3 2.10.0, licensed under Apache-2.0
+	Source: https://github.com/xmlunit/xmlunit
+- org.junit.jupiter/junit-jupiter-engine 5.11.3, licensed under EPL-2.0
+	Copyright 2015-2025 the original author or authors
+	Source: https://github.com/junit-team/junit-framework
+- org.junit.jupiter/junit-jupiter 5.12.2, licensed under EPL-2.0
+	Copyright 2015-2026 the original author or authors.
+	Source: https://github.com/junit-team/junit5
+- org.junit.jupiter/junit-jupiter-engine 5.12.2, licensed under EPL-2.0
+	Copyright 2015-2025 the original author or authors
+	Source: https://github.com/junit-team/junit-framework
+- org.junit.platform/junit-platform-launcher 1.12.2, licensed under EPL-2.0
+	Copyright 2015-2025 the original author or authors
+	Source: https://github.com/junit-team/junit-framework
+- org.junit.jupiter/junit-jupiter 5.8.2, licensed under EPL-2.0
+	Copyright 2015-2026 the original author or authors.
+	Source: https://github.com/junit-team/junit5
+- org.gradle/gradle-wrapper 6.1, licensed under Apache-2.0
+	Copyright © 2015-2021 the original authors
+	Source: https://github.com/gradle/gradle/
 
+
+NOTICE file of cyclonedx
+---------------------------
+
+CycloneDX generator for NPM projects
+Copyright (c) OWASP Foundation. All Rights Reserved.
+
+This product includes software developed by the
+CycloneDX community (https://cyclonedx.org/).
+
+
+NOTICE file of org.springframework.boot
+---------------------------
+
+Spring Boot ${version}
+Copyright (c) 2012-2026 VMware, Inc.
+
+This product is licensed to you under the Apache License, Version 2.0
+(the "License"). You may not use this product except in compliance with
+the License.
+
+NOTICE file of org.apache.jmeter
+---------------------------
+
+Apache JMeter
+Copyright 1998-2024 The Apache Software Foundation
+
+This product includes software developed at
+The Apache Software Foundation (http://www.apache.org/).
+
+
+NOTICE file of org.apache.commons
+---------------------------
+
+Apache Commons CSV
+Copyright 2005-2026 The Apache Software Foundation
+
+This product includes software developed at
+The Apache Software Foundation (https://www.apache.org/).
+
+
+NOTICE file of org.apache.logging.log4j
+---------------------------
+
+Apache Log4j
+Copyright 1999-2024 Apache Software Foundation
+
+This product includes software developed at
+The Apache Software Foundation (http://www.apache.org/).
+
+ResolverUtil.java
+Copyright 2005-2006 Tim Fennell
+
+Dumbster SMTP test server
+Copyright 2004 Jason Paul Kitchen
+
+TypeUtil.java
+Copyright 2002-2012 Ramnivas Laddad, Juergen Hoeller, Chris Beams
+
+picocli (http://picocli.info)
+Copyright 2017 Remko Popma
+
+TimeoutBlockingWaitStrategy.java and parts of Util.java
+Copyright 2011 LMAX Ltd.
+
+
+NOTICE file of org.jetbrains.kotlin
+---------------------------
+
+   =========================================================================
+   ==  NOTICE file corresponding to the section 4 d of                    ==
+   ==  the Apache License, Version 2.0,                                   ==
+   ==  in this case for the Kotlin Compiler distribution.                 ==
+   =========================================================================
+
+   Kotlin Compiler
+   Copyright 2010-2024 JetBrains s.r.o and respective authors and developers
 
 
 NOTICE file of com.fasterxml.jackson.module
@@ -347,6 +622,98 @@ FasterXML.com (http://fasterxml.com).
 A list of contributors may be found from CREDITS file, which is included
 in some artifacts (usually source distributions); but is always available
 from the source code management (SCM) system project uses.
+
+
+NOTICE file of org.cibseven.bpm
+---------------------------
+
+Camunda
+Copyright 2013-2025 Camunda Services GmbH
+
+This product includes software developed by The Apache Software
+Foundation (http://www.apache.org/).
+
+This product includes software developed by Odysseus Software GmbH
+(http://www.odysseus.de/).
+
+This product includes software developed by Quartz 
+(http://www.quartz-scheduler.org/)
+
+========================================================
+
+Third Party Libraries contained within this distribution
+can be reviewed in the License Book (LicenseBook.txt)
+
+========================================================
+
+
+NOTICE file of org.cibseven.bpm.springboot
+---------------------------
+
+Camunda
+Copyright 2013-2025 Camunda Services GmbH
+
+This product includes software developed by The Apache Software
+Foundation (http://www.apache.org/).
+
+This product includes software developed by Odysseus Software GmbH
+(http://www.odysseus.de/).
+
+This product includes software developed by Quartz 
+(http://www.quartz-scheduler.org/)
+
+========================================================
+
+Third Party Libraries contained within this distribution
+can be reviewed in the License Book (LicenseBook.txt)
+
+========================================================
+
+
+NOTICE file of org.cibseven.template-engines
+---------------------------
+
+Camunda
+Copyright 2013-2025 Camunda Services GmbH
+
+This product includes software developed by The Apache Software
+Foundation (http://www.apache.org/).
+
+This product includes software developed by Odysseus Software GmbH
+(http://www.odysseus.de/).
+
+This product includes software developed by Quartz 
+(http://www.quartz-scheduler.org/)
+
+========================================================
+
+Third Party Libraries contained within this distribution
+can be reviewed in the License Book (LicenseBook.txt)
+
+========================================================
+
+
+NOTICE file of org.cibseven.connect
+---------------------------
+
+Camunda
+Copyright 2013-2025 Camunda Services GmbH
+
+This product includes software developed by The Apache Software
+Foundation (http://www.apache.org/).
+
+This product includes software developed by Odysseus Software GmbH
+(http://www.odysseus.de/).
+
+This product includes software developed by Quartz 
+(http://www.quartz-scheduler.org/)
+
+========================================================
+
+Third Party Libraries contained within this distribution
+can be reviewed in the License Book (LicenseBook.txt)
+
+========================================================
 
 
 NOTICE file of commons-fileupload
@@ -653,117 +1020,37 @@ This product includes software developed at
 The Apache Software Foundation (http://www.apache.org/).
 
 
-NOTICE file of org.apache.commons
+NOTICE file of org.jetbrains.kotlinx
 ---------------------------
 
-Apache Commons Compress
+=========================================================================
+==  NOTICE file corresponding to the section 4 d of                    ==
+==  the Apache License, Version 2.0,                                   ==
+==  in this case for the kotlinx.coroutines library.                   ==
+=========================================================================
+
+kotlinx.coroutines library.
+Copyright 2016-2025 JetBrains s.r.o and contributors
+
+
+NOTICE file of commons-cli
+---------------------------
+
+Apache Commons CLI
 Copyright 2002-2026 The Apache Software Foundation
 
 This product includes software developed at
 The Apache Software Foundation (https://www.apache.org/).
 
 
-NOTICE file of org.cibseven.bpm
+NOTICE file of commons-io
 ---------------------------
 
-Camunda
-Copyright 2013-2025 Camunda Services GmbH
+Apache Commons IO
+Copyright 2002-2026 The Apache Software Foundation
 
-This product includes software developed by The Apache Software
-Foundation (http://www.apache.org/).
-
-This product includes software developed by Odysseus Software GmbH
-(http://www.odysseus.de/).
-
-This product includes software developed by Quartz 
-(http://www.quartz-scheduler.org/)
-
-========================================================
-
-Third Party Libraries contained within this distribution
-can be reviewed in the License Book (LicenseBook.txt)
-
-========================================================
-
-
-NOTICE file of org.cibseven.bpm.springboot
----------------------------
-
-Camunda
-Copyright 2013-2025 Camunda Services GmbH
-
-This product includes software developed by The Apache Software
-Foundation (http://www.apache.org/).
-
-This product includes software developed by Odysseus Software GmbH
-(http://www.odysseus.de/).
-
-This product includes software developed by Quartz 
-(http://www.quartz-scheduler.org/)
-
-========================================================
-
-Third Party Libraries contained within this distribution
-can be reviewed in the License Book (LicenseBook.txt)
-
-========================================================
-
-
-NOTICE file of org.cibseven.connect
----------------------------
-
-Camunda
-Copyright 2013-2025 Camunda Services GmbH
-
-This product includes software developed by The Apache Software
-Foundation (http://www.apache.org/).
-
-This product includes software developed by Odysseus Software GmbH
-(http://www.odysseus.de/).
-
-This product includes software developed by Quartz 
-(http://www.quartz-scheduler.org/)
-
-========================================================
-
-Third Party Libraries contained within this distribution
-can be reviewed in the License Book (LicenseBook.txt)
-
-========================================================
-
-
-NOTICE file of org.cibseven.template-engines
----------------------------
-
-Camunda
-Copyright 2013-2025 Camunda Services GmbH
-
-This product includes software developed by The Apache Software
-Foundation (http://www.apache.org/).
-
-This product includes software developed by Odysseus Software GmbH
-(http://www.odysseus.de/).
-
-This product includes software developed by Quartz 
-(http://www.quartz-scheduler.org/)
-
-========================================================
-
-Third Party Libraries contained within this distribution
-can be reviewed in the License Book (LicenseBook.txt)
-
-========================================================
-
-
-NOTICE file of org.springframework.boot
----------------------------
-
-Spring Boot ${version}
-Copyright (c) 2012-2026 VMware, Inc.
-
-This product is licensed to you under the Apache License, Version 2.0
-(the "License"). You may not use this product except in compliance with
-the License.
+This product includes software developed at
+The Apache Software Foundation (https://www.apache.org/).
 
 
 License Texts
@@ -779,8 +1066,7 @@ General Notice
 The mgm A12 Platform is dual-licensed under the EUPL-1.2 or a
 commercial license. Third-party components remain under their
 respective licenses. For details, see the file LICENSE.
-
-“mgm A12” is a registered trademark of mgm technology partners GmbH
+"mgm A12" is a registered trademark of mgm technology partners GmbH
 (EU/DE). All other trademarks are the property of their respective
 owners.
 

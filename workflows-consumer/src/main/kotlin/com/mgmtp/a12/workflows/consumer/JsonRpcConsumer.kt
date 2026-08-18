@@ -37,6 +37,7 @@ import com.mgmtp.a12.workflows.shared.internal.constants.OutboxConstants.WORKFLO
 import com.mgmtp.a12.workflows.shared.logging.utils.logger
 import org.springframework.jms.annotation.JmsListener
 
+@Deprecated("Asynchronous mode is deprecated and will be removed in 2026.06.")
 class JsonRpcConsumer(
     private val processEngineClient: ProcessEngineClient,
 ) {

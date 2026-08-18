@@ -32,9 +32,9 @@ For the Workflows Extension itself, we offer the following configuration options
 | Configuration Property | Default Value | Remarks
 |`mgmtp.a12.workflows.automatic-synchronization.enabled` | false | Synchronize A12 document fields to CIB 7 automatically. Alternatively, you may disable this and use the link:/docs/workflows/ba-docs/index.html#anchor-provided-delegates[`syncAvailableFieldsDelegate`] to control when data is synced (e.g. for performance reasons).
 
-|`mgmtp.a12.workflows.extension.asynchronous-mode.enabled` | false | Enable *asynchronous* communication from Data Services to CIB 7 (see <<anchor-asynchronous-mode, *asynchronous* mode>>).
+|`mgmtp.a12.workflows.extension.asynchronous-mode.enabled` | false | *DEPRECATED* — Enable *asynchronous* communication from Data Services to CIB 7 (see <<anchor-asynchronous-mode, *asynchronous* mode>>). Asynchronous mode is deprecated and will be removed in 2026.06.
 
-|`mgmtp.a12.workflows.extension.asynchronous-mode.consumers.embedded.enabled` | - | Enables embedded queue consumers. Given no value, embedded consumers are enabled. This must not be set to `false` because embedded is currently the only supported mode.
+|`mgmtp.a12.workflows.extension.asynchronous-mode.consumers.embedded.enabled` | - | *DEPRECATED* — Enables embedded queue consumers. Given no value, embedded consumers are enabled. This must not be set to `false` because embedded is currently the only supported mode. Asynchronous mode is deprecated and will be removed in 2026.06.
 |===
 
 === Object Mapper Configuration
@@ -49,6 +49,8 @@ We offer the following configuration profiles for the Workflows extension.
 
 [[anchor-profile-async-mode]]
 === Enable Async Mode
+
+WARNING: Asynchronous mode is *deprecated* as of 2025.06 and will be *removed in 2026.06*. Do not adopt it in new projects.
 
 Enables asynchronous mode for the Workflows extension
 
@@ -371,7 +373,9 @@ requestBuilderFactory
 ----
 
 [[anchor-asynchronous-mode]]
-== Asynchronous Mode (Experimental)
+== Asynchronous Mode (Deprecated)
+
+WARNING: Asynchronous mode is *deprecated* as of 2025.06 and will be *removed in 2026.06*. Do not adopt it in new projects.
 
 === Background: Synchronous Mode
 

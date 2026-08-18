@@ -1,0 +1,34 @@
+////
+SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
+Copyright (c) 2012-2026 mgm technology partners GmbH
+Dual License
+This source file is part of the mgm A12 Platform and available under a choice of two different licenses:
+1. Open-Source License – EUPL v1.2
+You may redistribute and/or modify this file under the terms of the European Union Public License, version 1.2 - see https://eupl.eu/.
+2. Commercial License
+Alternatively, you may obtain a commercial license from mgm technology partners GmbH, that permits use of this software under different terms (including support and maintenance services).
+
+Please contact a12-license@mgm-tp.com for more information.
+
+You must select and comply with exactly one of the above license options.
+
+Warranty Disclaimer (applies to either option)
+THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
+////
+= Einführung
+
+A12 Workflows (A12WF) bietet eine Integration von Business Process Model and Notation (BPMN) und Decision Model and Notation (DMN) in A12. Damit lassen sich serverseitige Workflows sowohl grafisch modellieren als auch ausführen.
+
+Dies ermöglicht es, das fachliche Verhalten ganzer A12-Anwendungen zu modellieren. Der Schwerpunkt liegt auf halbautomatisierten, langlebigen Workflows, die mehrere Rollen und komplexe Autorisierungsregeln umfassen. Solche Autorisierungsregeln werden mithilfe von link:/docs/UAA/uaa-documentation-src/index.html[_UAA_,role=internal] definiert und ausgeführt.
+
+[NOTE]
+====
+Diese Dokumentation beschreibt die Integration von BPMN- und DMN-Modellen mit anderen A12-Modellen in Ihrem Projekt.
+Weitere Informationen zur BPMN- und DMN-Modellierung finden Sie unter <<further-resources>>.
+====
+
+Zu den integrierten Modellierungsmöglichkeiten gehören Prozessschritte, die von Menschen oder Maschinen ausgeführt werden, die Verbindungen zwischen ihnen sowie Geschäftsregeln, die verschiedene Prozesspfade auslösen. Für automatisierte Prozessschritte stehen mehrere vorgefertigte Automatisierungen zur Verfügung – etwa zum Versenden einer E-Mail oder zum Verknüpfen zweier Dokumente.
+
+Individuelle Automatisierungen können gegen eine klar definierte API implementiert und anschließend von Modellierern verwendet werden. Darüber hinaus kann benutzerdefinierter Code auf bereitgestellte Ereignisse reagieren, z. B. auf den Abschluss einer Aufgabe.
+
+All dies wird durch die Anbindung der Drittanbieter-Prozess-Engine CIB 7 an den A12-Stack erreicht. Zu diesem Zweck stellt A12 Workflows einen maßgeschneiderten, A12-fähigen CIB 7-Service sowie Erweiterungen für link:/docs/DATA_SERVICES/dataservices-documentation-src/index.html[_Data Services_,role=internal] und link:/docs/CLIENT/client-documentation-bundle/index.html[_Client_,role=internal] bereit.

@@ -39,6 +39,7 @@ import com.mgmtp.a12.workflows.shared.logging.utils.logger
 import jakarta.jms.Message
 import org.springframework.jms.core.MessagePostProcessor
 
+@Deprecated("Asynchronous mode is deprecated and will be removed in 2026.06.")
 class OrderingByBusinessKeyPostProcessor : MessagePostProcessor {
 
     override fun postProcessMessage(message: Message): Message {

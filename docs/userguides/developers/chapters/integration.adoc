@@ -49,6 +49,8 @@ For details, see <<anchor-workflows-extension, Workflows Extension>>.
 
 ==== Workflows Extension Vanilla Image
 
+WARNING: This image is deprecated and should not be used anymore. It will be removed in the 2026.06 release. There will be no replacement image.
+
 Coordinates: `*com.mgmtp.a12.workflows/workflows-dataservices-with-extension*`
 
 NOTE: In contrast to our `workflows-extension` JAR, this image includes the Data Services server. Therefore, it can be run directly.
@@ -64,6 +66,8 @@ This Workflows Engine distribution artifact is the basis for your Workflows Engi
 See <<anchor-cib7, CIB 7>> for details.
 
 ==== Workflows Engine Vanilla Image
+
+WARNING: This image is deprecated and should not be used anymore. It will be removed in the 2026.06 release. There will be no replacement image.
 
 Coordinates: `*com.mgmtp.a12.workflows/workflows-engine*`
 

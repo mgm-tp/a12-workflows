@@ -1,0 +1,117 @@
+////
+SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
+Copyright (c) 2012-2026 mgm technology partners GmbH
+Dual License
+This source file is part of the mgm A12 Platform and available under a choice of two different licenses:
+1. Open-Source License – EUPL v1.2
+You may redistribute and/or modify this file under the terms of the European Union Public License, version 1.2 - see https://eupl.eu/.
+2. Commercial License
+Alternatively, you may obtain a commercial license from mgm technology partners GmbH, that permits use of this software under different terms (including support and maintenance services).
+
+Please contact a12-license@mgm-tp.com for more information.
+
+You must select and comply with exactly one of the above license options.
+
+Warranty Disclaimer (applies to either option)
+THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
+////
+== Anwendungsfall Statusänderung
+
+**Anwendungsfall:** Ein Statusfeld in einem Dokument muss stets aktuell gehalten werden – z. B. ein fachlicher Status wie „Bestellung aufgegeben", „Bestellung storniert" oder „Bestellung bezahlt".
+
+=== Lösungsvorschlag
+
+Wir schlagen zwei Lösungen vor: eine für _datengetriebene_ und eine für _prozessgetriebene_ Statusänderungen.
+
+Beide basieren auf _Message Events_, bestimmen den Status jedoch auf unterschiedliche Weise.
+
+==== Status über Message Events ändern
+
+** Wann immer ein Status geändert werden soll, werden _Message Events_ ausgelöst, die einen Prozess zur Statusänderung anstoßen.
+** Dieser Prozess ruft den `SetStatusDelegate` auf, um den Status zu aktualisieren.
+** Weitere Informationen zu _Message Events_ und Korrelation in CIB 7 finden Sie unter link:https://docs.cibseven.org/manual/{cibsevenVersion}/reference/bpmn20/events/message-events/[CIB 7 Docs: Message Events].
+
+==== Datengetriebene Statusänderungen
+
+* Welcher Status gesetzt wird, hängt von den Daten des Document Model ab.
+* Dies kann durch einen _DMN Task_ im Statusbehandlungsprozess umgesetzt werden, der auf den Dokumentdaten arbeitet.
+* Beispiel: Der Status soll auf 'in_progress' gesetzt werden, sobald bestimmte Document Fields nicht mehr leer sind.
+
+.*Details zum datengetriebenen Fall*
+[%collapsible]
+====
+
+* Ein Beispiel für einen Prozess, der _Message Events_ nutzt, um einen separaten _Pool_ zur Statusbehandlung auszulösen, ist der link:assets/bpmn/SetStatusDataDrivenProcess.bpmn[SetStatusDataDrivenProcess].
+* Dieser Prozess bestimmt den Status anhand der Dokumentdaten in einem _DMN Task_: link:assets/bpmn/DecideOnStatusToSet.dmn[DecideOnStatusToSet].
+* Nach dem _Start Event_ tritt ein _Message Throw Event_ auf, das mit der _Message_ `STATUS_UPDATED` korreliert. Dadurch wird der zweite _Pool_ ausgelöst, wenn die <<anchor-correlation,Korrelation>> erfolgt ist.
+* Der zweite _Pool_ bestimmt nach dem Start mithilfe des _DMN Task_ den zu setzenden Status und ruft anschließend den `SetStatusDelegate` auf, um den Status zu aktualisieren.
+* Dieser _Pool_ wird stets parallel zum anderen _Pool_ ausgeführt – ohne Unterbrechung und mit `n` Instanzen für `n` _Message Events_, da das _Catch Event_ hier ein _Start Event_ ist.
+* Der Haupt-_Pool_ löst später weitere _Message Events_ aus, die mit derselben _Message_ wie zuvor korrelieren. Dadurch wird eine weitere Instanz des zweiten _Pool_ gestartet.
+* Der _DMN Task_ arbeitet auf Dokumentdaten. In diesem Beispiel werden zwei annotierte Dokumentfelder angenommen: `approval` und `cost`. Diese Variablen werden bei der Korrelation übergeben, wie in <<anchor-correlation>> beschrieben. Wenn in diesem Beispiel eine Genehmigung erteilt wurde (`true`) und die Kosten nur 200 betragen, wird der `successStatus` gewählt.
+
+image::assets/images/setStatusDataDrivenProcess.png[Beispielprozess SetStatusDataDrivenProcess]
+
+image::assets/images/decideOnStatusToSet.png[Beispiel-Entscheidungstabelle DecideOnStatusToSet]
+====
+
+==== Prozessgetriebene Statusänderungen
+
+* Prozessgetrieben bedeutet, dass der Status vom Pfad abhängt, den ein Prozess nimmt.
+* Der Statusbehandlungsprozess dient als Zustandsdiagramm.
+* Beispiel: Der Status soll nach einem bestimmten _User Task_ auf `IN_PROGRESS` oder nach einem bestimmten Pfad hinter einem _Gateway_ auf `ACCEPTED` gesetzt werden.
+
+.*Details zum prozessgetriebenen Fall*
+[%collapsible]
+====
+
+* Ein weiteres Beispiel für einen Prozess, der _Message Events_ zur Statusbehandlung nutzt, ist der link:assets/bpmn/SetStatusStateDrivenProcess.bpmn[SetStatusStateDrivenProcess].
+* Dieser Prozess arbeitet nicht mit einem _DMN Task_. Stattdessen bildet der zweite _Pool_ ein Zustandsdiagramm ab.
+* Daher korreliert jedes _Message Throw Event_ mit einem entsprechenden _Message Catch Event_. Es gibt `n` _Messages_ statt nur einer wie im obigen Beispiel.
+* Nach dem _Start Event_ wird über ein _Message Event_ die _Message_ 'STATUS_INITIAL' gesendet, um den Status 'INITIAL' in das Dokument zu schreiben.
+* Das zugehörige _Message Catch Event_ ruft den `SetStatusDelegate` innerhalb eines _Execution Listener_ auf. Dies geschieht anstelle eines separaten _Service Task_, um die Anzahl der Elemente zu reduzieren.
+* Der Status wird abhängig vom Prozesspfad geändert, sodass nur gültige Statusübergänge zulässig sind.
+** Beispiel: Wenn der zweite _Pool_ am ersten _Message Catch Event_ 'Status set initial' wartet, ist es nicht möglich, den Status auf 'DECLINED' zu setzen.
+** Der Grund: Selbst wenn die _Message_ zum Setzen des Status auf 'DECLINED' gesendet wird, kann sie nicht empfangen werden, da der zweite _Pool_ noch nicht bereit dafür ist.
+** Die _Message_ geht daher verloren, um sicherzustellen, dass nur gültige Statusübergänge erfolgen.
+* Die Korrelation von _Messages_ wird in <<anchor-correlation>> erläutert.
+
+image::assets/images/setStatusStateDrivenProcess.png[Beispielprozess SetStatusStateDrivenProcess]
+====
+
+[[anchor-correlation]]
+=== Korrelation von Messages
+
+In CIB 7 müssen _Messages_ korreliert werden, um die _Message_ an den richtigen Empfänger zu senden.
+
+Da die _Message_-Korrelation Code erfordert, stellen wir ein <<anchor-provided-element-templates,_Element Template_>> für das _Message Throw Event_ bereit.
+
+image::assets/images/correlation_element_template.png[_Element Template_ für Message-Korrelation]
+
+So verwenden Sie es:
+
+. Geben Sie den zu korrelierenden _Message_-Namen als Eingabe an.
+. Erstellen Sie ein _Message Catch Event_ mit demselben _Message_-Namen.
+
+NOTE: Der Einfachheit halber leitet dieses Template alle _Prozessvariablen_ des sendenden Prozesses an den empfangenden Prozess weiter.
+
+NOTE: Der sendende Prozess muss einen Business Key besitzen, da dieser für die Korrelation der _Message_ verwendet wird.
+
+[[anchor-adaptability]]
+=== Anpassbarkeit
+
+Sie können diese Lösungen auf verschiedene Weise anpassen:
+
+** Die separaten _Pools_ können in separaten BPMN-Modellen definiert werden.
+** Der Status kann in einem _DMN Task_ oder _Service Task_ bestimmt werden.
+** Die gestrichelten Linien, die die _Message Events_ verbinden, sind optional.
+
+[[anchor-alternatives]]
+=== Alternative
+
+Eine Alternative ist die Verwendung von _Conditional Events_, um einen Prozess zur Statusänderung auszulösen:
+
+* Wann immer eine _Prozessvariable_ geändert wird, wird das Event ausgelöst.
+** Da die _Prozessvariable_ hier der Auslöser ist, muss sie stets aktuell gehalten werden.
+* Weitere Informationen zu _Conditional (Boundary) Events_ in A12 Workflows finden Sie unter <<anchor-cbe>>.
+
+image::assets/images/status-change-on-document-process.png[Beispielprozess StatusChangeOnDocumentProcess]

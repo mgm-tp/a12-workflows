@@ -1,0 +1,125 @@
+////
+SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
+Copyright (c) 2012-2026 mgm technology partners GmbH
+Dual License
+This source file is part of the mgm A12 Platform and available under a choice of two different licenses:
+1. Open-Source License – EUPL v1.2
+You may redistribute and/or modify this file under the terms of the European Union Public License, version 1.2 - see https://eupl.eu/.
+2. Commercial License
+Alternatively, you may obtain a commercial license from mgm technology partners GmbH, that permits use of this software under different terms (including support and maintenance services).
+
+Please contact a12-license@mgm-tp.com for more information.
+
+You must select and comply with exactly one of the above license options.
+
+Warranty Disclaimer (applies to either option)
+THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
+////
+[WARNING]
+====
+Workflows unterstützt ausschließlich CIB 7. Die BPMN-Modelle werden jedoch weiterhin mit dem Camunda Modeler erstellt.
+====
+
+[TIP]
+====
+Verwenden Sie den Camunda Modeler, der im link:https://geta12.com/#/releases/installer[Installer] enthalten ist, um die Kompatibilität von BPMN- und DMN-Modellen sicherzustellen.
+====
+
+[[anchor-cbr-limitations]]
+== Aktuelle Einschränkungen
+
+* Für die Kommunikation zwischen CIB 7 und Data Services gibt es noch keine Garantie für Eventual Consistency.
+* Document Models, die für Workflows verwendet werden, *benötigen derzeit noch Metadaten als Include* und müssen exakt *A12WF* benannt sein:
+** Ein Dokument kann jeweils nur von einem einzelnen User Task referenziert werden (da die Metadaten direkt im Dokument befüllt werden).
+** Parallele User Tasks _können_ daher _nicht_ dasselbe Dokument referenzieren.
+* CIB 7 muss in Produktivumgebungen geschützt werden, da keine UAA-Autorisierung integriert ist.
+
+[[anchor-bpmn-troubleshooting]]
+== CIB 7 Cockpit
+
+CIB 7 bietet eine Administrationsoberfläche, die Folgendes anzeigt:
+
+* Deployte BPMN-Modelle
+* Deployte DMN-Modelle
+* Laufende Prozessinstanzen
+** Ausführungsstatus jeder Instanz
+** Incidents (Fehler) jeder Instanz
+** Werte der Prozessvariablen jeder Instanz
+* …und mehr
+
+[TIP]
+====
+Das CIB 7 Cockpit ist ein wichtiges Werkzeug zur Fehlerbehebung, da Incidents klar Folgendes zeigen:
+
+* den Task, der den Incident ausgelöst hat
+* die aktuellen Werte der Prozessvariablen
+
+Anhand dieser Informationen kann die Modellierung des betreffenden Tasks überprüft und die Prozessvariablen mit den erwarteten Werten verglichen werden.
+====
+
+=== Verwendung des CIB 7 Cockpit
+
+WARNING: Wenn Sie CIB 7 über Gradle starten, funktioniert das CIB 7 Cockpit möglicherweise nicht korrekt.
+
+* Rufen Sie bei laufendem CIB 7 die Adresse http://localhost:8088/camunda/ auf.
+* Melden Sie sich mit Ihren Zugangsdaten an (Benutzer : Passwort):
+Preview App:: admin : a12
+Project Template:: Wenden Sie sich bitte an Ihr Entwicklungsteam.
+Es gibt keine Standard-Anmeldedaten.
+Die Anmeldedaten müssen von einem Entwickler hinzugefügt werden.
+
+WARNING: Stellen Sie sicher, dass die Admin-Rolle existiert.
+
+.Willkommensbildschirm des CIB 7 Cockpit
+image::assets/images/cockpit-welcome.png[Willkommensbildschirm des CIB 7 Cockpit]
+
+* Klicken Sie auf Cockpit (links), um Statistiken zum aktuellen Engine State anzuzeigen.
+
+.Übersichtsbildschirm des CIB 7 Cockpit
+image::assets/images/cockpit-overview.png[Übersichtsbildschirm des CIB 7 Cockpit]
+
+* Klicken Sie auf die laufenden Prozessinstanzen (links), um eine detaillierte Übersicht zu erhalten.
+
+.Übersicht der laufenden Prozessinstanzen
+image::assets/images/cockpit-running-process-instances.png[Übersicht der laufenden Prozessinstanzen]
+
+Hier hat nur eines der angezeigten Prozessmodelle laufende Instanzen – und auch einige Incidents.
+
+* Klicken Sie auf die Prozessdefinition, um weitere Details anzuzeigen.
+
+.Laufende Instanzen und Incidents für ein ausgewähltes Prozessmodell
+image::assets/images/cockpit-process-model-overview.png[Laufende Instanzen und Incidents für ein ausgewähltes Prozessmodell]
+
+Hier sehen Sie, wie die laufenden Instanzen verteilt sind.
+
+. In diesem Fall befinden sich alle 92 Instanzen beim ersten User Task. 6 davon haben jedoch einen Incident (Fehler).
+. Falls Sie mehrere Versionen des Modells deployt haben, wählen Sie oben links unter „Definition Version" die gewünschte Version aus.
+. In diesem Fall laufen alle 92 Instanzen auf der aktuellen Version.
+. Durch Klick auf eine Prozessinstanz in der Liste am unteren Rand erhalten Sie nützliche Details zur Fehlerbehebung:
+
+//-
+* Klicken Sie auf eine bestimmte Prozessinstanz, um weitere Details anzuzeigen.
+
+.Details zu einer laufenden Prozessinstanz
+image::assets/images/cockpit-process-instance-details.png[Details zu einer laufenden Prozessinstanz]
+
+Hier stehen Ihnen mehrere Möglichkeiten zur Fehlerbehebung zur Verfügung.
+
+. Prüfen Sie, ob die Prozessvariablen wie erwartet vorhanden sind und die erwarteten Werte haben.
+. Rufen Sie den Stacktrace für Incidents ab.
+. Ändern Sie Werte von Process Variables über die Benutzeroberfläche.
+. Löschen Sie Variablen (neue Variablen _können_ jedoch nicht erstellt werden).
+
+[[further-resources]]
+== Weiterführende Ressourcen
+
+NOTE: Einige Ressourcen verweisen noch auf die Camunda-Dokumentation – entweder weil CIB 7 die entsprechende Dokumentation noch nicht bereitstellt oder weil die Ressourcen allgemein die Modellierung betreffen.
+
+* https://docs.camunda.io/docs/components/best-practices/modeling/creating-readable-process-models/[Camunda Best Practices,window=_blank] (siehe unter „Modeling")
+* https://docs.cibseven.org/get-started/quick-start/[CIB 7 Quickstart,window=_blank]
+* https://camunda.com/bpmn/reference/[BPMN-Elementreferenz,window=_blank]
+* https://camunda.com/bpmn/examples/[BPMN-Beispiele (gut vs. weniger gut),window=_blank]
+* https://camunda.com/download/modeler/[Camunda Modeler,window=_blank]
+* https://docs.cibseven.org/manual/{cibsevenVersion}/webapps/cockpit/[CIB 7 Cockpit]
+* https://docs.camunda.io/docs/8.7/components/best-practices/development/understanding-transaction-handling-c7/[Camunda – Umgang mit Exceptions,window=_blank]
+* https://www.researchgate.net/publication/280547761_Refactoring_BPMN_Models_From_'Bad_Smells'_to_Best_Practices_and_Patterns/[Von ‚Bad Smells' zu Best Practices und Patterns,window=_blank]
