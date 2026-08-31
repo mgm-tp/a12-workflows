@@ -42,6 +42,11 @@ each artifact are of the form `com.mgmtp.a12.workflows:<artifact>:<version>`.
 - To apply the provided codemod recipes, follow the instructions in the [Hypermod documentation](https://www.hypermod.io/docs/local-development/running-codemods)
 and run the recipes as necessary from the `@com.mgmtp.a12.workflows/workflows-codemod` artifact.
 
+##### Workflows OpenRewrite Recipes
+- To apply the provided OpenRewrite recipes, follow the instructions in the [OpenRewrite documentation](https://docs.openrewrite.org/running-recipes)
+and run the recipes as necessary from the `com.mgmtp.a12.workflows:workflows-rewrite:<version>` artifact.
+
+
 ---
 
 ### How to Build and Run

@@ -25,13 +25,14 @@ THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND, WHETHER 
 For some breaking changes, we offer OpenRewrite recipes, Codemod transforms, and workflows model migration tool.
 Feel free to check them out as they might help you to upgrade Workflows easier (see <<anchor-automatic-migration, Automatic Migration>>).
 
-==== CIB 7
+==== CIB 7 / Process Engine
 
 * CIB 7 has been upgraded from 2.0.0 to 2.2.0.
 * You must follow the official CIB 7 migration guides for each version step, in order.
 This is required in all cases, as each step includes mandatory database updates:
 ** link:https://docs.cibseven.org/manual/latest/update/minor/20-to-21/[CIB 7 update guide 2.0 to 2.1]
 ** link:https://docs.cibseven.org/manual/latest/update/minor/21-to-22/[CIB 7 update guide 2.1 to 2.2]
+* The property `cibseven.webclient.authentication.jwtSecret` is required now and needs to be set to a secret with a minimum length of 155 characters, base64 encoded.
 
 ==== Workflows Extension
 

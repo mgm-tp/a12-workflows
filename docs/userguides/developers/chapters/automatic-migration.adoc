@@ -22,7 +22,51 @@ THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND, WHETHER 
 
 Since 2024.06, A12 components provide artifacts for automatic code migration where possible, to make migrations faster and less error-prone.
 
-Since we provide backend as well as frontend modules, we are using <<anchor-codemod,Codemod>> for frontend migration.
+Since we provide backend as well as frontend modules, we are using <<anchor-openrewrite,OpenRewrite>> as well as <<anchor-codemod,Codemod>>.
+
+[[anchor-openrewrite]]
+== Migrating with OpenRewrite
+
+For our backend components, we provide link:https://docs.openrewrite.org/[OpenRewrite] recipes via the artifact `com.mgmtp.a12.workflows:workflows-rewrite`.
+
+=== Recipes
+
+==== A12 Workflows 12.0.0
+
+For our version 12.0.0, we provide the following recipe which projects can run:
+
+`com.mgmtp.a12.workflows.UpgradeWorkflows_12_0_0`
+
+This recipe will make the following changes:
+
+* Replaces all Camunda dependencies for Gradle & Maven with their CIB 7 equivalents
+* Replaces all Java imports from Camunda with their CIB 7 equivalents
+* Renames dependencies on `workflows-camunda-distribution` to `workflows-engine-distribution` (only works for certain dependency declarations)
+* Renames the workflows specific configuration properties and the respective environment variables. Have a look at the tables <<anchor-migration-2025-06-workflows-engine,here>>.
+* Renames artifact ID `workflows-camunda` and `workflows-camunda-distribution` to `workflows-engine` and `workflows-engine-distribution`
+* Renames `CamundaApplication` to `ProcessEngineApplication`
+* Renames imports that begin with `com.mgmtp.a12.workflows.camunda` to `com.mgmtp.a12.workflows.engine`
+* Removes the property `mgmtp.a12.workflows.extension.set-status-event-publishing.enabled` from any `.yaml` and `.properties` files
+* Changes the value of `mgmtp.a12.dataservices.query.mode` from `DISABLED` and `PARALLEL` to `EXCLUSIVE` in any `.yaml` and `.properties` files
+* Changes all occurences of `ProcessVariableBeforeDeserializationEvent` in `.kt/.java` files to `ProcessVariableAfterDeserializationEvent`
+* Renames the package `com.mgmtp.a12.workflows.extension.internal.operation.event` to `com.mgmtp.a12.workflows.extension.event`
+* Replaces `dataservices-embedded_jms` with `workflows-embedded_jms` in all `.yaml` and `.properties` files
+
+
+==== A12 Workflows 11.0.0
+
+For our 11.0.0 version, we provide the following recipe which projects can run:
+
+`com.mgmtp.a12.workflows.UpgradeWorkflows_11_0_0`
+
+This recipe will make the following changes:
+
+* Removes the `workflows-access` library dependency from all `package.json` files (this was easier to do using OpenRewrite rather than Codemod)
+** The `workflows-core` library now contains all contents from the `workflows-access` library, see also <<anchor-integration-frontend, A12 Workflows frontend integration>>
+* Renames configuration keys for the workflows async mode:
+** `mgmtp.a12.workflows.outbox.enabled` will change to `mgmtp.a12.workflows.extension.asynchronous-mode.enabled`
+** `mgmtp.a12.workflows.extension.outbox.consumers.embedded.enabled` will change to `mgmtp.a12.workflows.extension.asynchronous-mode.consumers.embedded.enabled`
+* Renames dependencies on `workflows-camunda-cbr-distribution` to `workflows-camunda-distribution` (only works for certain dependency declarations)
 
 [[anchor-codemod]]
 == Migrating with Codemod/Hypermod

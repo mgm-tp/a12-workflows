@@ -34,6 +34,14 @@ openapi = [
     "spring-rest-docs",
     "openapi-ext",
 ]
+
+openrewrite = [
+    "openrewrite-properties",
+    "openrewrite-yaml",
+    "openrewrite-java",
+    "openrewrite-java-21"
+]
+
 slf4j = [
     "slf4j-simple",
     "slf4j-api",
@@ -74,15 +82,16 @@ kotlin-jpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "kotlinVers
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinVersion" }
 kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlinVersion" }
 node = { id = "com.github.node-gradle.node", version.ref = "nodeVersion" }
+openrewrite = { id = "org.openrewrite.rewrite", version.ref = "openrewriteBaseVersion" }
 springboot = { id = "org.springframework.boot", version.ref = "springBootVersion" }
 
 [versions]
 
 # Versions for A12 components
-a12DataServicesVersion = "39.0.2"
-a12KernelVersion = "31.1.0"
-a12UaaVersion = "10.0.0"
-a12UtilsConnectorVersion = "9.0.1"
+a12DataServicesVersion = "39.0.3"
+a12KernelVersion = "31.1.1"
+a12UaaVersion = "10.0.1"
+a12UtilsConnectorVersion = "9.0.3"
 
 # Versions for other libraries
 activationVersion = "1.1.1"
@@ -99,9 +108,9 @@ commonsMath3Version = "3.6.1"
 graalJsVersion = "25.0.3"
 groovyVersion = "3.0.25"
 hibernateVersion = "8.0.2.Final"
-jacksonVersion = "3.1.2"
-jackson2Version = "2.21.0"
-jacksonAnnotationsVersion = "2.21"
+jacksonVersion = "3.2.1"
+jackson2Version = "2.22.0"
+jacksonAnnotationsVersion = "2.22"
 jaxbVersion = "4.0.5"
 jaxbApiVersion = "4.0.2"
 jaxenVersion = "2.0.0"
@@ -116,13 +125,15 @@ kotlinCoroutinesVersion = "1.10.2"
 nettyVersion = "4.2.1.Final"
 nodeVersion = "7.1.0"
 openapiExtVersion = "0.18.2"
+openrewriteVersion = "8.86.0"
+openrewriteBaseVersion = "7.37.0"
 postgresVersion = "42.7.5"
 slf4jVersion = "2.0.17"
 snakeyamlVersion = "2.4"
-springVersion = "7.0.2"
-springBootVersion = "4.0.1"
+springVersion = "7.0.8"
+springBootVersion = "4.1.0"
 springRestDocsVersion = "3.0.1"
-springSecurityVersion = "7.0.2"
+springSecurityVersion = "7.1.0"
 vertxVersion = "4.5.14"
 xmlBindVersion = "4.0.2"
 
@@ -200,6 +211,11 @@ kotlin-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutine
 kotlin-noarg = { group = "org.jetbrains.kotlin", name = "kotlin-noarg", version.ref = "kotlinVersion" }
 netty-dns-resolver = { group = "io.netty", name = "netty-resolver-dns-native-macos", version.ref = "nettyVersion"}
 openapi-ext = { group = "com.epages", name = "restdocs-api-spec-mockmvc", version.ref = "openapiExtVersion" }
+openrewrite-java = { group = "org.openrewrite", name = "rewrite-java", version.ref = "openrewriteVersion" }
+openrewrite-java-21 = { group = "org.openrewrite", name = "rewrite-java-21", version.ref = "openrewriteVersion" }
+openrewrite-properties = { group = "org.openrewrite", name = "rewrite-properties", version.ref = "openrewriteVersion" }
+openrewrite-test = { group = "org.openrewrite", name = "rewrite-test", version.ref = "openrewriteVersion" }
+openrewrite-yaml = { group = "org.openrewrite", name = "rewrite-yaml", version.ref = "openrewriteVersion" }
 pluginSpringBoot = { group = "org.springframework.boot", name = "spring-boot-gradle-plugin", version.ref = "springBootVersion" }
 slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4jVersion" }
 slf4j-simple = { group = "org.slf4j", name = "slf4j-simple", version.ref = "slf4jVersion" }

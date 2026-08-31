@@ -69,6 +69,29 @@ We publish a client library that must be added to your *A12 Client module*.
 
 ===== Activity Descriptors
 
+The Workflows middlewares, sagas and data provider inspect and mutate the activity descriptors at runtime. The Workflows activity descriptors have the following fields:
+
+[cols="1,1,3", options="header"]
+|===
+| Field | Required | Meaning
+
+| `view`
+| Yes
+| Must equal `"TaskList"` (the `WorkflowsConstants.TASK_LIST_VIEW` constant). Every Workflows middleware, the data provider and the reload logic ignore activities whose `view` is not `"TaskList"`.
+
+| `model`
+| Yes
+| Document model name of the task documents. Used to route data requests and as the `model` match condition of the generated form scene.
+
+| `instance`
+| No
+| Distinguishes the two descriptor shapes. If present, it is a task form descriptor, otherwise it is a task list descriptor.
+
+| `formKey`
+| Added at runtime
+| Not set by the modeler. Injected into the descriptor by the `addFormKeyToPushAction` / `addFormKeyToReplacementAction` middlewares (see below).
+|===
+
 ====== Task Overview
 
 The activity descriptor for a task overview looks as follows:
@@ -108,6 +131,33 @@ Similarly, the activity descriptor for a task form looks as follows:
 ----
 
 NOTE: You do _not_ need to add corresponding scenes to your _App Model_ because we generate them at runtime (based on the fetched task list).
+
+[[anchor-cbr-activity-descriptor-requirements]]
+====== Runtime Requirements and Modifications
+
+The Workflows middlewares, sagas and data provider inspect and mutate the activity descriptors at runtime.
+
+====== Overview vs. form
+
+Selectors filter task activities by `descriptor.view === "TaskList"` and then split on `descriptor.instance`: the single activity with `instance === undefined` is the task overview; activities with a defined `instance` are task forms.
+This is how `reloadTaskOverviewMiddleware` finds the unique overview to refresh and how `closeCurrentFormAfterTaskCompleteMiddleware` matches the form to close (by `view` + `instance`).
+
+====== `formKey` injection.
+
+When a task form activity is pushed (`Activity/PUSH`) or replaces another activity (`Activity/CANCEL_REQUESTED`), the `addFormKey*` middlewares look up the opened task document in the initiating overview activity, read `A12WF.TaskDefinition.FormKey` (falling back to `A12WF.TaskDefinition.Key`) and add it as `descriptor.formKey`.
+The same `formKey` is written onto the descriptor of the matching data holder.
+This requires the task form activity to carry an `initiatingActivityId` pointing at the overview activity whose data contains the document.
+
+====== Scene generation
+`adaptAppModelMiddleware` reacts to `Activity/SET_DATA` on the task overview and dispatches `ADAPT_APP_MODEL`; `adaptAppModelSaga` then generates one App Model scene per distinct `formKey` in the task list.
+The generated scene matches on `model` (equals the document model), `instance` (is set) and `formKey` (equals the task's form key) — the same three descriptor fields.
+This is why no task-form scenes need to be modeled by hand.
+
+====== Data provider query augmentation
+For descriptors with `view === "TaskList"`, `workflowsDataLoader` rewrites `LIST_DOCUMENTS` queries: it locates the `A12WF` group in the document model, adds a constraint that `.../A12WF/Task/ID` is not empty (so only documents representing a live task appear) and projects `.../A12WF/Task/ID` and `.../A12WF/TaskDefinition/FormKey`.
+Descriptors with any other `view` are passed through unchanged.
+
+NOTE: These descriptor modifications rely on the `A12WF` metadata group being present in the task document model.
 
 ===== Events
 

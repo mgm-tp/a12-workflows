@@ -46,22 +46,34 @@ A `workspace.json` may look as follows:
 [source,json]
 ----
 {
-  "activeTheme": "flat",
-  "workspaceTitle": "My Workflows Workspace",
-  "enableWorkflows": true,
-  "themes": [],
-  "environmentVariables": {
-    "preview-app-workflows": {
-      "MGMTP_A12_WORKFLOWS_ENGINE_DELEGATES_EMAIL_HOST": "add-email.host",
-      "MGMTP_A12_WORKFLOWS_ENGINE_DELEGATES_EMAIL_USER": "add-user",
-      "MGMTP_A12_WORKFLOWS_ENGINE_DELEGATES_EMAIL_PASSWORD": "add-password",
-      "MGMTP_A12_WORKFLOWS_ENGINE_DELEGATES_EMAIL_FROM": "add-sender-email-address",
-      "MGMTP_A12_WORKFLOWS_ENGINE_DELEGATES_EMAIL_PORT": "587",
-      "MGMTP_A12_WORKFLOWS_ENGINE_DELEGATES_EMAIL_STARTTLS_ENABLED": "true",
-      "MGMTP_A12_WORKFLOWS_ENGINE_DELEGATES_EMAIL_LOGIN_ENABLED": "true",
-      "MGMTP_A12_WORKFLOWS_ENGINE_DELEGATES_EMAIL_KEEP_ALIVE_TIMEOUT": "300"
-    }
-  }
+	"version": "1.0.0",
+	"general": {
+		"relationshipEngineMode": "legacy",
+		"showMetaDataInUIModels": true,
+		"locales": [
+			{
+				"code": "de"
+			},
+			{
+				"code": "en"
+			}
+		]
+	},
+	"previewApp": {
+		"enableWorkflows": true,
+		"environmentVariables": {
+			"previewAppWorkflows": [
+				{ "key": "MGMTP_A12_WORKFLOWS_ENGINE_DELEGATES_EMAIL_HOST", "value": "add-email.host" },
+				{ "key": "MGMTP_A12_WORKFLOWS_ENGINE_DELEGATES_EMAIL_USER", "value": "add-user" },
+				{ "key": "MGMTP_A12_WORKFLOWS_ENGINE_DELEGATES_EMAIL_PASSWORD", "value": "add-password" },
+				{ "key": "MGMTP_A12_WORKFLOWS_ENGINE_DELEGATES_EMAIL_FROM", "value": "add-sender-email-address" },
+				{ "key": "MGMTP_A12_WORKFLOWS_ENGINE_DELEGATES_EMAIL_PORT", "value": "123" },
+				{ "key": "MGMTP_A12_WORKFLOWS_ENGINE_DELEGATES_EMAIL_STARTTLS_ENABLED", "value": "false" },
+				{ "key": "MGMTP_A12_WORKFLOWS_ENGINE_DELEGATES_EMAIL_LOGIN_ENABLED", "value": "false" },
+				{ "key": "MGMTP_A12_WORKFLOWS_ENGINE_DELEGATES_EMAIL_KEEP_ALIVE_TIMEOUT", "value": "300" }
+			]
+		}
+	}
 }
 ----
 
@@ -507,6 +519,58 @@ The following Events are *not* supported in task lists:
 
 [[anchor-cbr-app-model]]
 == Application Models
+
+[[anchor-activity-descriptors]]
+=== Activity Descriptors
+
+The Workflows activity descriptors have the following potential fields:
+
+[cols="1,1,3", options="header"]
+|===
+| Field | Required | Meaning
+
+| `view`
+| Yes
+| Must equal `"TaskList"`
+
+| `model`
+| Yes
+| Document model name of the task documents.
+
+| `instance`
+| No
+| Distinguishes the two descriptor shapes. If present, it is a task form descriptor, otherwise it is a task list descriptor.
+
+| `formKey`
+| Added at runtime
+| Not set by the modeler. Injected into the descriptor by middlewares.
+|===
+
+=== Task Overview
+
+The activity descriptor for a task overview looks as follows:
+
+[source,json]
+----
+{
+    "view": "TaskList",
+    "model": "<YOUR_DOCUMENT_MODEL_NAME>"
+}
+----
+
+=== Task Form
+
+Similarly, the activity descriptor for a task form looks as follows:
+
+[source,json]
+----
+{
+    "view": "TaskList",
+    "model": "<YOUR_DOCUMENT_MODEL_NAME>",
+    "instance": "<YOUR_DOCUMENT_REFERENCE>"  // Reference of task document to show
+}
+----
+
 
 [[anchor-overview-scene]]
 === Overview Scene

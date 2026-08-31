@@ -5,6 +5,7 @@ include 'workflows-engine-modeler-extensions'
 include 'workflows-engine-rest-client'
 include 'workflows-extension'
 include 'workflows-extension-client'
+include 'workflows-rewrite'
 
 include 'workflows-shared-constants'
 include 'workflows-shared-dtos'

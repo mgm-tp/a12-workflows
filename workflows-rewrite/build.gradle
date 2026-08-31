@@ -1,0 +1,29 @@
+buildscript {
+    dependencies {
+        classpath libs.kotlin.noarg
+    }
+}
+
+plugins {
+    alias(libs.plugins.openrewrite)
+    id "java-library"
+}
+
+apply plugin: 'kotlin'
+
+dependencies {
+    // Open Rewrite
+    implementation (libs.bundles.openrewrite)
+
+    // Testing
+    testImplementation libs.json.standard
+    testImplementation libs.bundles.kotlin
+    testImplementation libs.bundles.testingCatalog.unittest
+    testImplementation libs.openrewrite.test
+    testRuntimeOnly libs.testingCatalog.junit.platform.launcher
+}
+
+test {
+    useJUnitPlatform()
+    systemProperty 'org.openrewrite.test.readMavenSettingsFromDisk', 'true'
+}
