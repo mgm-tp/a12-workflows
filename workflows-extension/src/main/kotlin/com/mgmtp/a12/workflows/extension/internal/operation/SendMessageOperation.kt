@@ -37,6 +37,7 @@ import com.mgmtp.a12.dataservices.common.anonymizing.Anonymizer
 import com.mgmtp.a12.dataservices.rpc.RemoteOperation
 import com.mgmtp.a12.uaa.authorization.DecisionContext
 import com.mgmtp.a12.workflows.client.operation.WorkflowsOperationConstants.SEND_MESSAGE_OPERATION
+import com.mgmtp.a12.workflows.client.operation.WorkflowsOperationConstants.WORKFLOWS_OPERATIONS_GROUP
 import com.mgmtp.a12.workflows.engine.client.internal.ProcessEngineOperationBroker
 import com.mgmtp.a12.workflows.extension.event.ProcessAfterMessageSendEvent
 import com.mgmtp.a12.workflows.extension.event.ProcessBeforeMessageSendEvent
@@ -53,7 +54,7 @@ import org.springframework.transaction.annotation.Transactional
 import tools.jackson.databind.JsonNode
 
 @Component
-@RemoteOperation(name = SEND_MESSAGE_OPERATION)
+@RemoteOperation(name = SEND_MESSAGE_OPERATION, group = WORKFLOWS_OPERATIONS_GROUP)
 class SendMessageOperation(
     private val anonymizer: Anonymizer,
     private val processEngineOperationBroker: ProcessEngineOperationBroker,

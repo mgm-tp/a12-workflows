@@ -88,10 +88,10 @@ springboot = { id = "org.springframework.boot", version.ref = "springBootVersion
 [versions]
 
 # Versions for A12 components
-a12DataServicesVersion = "39.0.3"
-a12KernelVersion = "31.1.1"
-a12UaaVersion = "10.0.1"
-a12UtilsConnectorVersion = "9.0.3"
+a12DataServicesVersion = "39.1.1"
+a12KernelVersion = "31.3.1"
+a12UaaVersion = "10.1.1"
+a12UtilsConnectorVersion = "9.0.4"
 
 # Versions for other libraries
 activationVersion = "1.1.1"
@@ -101,15 +101,14 @@ cibsevenVersion = "2.2.0"
 commonsCliVersion = "1.9.0"
 commonsCompressVersion = "1.27.1"
 commonsCsvVersion = "1.14.0"
-commonsFileuploadVersion = "1.5"
 commonsIoVersion = "2.19.0"
 commonsLang3Version = "3.17.0"
 commonsMath3Version = "3.6.1"
 graalJsVersion = "25.0.3"
 groovyVersion = "3.0.25"
 hibernateVersion = "8.0.2.Final"
-jacksonVersion = "3.2.1"
-jackson2Version = "2.22.0"
+jacksonVersion = "3.2.4"
+jackson2Version = "2.22.4"
 jacksonAnnotationsVersion = "2.22"
 jaxbVersion = "4.0.5"
 jaxbApiVersion = "4.0.2"
@@ -130,10 +129,10 @@ openrewriteBaseVersion = "7.37.0"
 postgresVersion = "42.7.5"
 slf4jVersion = "2.0.17"
 snakeyamlVersion = "2.4"
-springVersion = "7.0.8"
-springBootVersion = "4.1.0"
+springVersion = "7.0.9"
+springBootVersion = "4.1.1"
 springRestDocsVersion = "3.0.1"
-springSecurityVersion = "7.1.0"
+springSecurityVersion = "7.1.1"
 vertxVersion = "4.5.14"
 xmlBindVersion = "4.0.2"
 
@@ -169,7 +168,6 @@ a12-uaa-principal-extension-autoconfig = { group = "com.mgmtp.a12.uaa", name = "
 # CIB 7 libraries
 cibseven-connectors-all = { group = "org.cibseven.connect", name = "cibseven-connect-connectors-all", version.ref = "cibsevenVersion" }
 cibseven-engine = { group = "org.cibseven.bpm", name = "cibseven-engine", version.ref = "cibsevenVersion" }
-cibseven-fileupload = { group = "commons-fileupload", name = "commons-fileupload", version.ref = "commonsFileuploadVersion" }
 cibseven-freemarker = { group = "org.cibseven.template-engines", name = "cibseven-template-engines-freemarker", version.ref = "cibsevenVersion" }
 cibseven-h2 = { group = "com.h2database", name = "h2", version.ref = "cibsevenH2Version" }
 cibseven-plugin-connect = { group = "org.cibseven.bpm", name = "cibseven-engine-plugin-connect", version.ref = "cibsevenVersion" }

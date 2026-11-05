@@ -1,6 +1,6 @@
 {
     "name": "@com.mgmtp.a12.workflows/workflows-codemod",
-    "version": "12.0.0",
+    "version": "13.1.2",
     "license": "(EUPL-1.2 OR LicenseRef-commercial)",
     "description": "Supports migration for A12 Workflows frontend modules with Codemod/Hypermod",
     "dependencies": {

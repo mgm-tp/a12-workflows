@@ -22,6 +22,11 @@ THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND, WHETHER 
 Workflows supports CIB 7 only. However the BPMN models are still modeled with the Camunda Modeler.
 ====
 
+[WARNING]
+====
+The legacy Camunda-based web application, including the Cockpit, must currently be used. The new CIB 7 web application is not supported yet.
+====
+
 [TIP]
 ====
 Use the Camunda Modeler that comes with the link:https://geta12.com/#/releases/installer[installer] to ensure that BPMN and DMN Models are compatible.

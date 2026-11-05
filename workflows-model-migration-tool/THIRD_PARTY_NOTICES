@@ -1,7 +1,7 @@
 THIRD_PARTY_NOTICES
 
 Component: A12 Workflows Model Migration Tool
-Generated: 2026-08-18 for mgm A12 Platform 2026.06
+Generated: 2026-11-02 for mgm A12 Platform 2026.06
 
 The mgm A12 Platform is developed by mgm technology partners GmbH.
 
@@ -44,7 +44,7 @@ The following third-party components are included in this distribution:
 	Copyright (c) 2021, 2023 Oracle and/or its affiliates
 	Source: https://github.com/eclipse-ee4j/angus-activation
 - org.glassfish.jaxb/jaxb-core 4.0.5, licensed under BSD-3-Clause
-	Copyright (c) 2018 Oracle and/or its affiliates
+	Copyright (c) 2018 Oracle and/or its affiliates. All rights reserved.
 	Source: https://github.com/eclipse-ee4j/jaxb-ri
 - org.glassfish.jaxb/jaxb-runtime 4.0.5, licensed under BSD-3-Clause
 	Copyright (c) 2018 Oracle and/or its affiliates. All rights reserved.
@@ -56,16 +56,16 @@ The following third-party components are included in this distribution:
 	Copyright (C) 2000-2012 Jason Hunter & Brett McLaughlin. All rights reserved.
 	Source: https://github.com/hunterhacker/jdom
 - org.jetbrains.kotlin/kotlin-reflect 2.3.0, licensed under Apache-2.0
-	Copyright 2010-2023 JetBrains s.r.o. and Kotlin Programming Language contributors
+	Copyright 2010-2024 JetBrains s.r.o and respective authors and developers
 	Source: https://github.com/JetBrains/kotlin
 - org.jetbrains.kotlin/kotlin-stdlib 2.3.0, licensed under Apache-2.0
 	Copyright 2010-2024 JetBrains s.r.o and respective authors and developers
 	Source: https://github.com/JetBrains/kotlin
 - org.jetbrains.kotlin/kotlin-stdlib-jdk7 2.3.0, licensed under Apache-2.0
-	Copyright 2010-2023 JetBrains s.r.o. and Kotlin Programming Language contributors
+	Copyright 2010-2024 JetBrains s.r.o and respective authors and developers
 	Source: https://github.com/JetBrains/kotlin
 - org.jetbrains.kotlin/kotlin-stdlib-jdk8 2.3.0, licensed under Apache-2.0
-	Copyright 2010-2023 JetBrains s.r.o. and Kotlin Programming Language contributors
+	Copyright 2010-2024 JetBrains s.r.o and respective authors and developers
 	Source: https://github.com/JetBrains/kotlin
 - org.jetbrains/annotations 13.0, licensed under Apache-2.0
 	Copyright 2000-2016 JetBrains s.r.o.
@@ -82,7 +82,7 @@ The following third-party components are included in this distribution:
 - org.slf4j/slf4j-simple 2.0.17, licensed under MIT
 	Copyright (c) 2004-2022 QOS.ch Sarl (Switzerland)
 	Source: https://github.com/qos-ch/slf4j
-- org.springframework/spring-core 7.0.8, licensed under Apache-2.0
+- org.springframework/spring-core 7.0.9, licensed under Apache-2.0
 	Copyright 2002-present the original author or authors
 	Source: https://github.com/spring-projects/spring-framework
 

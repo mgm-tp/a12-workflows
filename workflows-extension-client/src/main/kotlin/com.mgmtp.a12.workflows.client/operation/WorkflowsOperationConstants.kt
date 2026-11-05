@@ -37,4 +37,6 @@ object WorkflowsOperationConstants {
     const val TASK_ASSIGN_OPERATION = "ASSIGN_TASK"
     const val START_PROCESS_OPERATION = "START_PROCESS"
     const val SEND_MESSAGE_OPERATION = "SEND_MESSAGE"
+
+    const val WORKFLOWS_OPERATIONS_GROUP = "A12_WORKFLOWS_OPERATIONS"
 }

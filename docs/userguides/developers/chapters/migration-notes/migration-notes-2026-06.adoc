@@ -33,7 +33,29 @@ This is required in all cases, as each step includes mandatory database updates:
 ** link:https://docs.cibseven.org/manual/latest/update/minor/20-to-21/[CIB 7 update guide 2.0 to 2.1]
 ** link:https://docs.cibseven.org/manual/latest/update/minor/21-to-22/[CIB 7 update guide 2.1 to 2.2]
 * The property `cibseven.webclient.authentication.jwtSecret` is required now and needs to be set to a secret with a minimum length of 155 characters, base64 encoded.
+* CIB7 Spring Boot starter artifacts now carry a "-4" suffix to distinguish between Spring Boot 3 and 4 artifacts
+* CIB7 Spring framework artifacts now carry a "-7" suffix to distinguish between Spring 6 and 7 artifacts
 
 ==== Workflows Extension
 
 * The property `mgmtp.a12.workflows.automaticSynchronization.enabled` has been renamed to `mgmtp.a12.workflows.extension.automaticSynchronization.enabled`.
+
+=== Non-Breaking Changes
+
+==== Workflows Extension
+
+* Since Workflows 13.1, the JSON-RPC operations `START_PROCESS`, `COMPLETE_TASK`, `ASSIGN_TASK` and `SEND_MESSAGE`, and the operations `CREATE_DOCUMENT`, `CREATE_METADATA` and `REMOVE_METADATA` that CIB 7 calls, belong to the Data Services operation group `A12_WORKFLOWS_OPERATIONS` (constant `WorkflowsOperationConstants.WORKFLOWS_OPERATIONS_GROUP`).
+You can replace these names in `mgmtp.a12.dataservices.json-rpc.allowed-operations` with the single entry `A12_WORKFLOWS_OPERATIONS`.
+No action is required: an existing list of the individual operation names keeps working.
+* Unless `mgmtp.a12.dataservices.json-rpc.allowed-operations` is `*`, the extension now also adds `CREATE_DOCUMENT` to it, in addition to `CREATE_METADATA`, `REMOVE_METADATA` and `SET_STATUS`.
+Previously, `createDocumentDelegate` failed with "method not found" unless you listed `CREATE_DOCUMENT` yourself.
+Operation names are now compared exactly, the property is read in every form Data Services accepts (comma separated, indexed list, legacy key `mgmtp.a12.dataservices.jsonRpc.allowedOperations`), and the extension no longer fails on startup if the property is not set; it then uses the Data Services default `A12_INTERNAL_OPERATIONS`.
+* The role of the CIB 7 technical user is no longer needed in the `roles` annotation of Form Models.
+You can remove that role from your Form Models.
+
+=== Deprecation
+
+==== Workflows Extension
+
+* The extension adding operations to `mgmtp.a12.dataservices.json-rpc.allowed-operations` automatically is deprecated and will be removed in 2027.06.
+Add `A12_WORKFLOWS_OPERATIONS` to the property, plus `SET_STATUS` if your processes use `setStatusDelegate` and `GET_PROCESS_VARIABLE_UPDATES` if they use `syncAvailableFieldsDelegate`.

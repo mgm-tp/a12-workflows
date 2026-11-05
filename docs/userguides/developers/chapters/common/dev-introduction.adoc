@@ -19,12 +19,118 @@ THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND, WHETHER 
 
 = Introduction
 
-A12 Workflows (A12WF) provides an integration of Business Process Model and Notation (BPMN) and Decision Model and Notation (DMN) capabilities into A12, enabling both the graphical modeling and the execution of server-side workflows.
+[#functionality]
+== Functionality
 
-This allows modeling the business-level behavior of entire A12 applications. The focus is on semi-automated, long-running workflows that involve multiple roles and complex authorization rules. Such authorization rules are defined and executed using link:/docs/UAA/uaa-documentation-src/index.html[_UAA_,role=internal].
+A12 Workflows brings Business Process Model and Notation (BPMN) and Decision Model and Notation (DMN) to A12.
+This allows business-level processes, modeled graphically, to be executed on the server.
+Its focus is semi-automated, long-running workflows that run across several roles and follow complex authorization rules.
 
-Integrated modeling capabilities include process steps performed by humans and machines, the connections between them, and business rules triggering different process paths. For automated process steps, several automations are provided out of the box, e.g., to send an email or to link two documents.
+A Workflow describes the steps people and machines perform, their order, and the business rules that decide which path a process takes.
+For the automated steps, delegates are provided as shipped, reaching from creating, linking, and relinking documents to setting a document status and sending email;
+the link:/docs/workflows/ba-docs/index.html[Workflow Modeling Documentation] carries the complete list.
+A project implements further delegates against the delegate API and reacts to the lifecycle events of tasks and processes with its own listeners;
+both are project work against a named extension point, not behavior present by default.
 
-Custom automations can be implemented against a well-defined API and then used by modelers. Additionally, custom code can react to provided events such as a task being completed.
+Processes work on ordinary A12 documents, on which Workflows records its own process and task state as Workflows metadata.
+That makes the state available to authorization rules and to the events a project listens to.
 
-All of this is achieved by connecting the third-party CIB 7 process engine to the A12 stack. To this end, A12 Workflows provides a tailored, A12-aware CIB 7 service as well as extensions for link:/docs/DATA_SERVICES/dataservices-documentation-src/index.html[_Data Services_,role=internal] and link:/docs/CLIENT/client-documentation-bundle/index.html[_Client_,role=internal].
+A12 Workflows does not store the documents its processes work on: that is Data Services, and the process engine holds only references to them.
+It does not render the task user interface, only the client library that loads task lists and task documents;
+the screens are built with the A12 client components.
+It does not author the models it executes:
+BPMN and DMN models are authored in the tailored Camunda Modeler, Document Models in the Simple Model Editor.
+It does not define the roles and access rights it enforces:
+those are administered in link:/docs/UAA/uaa-documentation-src/index.html[_UAA_,role=internal].
+
+[#architecture]
+== Architecture
+
+A12 Workflows is delivered as three parts, one per process it runs in.
+
+* *Workflows Engine*: a tailored, A12-aware distribution of the CIB 7 process engine, which the project builds its own Spring Boot service on and deploys.
+  That service executes the models and hosts both the provided delegates and the project's custom delegates.
+* *Workflows Extension*: a library the project declares in its Data Services extending application, where it registers the Workflows operations and publishes the lifecycle events the project's listeners handle.
+* *Workflows Core*: the client library the project declares in its A12 Client module, connecting an A12 client application to those operations through its actions, sagas, and data loading.
+
+.A12 Workflows overview
+image::assets/images/workflows-overview.svg[The Workflows Engine process holding the delegates and the project's custom delegates, with the Data Services extending application holding the Workflows Extension and the project's event listeners, the A12 client application holding Workflows Core, and a relational database as external infrastructure]
+
+The process engine knows process state and document references, never document content, models, or storage, and Workflows adds its operations to the Data Services remote API rather than exposing an endpoint of its own.
+<<anchor-benefits,Benefits>> and <<anchor-cbr-limitations,Current Limitations>> cover what that separation buys and what it costs, among them the absence of an eventual-consistency guarantee between the two.
+
+On the default path, Workflows Core narrows every task list query, so a task overview returns only documents currently referenced by a user task;
+a project building its own query applies that constraint itself.
+Workflows metadata is written through Data Services, so Document Model rules and the caller's authorization scopes apply to those writes.
+
+Extension surfaces reach from a custom delegate to the lifecycle events of tasks and processes and to migrating running process instances;
+<<anchor-workflows-extension,Workflows Extension>> and the Process Migration chapter are authoritative.
+
+At runtime Workflows requires CIB 7 as the process engine it tailors, Data Services as the store for the documents its processes reference, the Kernel for converting those documents, and UAA for authorizing its operations.
+The client library declares its platform context as peer dependencies, listed in <<artifacts,Artifacts>>.
+
+[#artifacts]
+== Artifacts
+
+The entry points a project declares in its build or deploys, not the full set of published modules:
+
+[cols="2,3"]
+|===
+| Artifact | Purpose
+
+| `com.mgmtp.a12.workflows:workflows-engine-distribution`
+| The Workflows Engine: the basis for the project's own process engine service.
+
+| `com.mgmtp.a12.workflows:workflows-extension`
+| The Workflows Extension: declared by the project's Data Services extending application.
+
+| `@com.mgmtp.a12.workflows/workflows-core` (npm)
+| The client library: declared by the project's A12 Client module.
+
+| `a12-camunda` (Helm chart)
+| Kubernetes deployment of the Workflows Engine.
+|===
+
+`workflows-core` declares its platform context as peer dependencies, provided by the consuming application:
+the A12 client, Data Services access, Form Engine, Overview Engine, Relationship Engine, Kernel model facade, UAA authentication client, and the A12 utility libraries, together with Redux, Redux-Saga, and their TypeScript bindings.
+
+The recipes and transforms for upgrading between releases are described in <<anchor-automatic-migration,Automatic Migration>>.
+
+[#technologies]
+== Technologies
+
+* CIB 7 as the process engine, a fork of Camunda 7.
+* BPMN 2.0 for process models and DMN for decision models.
+* JSON-RPC as the protocol of the operations the client calls.
+* A relational database for the process engine's own state;
+  the deployment chart is configured for PostgreSQL.
+* TypeScript with Redux and Redux-Saga for the client library.
+
+For supported versions and configuration references, see <<anchor-infrastructure-dependencies,Infrastructure Dependencies>>.
+
+[#terminology]
+== Terminology
+
+[cols="1,3"]
+|===
+| Term | Meaning
+
+| Document reference (docRef)
+| The unique identifier of a document, for example `Contract/143be3e9-32bc-4d57-a155-ba1f89eba93a`.
+  The process engine stores references rather than document content.
+
+| Workflows metadata
+| The fields contributed by the `WorkflowsMetadata_DM.json` model, held in a document group named `A12WF`.
+  It carries the process and task state that authorization rules and event listeners can read.
+
+| Task document
+| A document whose task-level Workflows metadata is filled in, which is what makes it appear in a task list.
+
+| Process document
+| A document whose process-level Workflows metadata is filled in.
+
+| Delegate
+| A piece of server-side code a service task calls at a point in the process, receiving the process variables as input.
+|===
+
+<<anchor-glossary,Glossary>> defines the BPMN and Camunda Modeler vocabulary these terms sit in.

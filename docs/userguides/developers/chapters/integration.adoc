@@ -40,6 +40,7 @@ Coordinates: `*com.mgmtp.a12.workflows:workflows-extension*`
 ** `*COMPLETE_TASK*(docRef: DocumentReference)`
 ** `*SEND_MESSAGE*(messageName: String, businessKey: String, processInstanceId: String?, payload: JsonNode?)`
 ** `*ASSIGN_TASK*(docRef: DocumentReference, assignee: String)`
+* Groups these operations, together with the operations `CREATE_DOCUMENT`, `CREATE_METADATA` and `REMOVE_METADATA` that CIB 7 calls, as Data Services operation group `*A12_WORKFLOWS_OPERATIONS*`, so you can allow all of them with a single entry in `mgmtp.a12.dataservices.json-rpc.allowed-operations`.
 
 Since _task documents_ are simply A12 documents with a partly fixed structure (metadata), we reuse existing Data Services operations where possible:
 
@@ -193,12 +194,18 @@ mgmtp.a12.workflows.engine.client.base-url=http://<YOUR_CIB7_HOST>/engine-rest
 
 ... Make sure to keep `/engine-rest` as suffix
 
-.. Adjust Data Services configuration to activate the required operations:
+.. Adjust Data Services configuration to activate the operations that your client calls:
 +
 [source,properties]
 ----
-mgmtp.a12.dataservices.json-rpc.allowed-operations=<YOUR_EXISTING_VALUES>,START_PROCESS,COMPLETE_TASK,ASSIGN_TASK,SEND_MESSAGE,CREATE_METADATA,REMOVE_METADATA,SET_STATUS
+mgmtp.a12.dataservices.json-rpc.allowed-operations=<YOUR_EXISTING_VALUES>,A12_WORKFLOWS_OPERATIONS
 ----
+
+... `A12_WORKFLOWS_OPERATIONS` is the Data Services operation group of the Workflows operations that every integration needs: the user-facing operations `START_PROCESS`, `COMPLETE_TASK`, `ASSIGN_TASK` and `SEND_MESSAGE`, and the operations `CREATE_DOCUMENT`, `CREATE_METADATA` and `REMOVE_METADATA` that CIB 7 calls.
+In Kotlin or Java code, reference it as `WorkflowsOperationConstants.WORKFLOWS_OPERATIONS_GROUP`.
+Listing these operations individually by name still works, e.g. to allow only some of them.
+
+... If your processes use `setStatusDelegate` or `syncAvailableFieldsDelegate`, also add `SET_STATUS` or `GET_PROCESS_VARIABLE_UPDATES`, respectively.
 
 . In your Client module...
 

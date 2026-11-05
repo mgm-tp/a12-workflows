@@ -36,12 +36,12 @@ Successful modeling and integration of Workspaces that make use of Workflows inc
 To use the preview app to model a workflow, a _workspace_ must be set up.
 You can review the `with-workflows` workspace as an example.
 
-A workspace for workflows must include the following in the `workspace.json`:
+A workspace for workflows must include the following in the `settings.json`:
 
 * `"enableWorkflows": true`
 * Email server configuration, if you want to use the <<anchor-provided-delegates,`sendEmailDelegate`>>
 
-A `workspace.json` may look as follows:
+A `settings.json` may look as follows:
 
 [source,json]
 ----

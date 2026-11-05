@@ -50,8 +50,10 @@ Includes the `generateBeans` task.
 
 **Generating config beans**
 
-Creates the necessary configuration beans in `config/types` based on xml-schema file `resources/xml/schema/MigratorConfig.xsd` 
-and `resources/xml/schema/MigratorBindings.xjb`.
+Creates the configuration beans in package `com.mgmtp.a12.model.workflows.migration.config.types` based on xml-schema file
+`resources/xml/schema/MigratorConfig.xsd` and `resources/xml/schema/MigratorBindings.xjb`. They are generated into
+`build/generated/sources/xjc/java/main`, which is a main source directory, so every compilation generates them first and they
+are not checked in. In a fresh clone, run it once so that the IDE resolves the bean classes.
 ```
 gradle generateBeans
 ```

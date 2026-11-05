@@ -492,7 +492,7 @@ link:assets/bpmn/SyncAvailableFields.bpmn[SyncAvailableFields.bpmn]
 
 [[send-email-delegate-template]]
 == Send Email Delegate Template
-The `sendEmailDelegate` sends an email using the mail server and settings defined in the `workspace.json` or Project Template. See <<preview-app-setup>> or <<project-template-setup>> for more information.
+The `sendEmailDelegate` sends an email using the mail server and settings defined in the `settings.json` or Project Template. See <<preview-app-setup>> or <<project-template-setup>> for more information.
 
 A BPMN Error Code, <<send-email-error>> is provided to handle errors with the mail server.
 

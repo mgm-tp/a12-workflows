@@ -32,6 +32,8 @@
 
 package com.mgmtp.a12.workflows.extension.internal.operation
 
+import com.mgmtp.a12.dataservices.common.exception.NotFoundException
+import com.mgmtp.a12.dataservices.common.exception.NotFoundException.NOT_FOUND_EXCEPTION_CODE
 import com.mgmtp.a12.dataservices.document.DataServicesDocument
 import com.mgmtp.a12.dataservices.document.DataServicesDocumentFactory
 import com.mgmtp.a12.dataservices.document.DocumentReference
@@ -42,8 +44,8 @@ import com.mgmtp.a12.dataservices.document.internal.MetadataUtils
 import com.mgmtp.a12.dataservices.document.persistence.DocumentComputationStrategy
 import com.mgmtp.a12.dataservices.document.persistence.DocumentValidationStrategy
 import com.mgmtp.a12.dataservices.document.persistence.IDocumentRepository
-import com.mgmtp.a12.dataservices.model.ModelService
 import com.mgmtp.a12.dataservices.model.document.persistence.DocumentModelLoader
+import com.mgmtp.a12.dataservices.model.persistence.GenericModelReadRepository
 import com.mgmtp.a12.dataservices.rpc.RpcException
 import com.mgmtp.a12.dataservices.utils.internal.DocumentModelUtils
 import com.mgmtp.a12.kernel.md.document.apiV2.immutable.DocumentV2
@@ -144,7 +146,7 @@ private class CreateMetadataOperationTest {
     val documentModelSerializer = documentModelServiceFactory.createDocumentModelSerializer()
     val documentModelUtils = DocumentModelUtils(documentModelServiceFactory, documentModelSerializer, headerParser)
     val documentMetadataMetaModelProvider = spyk(TestDocumentMetadataMetaModelProvider(documentModelUtils))
-    val mockModelService: ModelService = mockk(relaxed = true)
+    val mockGenericModelReadRepository: GenericModelReadRepository = mockk(relaxed = true)
     val spyObjectMapper: ObjectMapper = spyk(jacksonObjectMapper())
     val mockDocumentRepository: IDocumentRepository = mockk(relaxed = true)
     val mockDocumentModelLoader: DocumentModelLoader = mockk(relaxed = true)
@@ -156,7 +158,7 @@ private class CreateMetadataOperationTest {
 
     val createMetadataOperation = CreateMetadataOperation(
         mockWorkflowsDocumentService,
-        mockModelService,
+        mockGenericModelReadRepository,
         mockDocumentModelLoader,
         spyDocumentService,
         WorkflowsRpcExceptionHandler(spyObjectMapper),
@@ -540,7 +542,7 @@ private class CreateMetadataOperationTest {
         fun configureMocksForCdmCase() {
             every { mockDocumentModelLoader.loadModel(ROOT_DOCUMENT_MODEL_NAME) } returns rootDocumentModel
             every { mockDocumentModelLoader.loadModel(COMPOSED_DOCUMENT_MODEL_NAME) } returns composedDocumentModel
-            every { mockModelService.load(CDM_FORM_MODEL_NAME) } returns buildGenericModel(cdmFormModelString)
+            every { mockGenericModelReadRepository.readModel(CDM_FORM_MODEL_NAME) } returns buildGenericModel(cdmFormModelString)
 
             every { mockWorkflowsDocumentService.loadDocument(DocumentReference(ROOT_DOCUMENT_MODEL_DOC_REF_STRING)) } returns rootDocumentWithoutMetadata
         }
@@ -559,6 +561,22 @@ private class CreateMetadataOperationTest {
 
             // when/then
             shouldThrow<RpcException> { createMetadataOperation.rpc(null, expectedMetadata) }
+        }
+
+        @Test
+        fun `should report a missing form model as not found`() {
+            // given
+            every { mockGenericModelReadRepository.readModel(FORM_MODEL_NAME) } throws
+                NotFoundException("error.model.notFound", "Generic model [$FORM_MODEL_NAME] not found")
+
+            // when
+            val exception = shouldThrow<RpcException> { createMetadataOperation.rpc(null, expectedMetadata) }
+
+            // then
+            verify(exactly = 0) { mockDocumentModelLoader.loadModel(any()) }
+            verify(exactly = 0) { spyDocumentService.create(any(), any(), any(), any()) }
+            exception.operationError.code shouldBe NOT_FOUND_EXCEPTION_CODE
+            exception.message shouldContain "Generic model [$FORM_MODEL_NAME] not found"
         }
     }
 
@@ -590,8 +608,8 @@ private class CreateMetadataOperationTest {
         every { mockDocumentModelLoader.loadModel(DOCUMENT_MODEL_NAME_WITH_NESTED_METADATA) } returns documentModelWithNestedMetadata
         every { mockDocumentModelLoader.loadModel(DOCUMENT_MODEL_NAME_WITH_DEEPLY_NESTED_METADATA) } returns documentModelWithDeeplyNestedMetadata
         every { mockDocumentModelLoader.loadModel(DOCUMENT_MODEL_NAME_WITHOUT_METADATA) } returns documentModelWithoutMetadata
-        every { mockModelService.load(FORM_MODEL_NAME) } returns buildGenericModel(formModelString)
-        every { mockModelService.load(FORM_MODEL_NAME_FOR_NESTED_METADATA) } returns buildGenericModel(
+        every { mockGenericModelReadRepository.readModel(FORM_MODEL_NAME) } returns buildGenericModel(formModelString)
+        every { mockGenericModelReadRepository.readModel(FORM_MODEL_NAME_FOR_NESTED_METADATA) } returns buildGenericModel(
             formModelForNestedMetadataString,
         )
         every { mockWorkflowsDocumentService.loadDocument(DocumentReference(DOC_REF_STRING)) } returns documentWithoutMetadata

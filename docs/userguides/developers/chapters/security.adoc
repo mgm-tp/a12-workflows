@@ -66,6 +66,11 @@ By default we look for the following access rights on the user for authorization
 * `*CREATE_METADATA*` (only CIB 7 should have this right)
 * `*REMOVE_METADATA*` (only CIB 7 should have this right)
 
+NOTE: Unless `mgmtp.a12.dataservices.json-rpc.allowed-operations` is `*`, the Workflows extension adds the JSON-RPC operations `CREATE_DOCUMENT`, `CREATE_METADATA`, `REMOVE_METADATA` and `SET_STATUS` to it, whatever it contains.
+Authorization is therefore their only protection, and it is not limited to CIB 7.
+Besides the access rights marked "only CIB 7" above, `CREATE_METADATA` and `REMOVE_METADATA` also accept the Data Services rights `Query` and `Document Update` (plus `Document Create` for `CREATE_METADATA`).
+`CREATE_DOCUMENT` and `SET_STATUS` have no dedicated access right; they require the Data Services rights `Document Create` and `Document Update` for the document model, and they store the document without validating it against its model.
+
 WARNING: If you set `child-authorization-definitions` in Data Services, include `classpath:/uaa/workflowsAuthorizationDefinition.json` or make sure that you define proper policies for all our scopes.
 See link:/docs/UAA/uaa-documentation-src/index.html#_permission_hierarchy[UAA docs: Permission Hierarchy,role=internal] for more information about `child-authorization-definitions`
 and link:/docs/UAA/uaa-documentation-src/index.html#authorization-configuration[UAA docs: Authorization Configuration] on how to to register `child-authorization-definitions` files.
@@ -124,7 +129,7 @@ WARNING: Therefore, **CIB 7 must be protected from any external access on infras
 
 Only Data Services needs access to CIB 7.
 
-If you don't use CIB 7 Cockpit for development, you may also remove it completely by excluding the transitive dependency to `org.cibseven.bpm.springboot:cibseven-bpm-spring-boot-starter-webapp-core`.
+If you don't use CIB 7 Cockpit for development, you may also remove it completely by excluding the transitive dependency to `org.cibseven.bpm.springboot:cibseven-bpm-spring-boot-starter-webapp-core-4`.
 
 [[anchor-cib7-security-logging]]
 === Logging
@@ -139,7 +144,7 @@ Projects must align their CIB 7 version to the version used in their A12WF relea
 
 === Cockpit
 
-If you do not need the CIB 7 Cockpit in production, disable it by removing the `cibseven-bpm-spring-boot-starter-webapp` dependency from your deployment. If you do need the CIB 7 Cockpit, make sure to do one of the following:
+If you do not need the CIB 7 Cockpit in production, disable it by removing the `cibseven-bpm-spring-boot-starter-webapp-4` dependency from your deployment. If you do need the CIB 7 Cockpit, make sure to do one of the following:
 
 * Define a default admin user in your configuration files.
 * Use an identity management system and configure it to be used by the Cockpit.

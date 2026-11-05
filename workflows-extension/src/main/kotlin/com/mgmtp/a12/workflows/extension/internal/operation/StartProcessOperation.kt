@@ -37,6 +37,7 @@ import com.mgmtp.a12.dataservices.common.anonymizing.Anonymizer
 import com.mgmtp.a12.dataservices.rpc.RemoteOperation
 import com.mgmtp.a12.uaa.authorization.DecisionContext
 import com.mgmtp.a12.workflows.client.operation.WorkflowsOperationConstants.START_PROCESS_OPERATION
+import com.mgmtp.a12.workflows.client.operation.WorkflowsOperationConstants.WORKFLOWS_OPERATIONS_GROUP
 import com.mgmtp.a12.workflows.engine.client.internal.ProcessEngineOperationBroker
 import com.mgmtp.a12.workflows.extension.event.ProcessAfterStartEvent
 import com.mgmtp.a12.workflows.extension.event.ProcessBeforeStartEvent
@@ -59,7 +60,7 @@ import tools.jackson.databind.JsonNode
  * This operation sends request to Process Engine to start a process with given process definition.
  */
 @Component
-@RemoteOperation(name = START_PROCESS_OPERATION)
+@RemoteOperation(name = START_PROCESS_OPERATION, group = WORKFLOWS_OPERATIONS_GROUP)
 class StartProcessOperation(
     private val anonymizer: Anonymizer,
     private val processEngineOperationBroker: ProcessEngineOperationBroker,

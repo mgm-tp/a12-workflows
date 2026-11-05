@@ -1,0 +1,101 @@
+<!--
+  A12 Workflows overview. See the A12 introduction standard's diagram conventions before editing.
+
+  FILE NAME:   workflows-overview.svg
+  OUTPUT PATH: docs/userguides/developers/assets/images/workflows-overview.svg
+               image::assets/images/workflows-overview.svg[alt]
+               (bundle-root-relative, like every other image in this bundle)
+
+  Boundary choice: A12 Workflows runs in three processes, namely the Workflows Engine service, the
+  Data Services extending application, and the client application. The convention allows one
+  process boundary, so the Workflows Engine service is the boundary and the other two are
+  context cards under REACHED THROUGH. This is recorded as an open point in the draft notes.
+
+  Complements the existing architecture-overview.png in the Technical Introduction: that picture
+  shows the request flow, this one shows where Workflows sits and what runs beside it.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 590" width="1200" height="590" role="img" aria-labelledby="t d" font-family="'Segoe UI', Inter, system-ui, sans-serif">
+  <title id="t">A12 Workflows overview</title>
+  <desc id="d">A12 Workflows runs in three processes. The boundary drawn here is the Workflows Engine service, which the project deploys from the workflows-engine-distribution artifact. Inside that process, A12 Workflows provides the delegates that automated process steps call: creating, linking, and relinking documents, setting a document status, and sending email. Also inside the process run two third-party libraries: CIB 7, the process engine that A12 Workflows tailors and embeds, and Spring Boot, the application framework. The project adds its own code in that same process: the custom delegates it implements, which the service tasks of a process model invoke. The Workflows Engine is reached through two other processes, each holding one of the other two A12 Workflows parts. The A12 client application holds Workflows Core, which loads task lists and task documents; it addresses the Data Services extending application, which holds the Workflows Extension registering the workflow operations on the remote API and publishing the lifecycle events that the project's own event listeners handle; that extending application in turn reaches the Workflows Engine. Workflows exposes no endpoint of its own. Outside the process, a relational database holds the engine's own process and task state. The diagram shows composition and context only; which part calls which is not shown.</desc>
+
+  <defs>
+    <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,1 L9,5 L0,9 z" fill="#64748b"/>
+    </marker>
+    <style>
+      .zone  { font-size:11px; font-weight:600; letter-spacing:.09em; fill:#94a3b8 }
+      .card  { fill:#f8fafc; stroke:#cbd5e1; stroke-width:1 }
+      .block { fill:#ffffff; stroke:#cbd5e1; stroke-width:1 }
+      .tp    { fill:#f1f2f4; stroke:#a9b1bd; stroke-width:1 }
+      .own   { fill:#fffdf5; stroke:#d6b877; stroke-width:1; stroke-dasharray:5 3 }
+      .name  { font-size:14px; fill:#0f172a }
+      .tpnm  { font-size:14px; fill:#334155 }
+      .lead  { font-size:15px; font-weight:600; fill:#0f172a }
+      .sub   { font-size:12px; fill:#64748b }
+      .cap   { font-size:11px; fill:#64748b; font-style:italic }
+      .band  { font-size:11px; font-weight:600; letter-spacing:.06em; fill:#94a3b8 }
+      .edge  { stroke:#64748b; stroke-width:1.4; fill:none; marker-end:url(#arw) }
+    </style>
+  </defs>
+
+  <!-- ── context column: the two processes the engine is reached through ─── -->
+  <text class="zone" x="24" y="104">REACHED THROUGH</text>
+
+  <g class="card"><rect x="24" y="118" width="232" height="78" rx="8"/></g>
+  <text class="name" x="42" y="142">A12 client application</text>
+  <text class="cap"  x="42" y="160">holds Workflows Core: task</text>
+  <text class="cap"  x="42" y="176">lists and task documents</text>
+  <path class="edge" d="M140 196 V 210"/>
+
+  <g class="card"><rect x="24" y="212" width="232" height="94" rx="8"/></g>
+  <text class="name" x="42" y="236">Data Services</text>
+  <text class="cap"  x="42" y="254">extending application: holds</text>
+  <text class="cap"  x="42" y="270">the Workflows Extension and</text>
+  <text class="cap"  x="42" y="286">the project's event listeners</text>
+  <path class="edge" d="M256 259 H 298"/>
+
+  <!-- ── the process ──────────────────────────────────────────────────── -->
+  <rect x="300" y="72" width="600" height="428" rx="14" fill="#fcfdfe" stroke="#94a3b8" stroke-width="1.5"/>
+  <text class="lead" x="324" y="106">The project's Workflows Engine service</text>
+  <text class="sub"  x="324" y="126">one process, deployed from workflows-engine-distribution</text>
+
+  <text class="band" x="324" y="160">A12 WORKFLOWS</text>
+  <g class="block"><rect x="324" y="168" width="552" height="62" rx="8"/></g>
+  <text class="name" x="342" y="192">Provided delegates</text>
+  <text class="cap"  x="342" y="211">create, link, and relink documents; set a status; send email</text>
+
+  <text class="band" x="324" y="264">IN THE SAME PROCESS</text>
+  <g class="tp"><rect x="324" y="272" width="268" height="62" rx="8"/></g>
+  <text class="tpnm" x="342" y="296">CIB 7</text>
+  <text class="cap"  x="342" y="315">tailored and embedded</text>
+  <g class="tp"><rect x="608" y="272" width="268" height="62" rx="8"/></g>
+  <text class="tpnm" x="626" y="296">Spring Boot</text>
+  <text class="cap"  x="626" y="315">the application framework</text>
+
+  <text class="band" x="324" y="366">THE PROJECT'S CODE</text>
+  <g class="own"><rect x="324" y="374" width="552" height="62" rx="8"/></g>
+  <text class="name" x="342" y="398">Custom delegates</text>
+  <text class="cap"  x="342" y="417">implemented by the project, invoked by the service tasks of a model</text>
+
+  <text class="cap" x="324" y="470">Composition and context only: which part calls which is not shown.</text>
+
+  <!-- ── context column, right: what a deployment must provide ────────── -->
+  <text class="zone" x="944" y="104">EXTERNAL INFRASTRUCTURE</text>
+  <g class="card"><rect x="944" y="118" width="232" height="78" rx="8"/></g>
+  <text class="name" x="962" y="142">Relational database</text>
+  <text class="cap"  x="962" y="160">the engine's own process</text>
+  <text class="cap"  x="962" y="176">and task state</text>
+  <path class="edge" d="M900 157 H 942"/>
+
+  <!-- ── legend ───────────────────────────────────────────────────────── -->
+  <!-- 2x2 grid: columns at x=392 and x=596, rows at y=524 and y=548, centred on the process block -->
+  <g class="block"><rect x="392" y="524" width="14" height="14" rx="3"/></g>
+  <text class="cap" x="414" y="535">A12 Workflows</text>
+  <g class="tp"><rect x="596" y="524" width="14" height="14" rx="3"/></g>
+  <text class="cap" x="618" y="535">third-party libraries</text>
+
+  <g class="own"><rect x="392" y="548" width="14" height="14" rx="3"/></g>
+  <text class="cap" x="414" y="559">the project's own code</text>
+  <g class="card"><rect x="596" y="548" width="14" height="14" rx="3"/></g>
+  <text class="cap" x="618" y="559">context, outside the process</text>
+</svg>

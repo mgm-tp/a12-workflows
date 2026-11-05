@@ -64,13 +64,13 @@ export type ApplicationWithWorkflowsConfig = RequireFeatures<A12ApplicationConfi
  * @experimental
  */
 export const withWorkflowsPlatformSagas = <T extends ApplicationWithWorkflowsConfig>(cfg: T) =>
-	addPlatformSagas<T>(...WorkflowsFactories.createApplicationSagas())(cfg);
+	addPlatformSagas(...WorkflowsFactories.createApplicationSagas())(cfg);
 
 /**
  * @experimental
  */
 export const withWorkflowsMiddlewares = <T extends ApplicationWithWorkflowsConfig>(cfg: T) =>
-	addAdditionalMiddlewares<T>(
+	addAdditionalMiddlewares(
 		...WorkflowsFactories.createMiddlewaresFromOptions(
 			cfg?.workflows?.middlewareOptions,
 			cfg?.workflows?.middlewareInclusions

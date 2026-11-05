@@ -13,6 +13,14 @@ apply plugin: "java-test-fixtures"
 
 configurations.configureEach {
     exclude group: 'org.cibseven.webapp', module: 'cibseven-webclient-web'
+    // mysql-connector-j is GPL-2.0-only WITH Universal-FOSS-exception-1.0; the FOSS exception
+    // does not cover closed-source A12 tools that bundle workflows. Postgres and H2 are the
+    // supported stores here (see the explicit deps below), so MySQL was never needed.
+    exclude group: 'com.mysql', module: 'mysql-connector-j'
+    // com.sun.xml.bind:jaxb-impl/jaxb-core (via the CIB 7 starter and dataservices-domain) repackage
+    // org.glassfish.jaxb:jaxb-runtime/jaxb-core (via Hibernate): every JAXB runtime class twice and a jaxb-core-<v>.jar
+    // name clash in BOOT-INF/lib, which forced projects to set a duplicatesStrategy. Keep only the org.glassfish.jaxb artifacts.
+    exclude group: 'com.sun.xml.bind'
 }
 
 dependencies {
@@ -37,7 +45,6 @@ dependencies {
     // Security patching
     implementation libs.vulnerabilityOverrides.commons.compress
     implementation libs.vulnerabilityOverrides.snakeyaml
-    implementation libs.cibseven.fileupload
 
     // A12 DS Client
     api libs.a12.dataservices.client.autoconfig
@@ -126,8 +133,4 @@ jar {
     enabled = true
     archiveAppendix = "distribution"
     archiveClassifier = ''
-}
-
-bootJar {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }

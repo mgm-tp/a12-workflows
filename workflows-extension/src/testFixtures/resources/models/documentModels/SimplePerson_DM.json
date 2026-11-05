@@ -17,7 +17,7 @@
     "annotations": [
       {
         "name": "roles",
-        "value": "admin"
+        "value": "admin,engine"
       }
     ],
     "modelReferences": []

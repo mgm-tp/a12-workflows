@@ -39,6 +39,7 @@ import com.mgmtp.a12.dataservices.rpc.RemoteOperation.RemoteOperationHelper
 import com.mgmtp.a12.dataservices.rpc.RpcExceptionSupport
 import com.mgmtp.a12.uaa.authorization.DecisionContext
 import com.mgmtp.a12.workflows.client.operation.WorkflowsOperationConstants.TASK_COMPLETE_OPERATION
+import com.mgmtp.a12.workflows.client.operation.WorkflowsOperationConstants.WORKFLOWS_OPERATIONS_GROUP
 import com.mgmtp.a12.workflows.engine.client.internal.ProcessEngineOperationBroker
 import com.mgmtp.a12.workflows.extension.event.TaskAfterCompleteEvent
 import com.mgmtp.a12.workflows.extension.event.TaskBeforeCompleteEvent
@@ -62,7 +63,7 @@ import org.springframework.transaction.annotation.Transactional
  * The operation as well removes the task metadata from the document with given documentReference
  */
 @Component
-@RemoteOperation(name = TASK_COMPLETE_OPERATION)
+@RemoteOperation(name = TASK_COMPLETE_OPERATION, group = WORKFLOWS_OPERATIONS_GROUP)
 class CompleteTaskOperation(
     private val workflowsDocumentService: WorkflowsDocumentService,
     private val processEngineOperationBroker: ProcessEngineOperationBroker,

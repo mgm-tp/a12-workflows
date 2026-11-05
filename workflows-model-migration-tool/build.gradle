@@ -83,25 +83,42 @@ sourceSets {
     }
 }
 
-// Task for generation config beans
-tasks.register("MigratorConfig-xsd", JavaExec) {
+// Generates the config beans from the XSD into the build directory; registered as a main
+// source dir below, so every compilation (Java and Kotlin) runs it first
+def generatedBeansDir = layout.buildDirectory.dir("generated/sources/xjc/java/main")
+
+def migratorConfigXsd = tasks.register("MigratorConfig-xsd", JavaExec) {
+    def schema = file("src/main/resources/xml/schema/MigratorConfig.xsd")
+    def bindings = file("src/main/resources/xml/schema/MigratorBindings.xjb")
+    def outputDir = generatedBeansDir.get().asFile
+
+    inputs.files(schema, bindings).withPathSensitivity(PathSensitivity.RELATIVE)
+    outputs.dir(outputDir)
+
     classpath configurations.jaxb
     mainClass = 'com.sun.tools.xjc.XJCFacade'
 
-    args "src/main/resources/xml/schema/MigratorConfig.xsd", "-b", "src/main/resources/xml/schema/MigratorBindings.xjb", "-p", "com.mgmtp.a12.model.workflows.migration.config.types", "-d", "src/main/java", "-no-header", "-extension"
+    args schema.path, "-b", bindings.path, "-p", "com.mgmtp.a12.model.workflows.migration.config.types", "-d", outputDir.path, "-no-header", "-extension"
 
     systemProperties = [
             'user.language': 'en'
     ]
+
+    // xjc refuses a missing output dir and never deletes beans that are no longer generated
+    doFirst {
+        outputDir.deleteDir()
+        outputDir.mkdirs()
+    }
 }
 
 tasks.register("generateBeans") {
     description "Generate Java sources from XSD files"
-    dependsOn tasks.named("MigratorConfig-xsd")
+    dependsOn migratorConfigXsd
 }
 
+sourceSets.main.java.srcDir(migratorConfigXsd)
+
 tasks.named("assemble") {
-    dependsOn tasks.named("generateBeans")
     dependsOn tasks.named("packageMigrator")
 }
 

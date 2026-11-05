@@ -38,8 +38,8 @@ import com.mgmtp.a12.dataservices.document.DocumentReferenceResult
 import com.mgmtp.a12.dataservices.document.DocumentService
 import com.mgmtp.a12.dataservices.document.persistence.DocumentComputationStrategy
 import com.mgmtp.a12.dataservices.document.persistence.DocumentValidationStrategy
-import com.mgmtp.a12.dataservices.model.ModelService
 import com.mgmtp.a12.dataservices.model.document.persistence.DocumentModelLoader
+import com.mgmtp.a12.dataservices.model.persistence.GenericModelReadRepository
 import com.mgmtp.a12.dataservices.rpc.RemoteOperation
 import com.mgmtp.a12.kernel.md.document.apiV2.DocumentPointer
 import com.mgmtp.a12.kernel.md.document.apiV2.immutable.DocumentV2
@@ -51,6 +51,7 @@ import com.mgmtp.a12.kernel.md.model.api.visitor.DocumentModelVisitor
 import com.mgmtp.a12.kernel.md.model.api.visitor.DocumentModelWalker
 import com.mgmtp.a12.uaa.authorization.DecisionContext
 import com.mgmtp.a12.workflows.client.internal.operation.InternalOperationConstants.CREATE_METADATA_OPERATION
+import com.mgmtp.a12.workflows.client.operation.WorkflowsOperationConstants.WORKFLOWS_OPERATIONS_GROUP
 import com.mgmtp.a12.workflows.extension.internal.exception.WorkflowsRpcException
 import com.mgmtp.a12.workflows.extension.internal.exception.WorkflowsRpcExceptionHandler
 import com.mgmtp.a12.workflows.extension.internal.operation.constants.InternalDocumentStatus
@@ -93,10 +94,10 @@ private fun IDocumentModel.isCdm(): Boolean = getCdmRootDocumentModelName() != n
 private fun IDocumentModel.getCdmRootDocumentModelName(): String? = this.header.annotations.find { it.name.equals(CDM_QUERY_ROOT) }?.value
 
 @Component
-@RemoteOperation(name = CREATE_METADATA_OPERATION)
+@RemoteOperation(name = CREATE_METADATA_OPERATION, group = WORKFLOWS_OPERATIONS_GROUP)
 class CreateMetadataOperation(
     private val workflowsDocumentService: WorkflowsDocumentService,
-    private val modelService: ModelService,
+    private val genericModelReadRepository: GenericModelReadRepository,
     private val documentModelLoader: DocumentModelLoader,
     private val documentService: DocumentService,
     private val exceptionHandler: WorkflowsRpcExceptionHandler,
@@ -279,7 +280,7 @@ class CreateMetadataOperation(
     }
 
     private fun getDocumentModelName(formModelName: String): String {
-        val genericModel = modelService.load(formModelName)
-        return genericModel.getReferencedDocumentModelName()
+        val formModel = genericModelReadRepository.readModel(formModelName)
+        return formModel.getReferencedDocumentModelName()
     }
 }

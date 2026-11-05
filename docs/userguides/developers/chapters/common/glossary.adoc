@@ -17,6 +17,7 @@ THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND, WHETHER 
 ////
 
 
+[[anchor-glossary]]
 = Glossary
 
 [%header, cols="1,3a"]

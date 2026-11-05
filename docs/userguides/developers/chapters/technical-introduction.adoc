@@ -17,31 +17,17 @@ THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND, WHETHER 
 ////
 
 
+= How It Works
+
 [NOTE]
 ====
 For modeling related information, please refer to our link:/docs/workflows/ba-docs/index.html[Workflow Modeling Documentation].
 ====
 
-== Architecture Overview
-
-The Workflows architecture is based on CIB 7 and an extension of Data Services.
-
 image::assets/images/architecture-overview.png[Architecture,align="center"]
 
-[[anchor-basic-ideas]]
-= Basic Ideas
-
-* The documents are solely stored in Data Services and not in CIB 7.
-** CIB 7 stores only *references* to documents ("docRefs") and knows nothing about the data format, storage or models.
-* Data Services is the entrypoint for all requests from the client.
-** Workflows is an opt-in extension of Data Services which registers workflows-related JSON-RPC operations.
-
-= How It Works
-
-We provide <<anchor-cbr-artifacts,several artifacts>> but in short:
-
-* *Server side:* our extension registers new JSON-RPC operations in Data Services for workflows-specific functionality.
-* *Client side:* our client-side library connects to these JSON-RPC operations.
+<<architecture,Architecture>> in the Introduction describes the three parts and where their operations live;
+<<anchor-cbr-artifacts,Artifacts>> lists the artifacts with their coordinates and the operations they register.
 
 *As examples, consider the following use cases:*
 
@@ -68,10 +54,11 @@ We provide <<anchor-cbr-artifacts,several artifacts>> but in short:
 
 See also our <<anchor-cbr-workflows-extension, list of workflows-specific operations>>.
 
+[[anchor-benefits]]
 = Benefits
 
 * Loose coupling between CIB 7 and Data Services:
-** CIB 7 knows nothing about models or documents (except that it expects workflows metadata).
+** CIB 7 knows nothing about models or documents (except that it expects Workflows metadata).
 ** No need to deploy Document Models to CIB 7.
 * CIB 7 does not store documents, only Document References:
 ** No data duplication.

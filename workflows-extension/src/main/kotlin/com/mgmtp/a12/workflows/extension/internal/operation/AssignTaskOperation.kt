@@ -44,6 +44,7 @@ import com.mgmtp.a12.dataservices.rpc.RpcExceptionSupport
 import com.mgmtp.a12.kernel.md.document.apiV2.immutable.DocumentV2
 import com.mgmtp.a12.uaa.authorization.DecisionContext
 import com.mgmtp.a12.workflows.client.operation.WorkflowsOperationConstants.TASK_ASSIGN_OPERATION
+import com.mgmtp.a12.workflows.client.operation.WorkflowsOperationConstants.WORKFLOWS_OPERATIONS_GROUP
 import com.mgmtp.a12.workflows.engine.client.internal.ProcessEngineOperationBroker
 import com.mgmtp.a12.workflows.extension.event.TaskAfterAssignEvent
 import com.mgmtp.a12.workflows.extension.event.TaskBeforeAssignEvent
@@ -70,7 +71,7 @@ import org.springframework.transaction.annotation.Transactional
  * This operation updates the assignee in the referenced task document and triggers an assignee update in Process Engine.
  */
 @Component
-@RemoteOperation(name = TASK_ASSIGN_OPERATION)
+@RemoteOperation(name = TASK_ASSIGN_OPERATION, group = WORKFLOWS_OPERATIONS_GROUP)
 class AssignTaskOperation(
     private val anonymizer: Anonymizer,
     private val workflowsDocumentService: WorkflowsDocumentService,

@@ -41,6 +41,7 @@ import com.mgmtp.a12.dataservices.document.support.DocumentSupport
 import com.mgmtp.a12.dataservices.rpc.RemoteOperation
 import com.mgmtp.a12.uaa.authorization.DecisionContext
 import com.mgmtp.a12.workflows.client.internal.operation.InternalOperationConstants.CREATE_DOCUMENT_OPERATION
+import com.mgmtp.a12.workflows.client.operation.WorkflowsOperationConstants.WORKFLOWS_OPERATIONS_GROUP
 import com.mgmtp.a12.workflows.extension.internal.exception.WorkflowsRpcException
 import com.mgmtp.a12.workflows.extension.internal.exception.WorkflowsRpcExceptionHandler
 import com.mgmtp.a12.workflows.shared.logging.utils.logger
@@ -55,7 +56,7 @@ import java.io.StringReader
  * This operation creates a new document without triggering validation.
  */
 @Component
-@RemoteOperation(name = CREATE_DOCUMENT_OPERATION)
+@RemoteOperation(name = CREATE_DOCUMENT_OPERATION, group = WORKFLOWS_OPERATIONS_GROUP)
 class CreateDocumentOperation(
     private val documentSupport: DocumentSupport,
     private val documentService: DocumentService,

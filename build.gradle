@@ -2,6 +2,15 @@ plugins {
     alias(libs.plugins.kotlin.jvm) apply false
 }
 
+// The OSS build carries none of the tag-based version logic of the main build.gradle
+// and must build the same with or without git metadata. oss_cleanup.sh resolves the
+// release version from the source checkout's tags and writes it into this tree's
+// gradle.properties, which sets rootProject.version; propagate it to every subproject.
+allprojects {
+    apply plugin: "base"
+    version = rootProject.version
+}
+
 // Include LICENSE, NOTICE, and THIRD_PARTY_NOTICES in all Jar artifacts produced by Kotlin
 // subprojects. Files are staged under a META-INF/ layout first so their source-relative paths
 // (e.g. "META-INF/LICENSE") match the "META-INF/**" include pattern that some Jar tasks use.
