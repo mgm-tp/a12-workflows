@@ -78,10 +78,10 @@ springboot = { id = "org.springframework.boot", version.ref = "springBootVersion
 [versions]
 
 # Versions for A12 components
-a12DataServicesVersion = "38.4.5"
-a12KernelVersion = "30.8.6"
-a12UaaVersion = "9.4.1"
-a12UtilsConnectorVersion = "8.2.4"
+a12DataServicesVersion = "38.4.6"
+a12KernelVersion = "30.8.7"
+a12UaaVersion = "9.4.2"
+a12UtilsConnectorVersion = "8.2.5"
 
 # Versions for other libraries
 activationVersion = "1.1.1"
